@@ -1,5 +1,4 @@
 var id_creator = -1;
-var id_match = -1;
 
 
 function clickRow(event){
@@ -70,8 +69,8 @@ function joinMatch(event){
 		alert("Select one match from the list");
 		return;
 	}
-	window.location.href = "/waitroom?idmatch="+id_match;
-	console.log("peticion al servidor ID: (creator, partido)", id_creator, id_match);
+	window.location.href = "/waitroom?idmatch="+id_creator +"&idcreator=" + name;
+	console.log("peticion al servidor ID: (creador, persona)", id_creator, name);
 
 }
 

@@ -17,7 +17,7 @@ exports.matches = function(request, response){
 			var element = {
 			     nickName: key,
 			     gameMode: match.mode,
-			     players: 0,
+			     players: match.listPlayer.length,
 			     totalPlayers: match.maxPlayer 	
 			};
 			list.push(element);
