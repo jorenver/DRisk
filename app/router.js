@@ -15,6 +15,8 @@ router.post('/matches',gameListController.matches);
 router.post('/createMatch',matchesController.create);
 router.get('/createMatch',matchesController.createGet);
 router.get('/setParameterMatch',matchesController.setParameters);
+router.get('/chooseMap',matchesController.chooseMap);
+router.post('/setMap',matchesController.setMap);
 router.get('/',matchesController.index);
 
 router.get('/waitroom', waitRoomController.waitroom);

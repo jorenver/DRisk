@@ -14,7 +14,7 @@ html,body{
 
 .matchWrapper{
 	width: 100%;
-	height: 100%;
+	height: 90%;
 	display: flex;
 	flex-direction:column;
 	align-items:center;
@@ -39,6 +39,14 @@ html,body{
 	height: 5%;
 	font-family: opcionCinco;
 	padding: 5px 5px;
+}
+
+.matchParameterTitles{
+	display: flex;
+	flex-direction: column;
+	padding: 10px 10px 0px 10px;
+	align-items:center;
+	font-family: opcionUno;
 }
 
 h1{	
@@ -102,6 +110,6 @@ h1{
 	margin: 5px 5px;
 }
 
-select{
+select,input{
 	font-family: opcionUno;
 }

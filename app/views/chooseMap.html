@@ -4,34 +4,45 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>ChooseMap</title>
-	<script type="text/javascript" src="../public/js/jquery-1.11.3.min.js"></script>
-	<link rel="stylesheet" href="../public/css/chooseMap.css" type="text/css">
-	<script type="text/javascript" src="../public/js/chooseMap.js"></script>
+	<script type="text/javascript" src="/js/chooseMap.js"></script>
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/match.css">
+	<link rel="stylesheet"  type="text/css" href="/css/chooseMap.css" >
 </head>
 <body>
-		<div id="info-Usuario">
-			<h2>Usuario:Kevin Ortiz</h2>
+	<div class="matchTitle">
+		<h1 >DRISK</h1>
+	</div>
+	<div class="matchMap" >
+		<div class="mapInfoUser">
+			<h1 class="mapTitle">Match of {{nickname}}</h1>
+			<h1 class="mapTitle">Mode of {{mode}}</h1>
 		</div>
-	<div id="contenedor-Mapa">	
-		<div id="contenedor">
-				<img name="listaImagenes" id="imagenes" src="../public/img/africa.png" />
-			<div id="informacion-Mapa">
-				<select id="OpcionesMapa" onChange="changeContent(this)" >
-					<option name="Mapa1" selected>Mapa1</option>
-					<option name="Mapa2">Mapa2</option>
-					<option name="Mapa3">Mapa3</option>
-					<option name="Mapa4">Mapa4</option>
-				</select>
+		<div class="mapWrapper">
+			<div class="mapInputs">
+				<input type="button" value="Previous" class="button" onclick="previousPage();">
+				<input type="button" value="Customize Map" class="button" >
+			</div>
+			<h1 class="mapTitle"> Choose a Preload Map </h1>
+			<div class="mapList" >
+				<div class="mapInformation">
+					<select id="mapChosen" name="mapChosen" form="optionsMap" onChange="changeContent(this);" >
+						<option id="map1" name="Map1" selected>Ecuador</option>
+						<option id="map2" name="Map2">Brazil</option>
+						<option id="map3" name="Map3">USA</option>
+						<option id="map4" name="Map4">World</option>
+						<option id="map5" name="Map5">China</option>
+					</select>
+				</div>
+				<img class="mapImages" name="listaImagenes" src="/img/ecuador.png" />
 			</div>
 		</div>
-		<div id="contenedor-botones">
-			<button>Atras</button>
-			<button>CrearMapa</button>
+		<div class="mapInputStart">
+			<form id="optionsMap" name="optionsMap" method="post" action="/setMap">
+				<input name = "mapButton" type = "submit" value = "Create Match" 
+					   class = "button">
+			</form>
 		</div>
 	</div>
-		
-		<div id="Start">
-			<button>IniciarPartida</button>
-		</div>
 </body>
 </html>

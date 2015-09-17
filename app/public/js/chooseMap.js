@@ -9,10 +9,11 @@
 */
 
 var ArrayImagenes = new Array();
-ArrayImagenes[0]='../public/img/africa.png';
-ArrayImagenes[1]='../public/img/Mapa1.gif';
-ArrayImagenes[2]='../public/img/mapamundi.jpg';
-ArrayImagenes[3]='../public/img/Mapa2.jpg';
+ArrayImagenes[0]='/img/ecuador.png';
+ArrayImagenes[1]='/img/brazil.png';
+ArrayImagenes[2]='/img/estadosUnidos.png';
+ArrayImagenes[3]='/img/mundo.png';
+ArrayImagenes[4]='/img/china.png';
 
  /*
  	Description:
@@ -22,6 +23,11 @@ ArrayImagenes[3]='../public/img/Mapa2.jpg';
  	function(which)
  */
  function changeContent(which){
- 	listaImagenes.src =ArrayImagenes[document.getElementById('OpcionesMapa').options.selectedIndex];
- 
+ 	listaImagenes.src =ArrayImagenes[document.getElementById('mapChosen').options.selectedIndex];
  }
+
+
+function previousPage(event){
+	console.log("aqui!");
+	window.location.href = "/createMatch";
+}
