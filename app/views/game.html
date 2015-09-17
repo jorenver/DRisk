@@ -8,42 +8,38 @@
 		<meta name="keywords" content="RISK, game, SCORE-2016">
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="js/game.js" ></script>
-		<script type="text/javascript" src="js/paths.js" ></script>
-		<script type="text/javascript" src="js/kinetic-v4.4.2.min.js.js" ></script>
-		<script type="text/javascript" src="js/cordinates.js" ></script>
-		<script type="text/javascript" src="js/assetManager.js" ></script>
-		<script type="text/javascript" src="js/main.js" ></script>
-		<script type="text/javascript" src="js/risk.js" ></script>
-		<script type="text/javascript" src="js/gameData.js" ></script>
-		
 		<link rel="stylesheet" type="text/css" href="css/game.css">
 	</head>
 	<body>
+		<div class="matchTitle">
+			<h1 >DRISK</h1>
+		</div>
 		<div id="gameMode">
-			{{mode}}
+			<h1>Game Mode: {{mode}}</h1>
 		</div>
 		
 		<div id="wraper">
 
-			<div id="playerList">
-
-				{% for player in players %}
-					<div class="player">{{player.nick}}</div>
-				{%endfor%}
+			<table id="playerList">
+			{% for player in players %}
+				<tr><td class="player">{{player.nick}}</td></tr>
+			{%endfor%}
+			</table>
 			
-			</div>
 
 			<div id="wraperMap">
 				
 				<div id="containerMap">
-					<img id="map" src="img/map.jpg" alt="Mountain View">
+					<object type="image/svg+xml" data="svg/world.svg">
+					   <img src="svg/world.svg" alt="Browser fail" />
+					</object>
 				</div>
 				
-				<span>
-					<input type = "button" id = "btnAttack" class="button" value = "Attack" />
-					<input type = "button" id = "btnMove" class="button" value = "Move" />
-					<input type = "button" id = "btnNext" class="button" value = "Next Player" />
-				</span>
+				<div id="containerButton">
+					<input class="button" type = "button" id = "btnAttack" class="button" value = "Attack" />
+					<input class="button" type = "button" id = "btnMove" class="button" value = "Move" />
+					<input class="button" type = "button" id = "btnNext" class="button" value = "Next Player" />
+				</div>
 			
 			</div>
 

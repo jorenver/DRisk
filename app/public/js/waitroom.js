@@ -57,6 +57,7 @@ function processingPlayers(event){
 function getPlayers(idGame){
 	var request = new XMLHttpRequest();
 	var url="/players?idGame=" + idGame;
+	console.log(idGame);
 	request.open("GET",url,true);
 	request.addEventListener('load',processingPlayers ,false);
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
