@@ -28,7 +28,7 @@ exports.players = function(request, response){
 	var list = matches[idGame].listPlayer;
 	
 	var dataGame = {
-		mode: "Mundial Domination"
+		mode: matches[idGame].mode
 	}
 
 	var j = {players:list, dataGame: dataGame};
