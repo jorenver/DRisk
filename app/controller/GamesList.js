@@ -1,7 +1,7 @@
 var html_dir = './app/views/';
 
 exports.list = function(request, response){
-	response.render('games', {nickname: "Oswaldo"});
+	response.render('chooseGames', {nickname: "Oswaldo"});
 };
 
 exports.matches = function(request, response){
