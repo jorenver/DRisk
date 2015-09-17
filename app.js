@@ -2,9 +2,29 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var swig = require('swig');
+var session = require('express-session');
 
 var app = express();
 var http=require('http').Server(app);
+
+/*Session*/
+var redis = require('redis');
+var client = redis.createClient();
+var redisStore = require('connect-redis')(session);
+var sessionMiddleware = session({
+	secret: 'bobneuman',
+	store: new redisStore({
+			host:'localhost',
+			port: 6379,
+			client:client,
+			ttl: 260 }),
+	saveUninitialized: false,
+	resave: false,
+	cookie: { maxAge: 10*60*1000 }
+});
+/*Session*/
+
+app.use(sessionMiddleware);
 
 var router=require('./app/router.js');
 

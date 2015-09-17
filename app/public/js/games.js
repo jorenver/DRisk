@@ -5,7 +5,7 @@ var id_match = -1;
 function clickRow(event){
 	id_match = this.getAttribute('data-idmatch');
 	id_creator = this.getAttribute('data-idcreator');
-
+	console.log("***", id_match, id_creator);
 	var rows = document.getElementsByClassName("row-table");
 
 
@@ -30,7 +30,7 @@ function processingMatches(event){
     var tr = document.createElement("tr");
 
   	for (j in headers){
-      var th = document.createElement("th");
+      var th = document.createElement("td");
       th.innerHTML = headers[j];
       tr.appendChild(th);
     }
@@ -71,6 +71,7 @@ function joinMatch(event){
 		alert("Select one match from the list");
 		return;
 	}
+	window.location.href = "/waitroom?idmatch="+id_match;
 	console.log("peticion al servidor ID: (creator, partido)", id_creator, id_match);
 
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DRISK</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,maximum-scale=1,minimum-scale=1">
+		<meta name="description" content="List of games">
+		<meta name="keywords" content="RISK, game, SCORE-2016">
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
+		<script type="text/javascript" src="js/match.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/match.css">
+		<script type="text/javascript">
+			var nick = "{{nickname}}";
+		</script>
+	</head>
+	<body>
+		<div class = "matchWrapper">
+			<h1 class="matchTitle" >Welcome {{nickname}}</h1>
+			<h2 class="matchTitle" >Creation Wizard</h2>
+			<table class="match-Options">
+				<tr>		
+					<td>
+						<label class="matchLabel" > Max Number Player: </label>
+					</td>
+					<td>
+						<input id = "inputMaxPlayer" name = "maxPlayer" type="text" 
+						 pattern="[0-6]" >
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label> Modes </label>
+					</td>
+					<td>
+						<select id="modes" >
+						    <option value="WorldDom">World Domination</option>
+						    <option value="SecretMission">Secret Mission</option>
+						    <option value="Capital">Capital</option>
+						</select>
+					</td>
+			    </tr>
+		    </table>
+		   	<input id = "inputMatch" type="button" value="Create"  onclick="sendData();" >
+		</div>
+	</body>
+</html>
