@@ -1,0 +1,24 @@
+@font-face{
+	font-family: 'opcionUno';
+	src:url('fonts/Champagne & Limousines.ttf');
+}
+
+@font-face{
+	font-family: 'opcionDos';
+	src:url('fonts/eacologica.ttf');
+}
+
+@font-face{
+	font-family: 'opcionTres';
+	src:url('fonts/ASENINE_.ttf');
+}
+
+@font-face{
+	font-family: 'opcionCuatro';
+	src:url('fonts/Plump.ttf');
+}
+
+@font-face{
+	font-family: 'opcionCinco';
+	src:url('fonts/KGRedHands.ttf');
+}

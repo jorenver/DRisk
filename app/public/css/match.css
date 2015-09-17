@@ -1,6 +1,16 @@
+@import 'fonts.css';
+
 *{
+	margin: 0px;
+	padding: 0px;
 	font-size: 20px;
 }
+/**/
+html,body{
+	background-color:#484f57; 
+	height: 100%;
+}
+
 
 .matchWrapper{
 	width: 100%;
@@ -11,8 +21,32 @@
 	justify-content:center;
 }
 
-.matchDescription{
+.matchNickNameWrapper{
+	display: flex;
+	flex-direction:column;
+	justify-content:center;
+	background-color: #e2e4e6;
+	padding: 10px 10px 0px 10px;
+	border-radius: 10px;
+}
 
+.matchTitle{
+	color: white;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	background-color: #276188;
+	height: 5%;
+	font-family: opcionCinco;
+	padding: 5px 5px;
+}
+
+h1{	
+	font-size: 26px;
+}
+
+.matchDescription{
+	font-family: opcionDos;
 }
 
 .matchInputs{
@@ -23,15 +57,32 @@
 	margin: 10px 5px;
 }
 
-.boton{
-	font-size: 16px;
-	margin: 5px 5px;
-}
-
 .matchInputsButton{
 	display: flex;
 	flex-direction:row;
 	margin: 10px;
+}
+
+.boton{
+	background-color: #276188;
+	border-radius: 8px;
+	color: white;
+	font-family: opcionUno;
+	font-size: 16px;
+	margin: 5px 5px;
+	padding: 5px 5px;
+	cursor: pointer;
+}
+
+.boton:hover{
+	background-color: #000096;
+
+}
+
+.input{
+	font-size: 16px;
+	margin: 5px 5px;
+	font-family: opcionUno;
 }
 
 .matchLabel{
