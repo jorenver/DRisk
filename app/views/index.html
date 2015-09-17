@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DRISK</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,maximum-scale=1,minimum-scale=1">
+		<meta name="description" content="List of games">
+		<meta name="keywords" content="RISK, game, SCORE-2016">
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
+		<script type="text/javascript" src="js/match.js" ></script>
+		<link rel="stylesheet" type="text/css" href="css/match.css">
+		<script type="text/javascript">
+			function init(){
+				btnJoin.addEventListener("click",joinMatch,false);
+				btnCreate.addEventListener("click",createMatch,false);
+			}
+			function joinMatch(event){
+				console.log(inputNick.value);
+			}
+
+			function createMatch(event){
+				console.log(inputNick.value);
+				var val = inputNick.checkValidity();
+				if(val){
+					if(inputNick.value.length != 0){
+						NickForm.submit();
+					}
+				}else{
+					alert("Enter nickname correctly!!");
+				}
+			}
+
+			window.addEventListener("load",init,false);
+		</script>
+	</head>
+	<body>
+		<div class = "matchWrapper">
+			<h1 class="mathTitle">DRISK</h1>
+			<div class="matchDescription">
+				<section>
+					<article>
+						<p>Description of Drisk</p>
+					</article>
+					<img src="">
+				</section>
+			</div>
+			<div class="matchInputs">
+				<form id="NickForm" method="post" action="/createMatch">
+					<input id = "inputNick" name = "nickname" type="text" 
+					placeholder="Insert your nickname" pattern="[A-Za-z]{6,20}">
+				</form>
+				<div class = "matchInputsButton">
+					<input id = "btnCreate" class="boton" name="createMatch" 
+					type="button" value="Create Match" >
+					<input id = "btnJoin" class="boton" name="joinMatch" type="button" value="Join Match">
+				</div>
+
+			</div>
+		</div>
+	</body>
+</html>

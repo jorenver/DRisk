@@ -4,7 +4,6 @@ exports.list = function(request, response){
 	response.render('games', {nickname: "Oswaldo"});
 };
 
-
 exports.matches = function(request, response){
 	var list = [
 			    {
