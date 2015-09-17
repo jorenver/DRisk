@@ -21,7 +21,7 @@ html,body{
 	justify-content:center;
 }
 
-.matchNickNameWrapper{
+.matchNickNameWrapper,.matchParameterWrapper{
 	display: flex;
 	flex-direction:column;
 	justify-content:center;
@@ -63,7 +63,7 @@ h1{
 	margin: 10px;
 }
 
-.boton{
+.button{
 	background-color: #276188;
 	border-radius: 8px;
 	color: white;
@@ -74,7 +74,7 @@ h1{
 	cursor: pointer;
 }
 
-.boton:hover{
+.button:hover{
 	background-color: #000096;
 
 }
@@ -98,4 +98,10 @@ h1{
 .match-Options{
 	display: flex;
 	flex-direction:column;
+	font-family: opcionUno;
+	margin: 5px 5px;
+}
+
+select{
+	font-family: opcionUno;
 }

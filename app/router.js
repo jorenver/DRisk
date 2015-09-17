@@ -13,15 +13,13 @@ var router=express.Router();
 router.get('/games',gameListController.list);
 router.post('/matches',gameListController.matches);
 router.post('/createMatch',matchesController.create);
+router.get('/createMatch',matchesController.createGet);
 router.get('/setParameterMatch',matchesController.setParameters);
 router.get('/',matchesController.index);
 
 router.get('/waitroom', waitRoomController.waitroom);
 router.get('/players', waitRoomController.players);
 router.get('/startGame', startGameController.startGame);
-
-
-
 
 //Game
 router.get('/game',gameController.game);
