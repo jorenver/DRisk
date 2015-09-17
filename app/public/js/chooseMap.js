@@ -23,5 +23,5 @@ ArrayImagenes[3]='../public/img/Mapa2.jpg';
  */
  function changeContent(which){
  	listaImagenes.src =ArrayImagenes[document.getElementById('OpcionesMapa').options.selectedIndex];
-
+ 
  }
