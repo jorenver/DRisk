@@ -5,7 +5,7 @@ var id_match = -1;
 function clickRow(event){
 	id_match = this.getAttribute('data-idmatch');
 	id_creator = this.getAttribute('data-idcreator');
-	console.log("***", id_match, id_creator);
+	console.log("***", id_creator);
 	var rows = document.getElementsByClassName("row-table");
 
 
@@ -40,8 +40,7 @@ function processingMatches(event){
 	    var match = matches[i];
 	    var tr = document.createElement("tr");
 	    tr.setAttribute("class","row-table");
-	    tr.setAttribute('data-idmatch',match.idMatch);
-	    tr.setAttribute('data-idcreator',match.idCreator);
+	    tr.setAttribute('data-idcreator',match.nickName);
 
 	    tr.addEventListener('click', clickRow, false);
 		var td = document.createElement("td");

@@ -1,37 +1,28 @@
 var html_dir = './app/views/';
 
 exports.list = function(request, response){
-	response.render('chooseGames', {nickname: "Oswaldo"});
+	var nick = request.query.nick;
+	response.render('chooseGames', {nickname: nick} );
+
 };
 
 exports.matches = function(request, response){
-	var list = [
-			    {
-			     idCreator:1,
-			     idMatch:1,
-			     nickName: "Mafia Chumi",
-			     gameMode: "Mundial Domination",
-			     players: 4,
-			     totalPlayers: 5
-			    },
-			    {
-			     idCreator:2,
-			     idMatch:2,
-			     nickName: "Eloy",
-			     gameMode: "Mundial Domination",
-			     players: 6,
-			     totalPlayers: 7
-			    },
-			    {
-			     idCreator:3,
-			     idMatch:3,
-			     nickName: "Mafia Chumi",
-			     gameMode: "Mundial Domination",
-			     players: 3,
-			     totalPlayers: 5
-			    }
+	var matches = request.session.matches;
+		
+		var list = [];
 
-			];
+		for(var key in matches){
+			console.log("******",matches[key]);
+			var match = matches[key];
+			var element = {
+			     nickName: key,
+			     gameMode: match.mode,
+			     players: 0,
+			     totalPlayers: match.maxPlayer 	
+			};
+			list.push(element);
+
+		}
 	var j = {games:list};
 	response.json(j);
 

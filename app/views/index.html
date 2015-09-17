@@ -16,6 +16,18 @@
 			}
 			function joinMatch(event){
 				console.log(inputNick.value);
+				var val = inputNick.checkValidity();
+				if(val){
+					if(inputNick.value.length != 0){
+						console.log(inputNick.value);
+						window.location.href = "/games?nick=" + inputNick.value;
+					}
+				}else{
+					alert("Enter nickname correctly!!");
+				}
+
+				
+				console.log(inputNick.value);
 			}
 
 			function createMatch(event){
