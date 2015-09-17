@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ChooseMap</title>
+	<script type="text/javascript" src="../public/js/jquery-1.11.3.min.js"></script>
+	<link rel="stylesheet" href="../public/css/chooseMap.css" type="text/css">
+	<script type="text/javascript" src="../public/js/chooseMap.js"></script>
+</head>
+<body>
+		<div id="info-Usuario">
+			<h2>Usuario:Kevin Ortiz</h2>
+		</div>
+		<div id="contenedor">
+				<img name="listaImagenes" id="imagenes" src="../public/img/africa.png" />
+			<div id="informacion-Mapa">
+				<select id="OpcionesMapa" onChange="changeContent(this)" >
+					<option name="Mapa1" selected>Mapa1</option>
+					<option name="Mapa2">Mapa2</option>
+					<option name="Mapa3">Mapa3</option>
+					<option name="Mapa4">Mapa4</option>
+				</select>
+			</div>
+		</div>
+		<div id="contenedor-botones">
+			<button>Atras</button>
+			<button>CrearMapa</button>
+			<button>IniciarPartida</button>
+		</div>
+</body>
+</html>
