@@ -34,27 +34,32 @@
 		</script>
 	</head>
 	<body>
+		<div class="matchTitle">
+			<h1 >DRISK</h1>
+		</div>
 		<div class = "matchWrapper">
-			<h1 class="mathTitle">DRISK</h1>
-			<div class="matchDescription">
-				<section>
-					<article>
-						<p>Description of Drisk</p>
-					</article>
-					<img src="">
-				</section>
+			<div>
+				<img src="">
 			</div>
-			<div class="matchInputs">
-				<form id="NickForm" method="post" action="/createMatch">
-					<input id = "inputNick" name = "nickname" type="text" 
-					placeholder="Insert your nickname" pattern="[A-Za-z]{6,20}">
-				</form>
-				<div class = "matchInputsButton">
-					<input id = "btnCreate" class="boton" name="createMatch" 
-					type="button" value="Create Match" >
-					<input id = "btnJoin" class="boton" name="joinMatch" type="button" value="Join Match">
+			<div class="matchNickNameWrapper">
+				<div class="matchDescription">
+					<section>
+						<article>
+							<p>Dynamically version of Risk</p>
+						</article>
+					</section>
 				</div>
-
+				<div class="matchInputs">
+					<form id="NickForm" method="post" action="/createMatch">
+						<input class="input" id = "inputNick" name = "nickname" type="text" 
+						placeholder="Insert your nickname" pattern="[A-Za-z]{6,20}">
+					</form>
+					<div class = "matchInputsButton">
+						<input id = "btnCreate" class="button" name="createMatch" 
+						type="button" value="Create Match" >
+						<input id = "btnJoin" class="button" name="joinMatch" type="button" value="Join Match">
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

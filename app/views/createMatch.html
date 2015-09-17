@@ -15,32 +15,38 @@
 	</head>
 	<body>
 		<div class = "matchWrapper">
-			<h1 class="matchTitle" >Welcome {{nickname}}</h1>
-			<h2 class="matchTitle" >Creation Wizard</h2>
-			<table class="match-Options">
-				<tr>		
-					<td>
-						<label class="matchLabel" > Max Number Player: </label>
-					</td>
-					<td>
-						<input id = "inputMaxPlayer" name = "maxPlayer" type="text" 
-						 pattern="[0-6]" >
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label> Modes </label>
-					</td>
-					<td>
-						<select id="modes" >
-						    <option value="WorldDom">World Domination</option>
-						    <option value="SecretMission">Secret Mission</option>
-						    <option value="Capital">Capital</option>
-						</select>
-					</td>
-			    </tr>
-		    </table>
-		   	<input id = "inputMatch" type="button" value="Create"  onclick="sendData();" >
+			<div class="matchParameterWrapper">
+				<div class="matchParameterTitles">
+					<h1 >Welcome {{nickname}}</h1>
+					<h2 >Creation Wizard</h2>
+				</div>
+				<div class="matchInputs">
+					<table class="match-Options">
+					<tr>		
+						<td>
+							<label class="matchLabel" > Max Number Player: </label>
+						</td>
+						<td>
+							<input id = "inputMaxPlayer" name = "maxPlayer" type="text" 
+							 pattern="[0-6]" >
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label> Modes </label>
+						</td>
+						<td>
+							<select id="modes" >
+							    <option value="WorldDom">World Domination</option>
+							    <option value="SecretMission">Secret Mission</option>
+							    <option value="Capital">Capital</option>
+							</select>
+						</td>
+				    </tr>
+			    	</table>
+			   		<input id = "inputMatch" type="button" value="Create" class="button" onclick="sendData();" >
+			   	</div>
+		   	</div>
 		</div>
 	</body>
 </html>
