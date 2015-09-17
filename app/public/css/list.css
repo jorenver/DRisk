@@ -1,5 +1,16 @@
-
-.row-table:hover{
-	background-color:#cccc99;;
+*{
+	font-family: opcionUno;
 }
 
+.row-table:hover{
+	background-color:#000096;
+	color: white;
+}
+
+.matchButtons{
+	display: flex;
+	flex-direction:row;
+	align-items:center;
+	justify-content:center;
+	margin: 10px 5px;
+}

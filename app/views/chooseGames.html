@@ -9,30 +9,29 @@
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="js/games.js" ></script>
 		<link rel="stylesheet" type="text/css" href="css/list.css">
-	
+		<link rel="stylesheet" type="text/css" href="/css/match.css">
 	<script>
 		var name = "{{nickname}}";
 	</script>
-
 	</head>
 	<body>
-		<div id = "wraper">
-			<h1 >{{nickname}}, choose a match</h1></br>
-
-			<div id = "list">
-				<table id = "table" style="width:100%" class = "CSSTableGenerator">
-				  
-				</table>
-			</div>
-
-		</br>
-		</br>
-
-			<span>
-				<input type = "button" id = "btnJoin" class="button" value = "Join" />
-				<input type = "button" id = "btnBack" class="button" value = "Back"/>
-			</span>
+		<div class="matchTitle">
+			<h1 >DRISK</h1>
 		</div>
-
+		<div class="matchWrapper">
+			<div id = "wraper" class="matchesList">
+				<h1 >{{nickname}}, choose a match</h1></br>
+				<div id = "list">
+					<table id = "table" style="width:100%" class = "CSSTableGenerator">
+					</table>
+				</div>
+			</br>
+			</br>
+				<div class="matchButtons">
+					<input type = "button" id = "btnJoin" class="button" value = "Join" />
+					<input type = "button" id = "btnBack" class="button" value = "Back"/>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
