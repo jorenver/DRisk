@@ -1,4 +1,5 @@
 var gameListController = require('./controller/GamesList');
+var gameController = require('./controller/GameController');
 
 var matchesController = require('./controller/Matches');
 
@@ -19,5 +20,10 @@ router.get('/waitroom', waitRoomController.waitroom);
 router.get('/players', waitRoomController.players);
 router.get('/startGame', startGameController.startGame);
 
+
+
+
+//Game
+router.get('/game',gameController.game);
 
 module.exports = router;
