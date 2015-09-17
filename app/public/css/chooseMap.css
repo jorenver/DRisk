@@ -1,0 +1,39 @@
+/*
+Modelo de Cajas de la plantilla chooseMap
+ */
+*{
+	padding: 0px;
+	margin: 0px;
+}
+
+body{
+	border-style: solid;
+}
+
+#info-Usuario{
+	border-style: solid;
+	margin-left: 35%;
+	width: 17%;
+	margin-top: 2.5%;
+}
+
+#contenedor{
+	border-style: solid;
+	margin-top: 6%;
+}
+
+#imagenes{
+	border-style: solid;
+	margin-bottom: 3%;
+	margin-left: 37%;
+}
+
+#informacion-Mapa{
+	border-style: solid;
+	margin-left: 37%;
+	width: 5%;
+}
+
+#contenedor-botones{
+	border-style: solid;
+}
