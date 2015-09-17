@@ -11,19 +11,21 @@
 		<link rel="stylesheet" type="text/css" href="css/game.css">
 	</head>
 	<body>
+		<div class="matchTitle">
+			<h1 >DRISK</h1>
+		</div>
 		<div id="gameMode">
-			{{mode}}
+			<h1>Game Mode: {{mode}}</h1>
 		</div>
 		
 		<div id="wraper">
 
-			<div id="playerList">
-
-				{% for player in players %}
-					<div class="player">{{player.nick}}</div>
-				{%endfor%}
+			<table id="playerList">
+			{% for player in players %}
+				<tr><td class="player">{{player.nick}}</td></tr>
+			{%endfor%}
+			</table>
 			
-			</div>
 
 			<div id="wraperMap">
 				
@@ -33,11 +35,11 @@
 					</object>
 				</div>
 				
-				<span>
-					<input type = "button" id = "btnAttack" class="button" value = "Attack" />
-					<input type = "button" id = "btnMove" class="button" value = "Move" />
-					<input type = "button" id = "btnNext" class="button" value = "Next Player" />
-				</span>
+				<div id="containerButton">
+					<input class="button" type = "button" id = "btnAttack" class="button" value = "Attack" />
+					<input class="button" type = "button" id = "btnMove" class="button" value = "Move" />
+					<input class="button" type = "button" id = "btnNext" class="button" value = "Next Player" />
+				</div>
 			
 			</div>
 
