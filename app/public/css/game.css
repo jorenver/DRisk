@@ -4,10 +4,11 @@
 
 }
 
-#containerMap{
-	height: 90%;
-	width: 90%;
+object {
+	height: 700px;
+	width: 1000px;
 }
+
 
 #playerList{
 	width: 20%;
