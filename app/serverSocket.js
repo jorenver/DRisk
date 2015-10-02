@@ -1,4 +1,4 @@
-var model = require('./app/model/model.js');
+var model = require('./model/model.js');
 
 function createServerSocket(io,sessionMiddleware){
     
