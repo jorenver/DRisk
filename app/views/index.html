@@ -11,8 +11,12 @@
 		<link rel="stylesheet" type="text/css" href="css/match.css">
 		<script type="text/javascript">
 			function init(){
+				error="{{error}}";
 				btnJoin.addEventListener("click",joinMatch,false);
 				btnCreate.addEventListener("click",createMatch,false);
+				if (error=='nick') {
+					alert('el nickname ya existe!, escoja otro');
+				};
 			}
 			function joinMatch(event){
 				console.log(inputNick.value);
