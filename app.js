@@ -27,7 +27,7 @@ var sessionMiddleware = session({
 app.use(sessionMiddleware);
 
 var router=require('./app/router.js');
-var serverSocket=require('./serverSocket.js');
+var serverSocket=require('./app/serverSocket.js');
 
 app.set('port', 7000);
 
