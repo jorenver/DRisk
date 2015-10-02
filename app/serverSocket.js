@@ -1,6 +1,6 @@
 var model = require('./model/model.js');
 
-function createServerSocket(io,sessionMiddleware){
+exports.createServerSocket = function(io,sessionMiddleware){
     
     io.use(function(socket,next){
         sessionMiddleware(socket.request, socket.request.res, next);
