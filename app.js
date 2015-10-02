@@ -27,6 +27,7 @@ var sessionMiddleware = session({
 app.use(sessionMiddleware);
 
 var router=require('./app/router.js');
+var serverSocket=require('./serverSocket.js');
 
 app.set('port', 7000);
 
@@ -44,3 +45,6 @@ app.use('/',router);
 http.listen(app.get('port'),function(){
     console.log("DRisk Aplication running in a port " + app.get('port'));
 });
+
+var io = require('socket.io')(http);
+serverSocket.createServerSocket(io,sessionMiddleware);
