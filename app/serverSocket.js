@@ -14,9 +14,10 @@ exports.createServerSocket = function(io,sessionMiddleware){
 
         if(session.player){
 
+        	clients[session.player] = session.player;
         	player.on("chooseGame", function(data){
         		
-        		if(data.idPlayer == session.player){
+        		if(data.idPlayer == session.player){ 
         			model.joinPlayer(data.idMatch, data.idPlayer);
 					model.printMatch(data.idMatch);
 					player.emit("getWaitRoom", {"idMatch": data.idMatch, "sucess": true} );
@@ -27,6 +28,8 @@ exports.createServerSocket = function(io,sessionMiddleware){
         		}
 				
         	});
+
+
 
         }
  

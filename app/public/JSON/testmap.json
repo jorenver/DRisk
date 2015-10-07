@@ -1,0 +1,17 @@
+{"Graph":{
+	"Nodes":["Cuba", "Brasil", "Chile", "Colombia", "Ecuador", "Guyana", 
+			"Paraguay", "Bolivia", "Peru" ],
+	"Edges":[{"U": "Cuba", "V": "Brasil"}, 
+			 {"U": "Cuba" , "V": "Colombia" },
+			 {"U": "Brasil", "V": "Chile" },
+			 {"U":	"Brasil" , "V": "Ecuador"},
+			 {"U": "Chile",  "V": "Guyana"},
+			 {"U":"Colombia", "V": "Ecuador"},
+			 {"U": "Colombia", "V": "Paraguay"},
+			 {"U":"Ecuador", "V": "Guyana" },
+			 {"U": "Ecuador", "V": "Bolivia"},
+			 {"U": "Guyana",  "V": "Peru"},
+			 {"U": "Paraguay", "V": "Bolivia"},
+			 {"U": "Paraguay", "V":  "Peru" }  ]
+	}
+}

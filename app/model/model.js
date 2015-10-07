@@ -1,31 +1,8 @@
 var libGraph = require("graphlib");
 var Graph = libGraph.Graph;
 
-//grafo de prueba
-var testMap = new Graph({ directed: false, compound: false, multigraph: false });
-testMap.setNode("Cuba", {name: "Cuba", owner: null, numSoldier: 0 });
-testMap.setNode("Brasil", {name: "Brasil", owner: null, numSoldier: 0 });
-testMap.setNode("Chile", {name: "Chile", owner: null, numSoldier: 0 });
-testMap.setNode("Colombia", {name: "Colombia", owner: null, numSoldier: 0 });
-testMap.setNode("Ecuador", {name: "Ecuador", owner: null, numSoldier: 0 });
-testMap.setNode("Guyana", {name: "Guyana", owner: null, numSoldier: 0 });
-testMap.setNode("Paraguay", {name: "Paraguay", owner: null, numSoldier: 0 });
-testMap.setNode("Bolivia", {name: "Bolivia", owner: null, numSoldier: 0 });
-testMap.setNode("Peru", {name: "Peru", owner: null, numSoldier: 0 });
 
-testMap.setEdge("Cuba", "Brasil");
-testMap.setEdge("Cuba", "Colombia");
-testMap.setEdge("Brasil", "Chile");
-testMap.setEdge("Brasil", "Ecuador");
-testMap.setEdge("Chile", "Guyana");
-testMap.setEdge("Colombia", "Ecuador");
-testMap.setEdge("Colombia", "Paraguay");
-testMap.setEdge("Ecuador", "Guyana");
-testMap.setEdge("Ecuador", "Bolivia");
-testMap.setEdge("Guyana", "Peru");
-testMap.setEdge("Paraguay", "Bolivia");
-testMap.setEdge("Paraguay", "Peru");
-var strMap =  libGraph.json.write(testMap);
+var strMap =  loadGraph("../public/JSON/testMap.json");
 
 
 var Matches={ 
@@ -135,6 +112,26 @@ exports.printMatch= function(idMatch){
 
 exports.getMatch = function(idMatch){
 	return Matches[idMatch];
+}
+
+function loadGraph(filename){
+	//file: json file of graph
+	var data = require(filename).Graph;
+	var graph = new Graph({ directed: false, compound: false, multigraph: false });
+
+	var nodes = data.Nodes;
+	for(var i =0; i< nodes.length; i++){
+		graph.setNode(nodes[i], {name: nodes[i], owner: null, numSoldier: 0 });
+	}
+
+	var edges = data.Edges;
+	for(var i=0; i<edges.length; i++){
+		graph.setEdge(edges[i].U, edges[i].V);
+	}
+	return libGraph.json.write(graph);
+
+
+
 }
 
 exports.Matches= Matches;

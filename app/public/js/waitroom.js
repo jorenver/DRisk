@@ -3,6 +3,7 @@ var colors = [
 {string:"Blue" , code: "#0431B4"}, {string:"Pink" , code:"#F5A9A9"}, {string:"Yellow" , code: "#FFFF00"}, {string:"Brown" , code:"#3B240B"}
 ];
 
+var socket;
 
 function processingMatch(event){
 	var respond = JSON.parse(event.target.responseText);
@@ -12,7 +13,6 @@ function processingMatch(event){
 	console.log("strMap",strMap);
 	var map = new graphlib.json.read(strMap);
 	console.log(map.nodes());
-
 	/*
 	var table = document.getElementById("tablePlayers");
   	table.innerHTML = "";
@@ -69,8 +69,20 @@ function getMatch(idGame){
 	request.send(null);
 }
 
+function socketConnect(){
+	socket = io.connect();
+
+	//recive the order to start game
+	socket.on("playerStart", function(){
+		window.location.href = "/game?idMatch="+idMatch;
+	});
+
+}
+
 function initialize(event){
 	getMatch(idMatch);
+	socketConnect();
+
 }
 
 
