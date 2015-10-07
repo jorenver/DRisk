@@ -2,6 +2,11 @@ var model = require('../model/model');
 
 exports.joinMatch = function(request,response){
 	var nick= request.query.nick;
+
+	if(!request.session.player){
+		request.session.player = nick;
+	}
+	
 	response.render('chooseMatch',{nick:nick});
 }
 
@@ -14,8 +19,5 @@ exports.getMatches = function(request, response){
 		model.getPublishedMatches(request, response);
 
 	}
-
-
-
 
 }

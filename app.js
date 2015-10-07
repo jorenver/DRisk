@@ -46,5 +46,36 @@ http.listen(app.get('port'),function(){
     console.log("DRisk Aplication running in a port " + app.get('port'));
 });
 
+
+/*var Graph = require("graphlib").Graph;
+
+// Create a new directed graph
+var g = new Graph();
+
+// Add node "a" to the graph with no label
+var ecuador = {
+	name: "ecuador",
+	capital: "quito",
+};
+
+var venezuela = {
+	name: "venezuela",
+	capital: "caracas",
+};
+g.setNode("ecuador", ecuador);
+
+
+g.setNode("venezuela", venezuela);
+
+g.setEdge("ecuador", "venezuela");
+
+var list = g.nodes()[0];
+for (var i = 0; i< list.length; i++){
+	console.log("nodos", list[i]);
+}
+console.log("los nodos", g.neighbors("ecuador"));*/
+
+
+
 var io = require('socket.io')(http);
 serverSocket.createServerSocket(io,sessionMiddleware);

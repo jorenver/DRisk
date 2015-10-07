@@ -75,7 +75,25 @@ exports.getPublishedMatches = function(request, response){
 	}
 	response.send({games: list});
 
+}
 
+exports.joinPlayer = function(idMatch, nickPlayer){
+
+	var players = Matches[idMatch].listPlayer;
+	
+	for (var i=0; i< players.length; i++){
+		if(players[i].nick == nickPlayer ){
+			return; //error
+		}
+	}
+
+	Matches[idMatch].listPlayer.push({nick: nickPlayer});
+	console.log(Matches[idMatch]);
+
+}
+
+exports.printMatch= function(idMatch){
+	console.log("***Match***" ,Matches[idMatch]);
 }
 
 exports.Matches= Matches;
