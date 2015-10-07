@@ -7,11 +7,12 @@
 		<meta name="description" content="List of games">
 		<meta name="keywords" content="RISK, game, SCORE-2016">
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
-		<script type="text/javascript" src="js/games.js" ></script>
+		<script src="../socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="js/chooseMatch.js" ></script>
 		<link rel="stylesheet" type="text/css" href="css/list.css">
 		<link rel="stylesheet" type="text/css" href="/css/match.css">
 	<script>
-		var name = "{{nickname}}";
+		var name = "{{nick}}";
 	</script>
 	</head>
 	<body>
@@ -23,10 +24,16 @@
 				<h1 >{{nick}}, choose a match</h1></br>
 				<div id = "list">
 					<table id = "table" style="width:100%" class = "CSSTableGenerator">
+
+
 					</table>
 				</div>
 			</br>
 			</br>
+				<div class = "tableButtons">
+					<input type = "button" id = "back" class="button" value = "<"/>
+					<input type = "button" id = "next" class="button" value = ">" />
+				</div>
 				<div class="matchButtons">
 					<input type = "button" id = "btnJoin" class="button" value = "Join" />
 					<input type = "button" id = "btnBack" class="button" value = "Back"/>

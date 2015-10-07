@@ -46,5 +46,6 @@ http.listen(app.get('port'),function(){
     console.log("DRisk Aplication running in a port " + app.get('port'));
 });
 
+
 var io = require('socket.io')(http);
 serverSocket.createServerSocket(io,sessionMiddleware);

@@ -3,11 +3,17 @@ var colors = [
 {string:"Blue" , code: "#0431B4"}, {string:"Pink" , code:"#F5A9A9"}, {string:"Yellow" , code: "#FFFF00"}, {string:"Brown" , code:"#3B240B"}
 ];
 
+var socket;
 
-function processingPlayers(event){
+function processingMatch(event){
 	var respond = JSON.parse(event.target.responseText);
-	var players = respond.players;
-
+	var match = respond.match;
+	//console.log(match);
+	var strMap = match.map;
+	console.log("strMap",strMap);
+	var map = new graphlib.json.read(strMap);
+	console.log(map.nodes());
+	/*
 	var table = document.getElementById("tablePlayers");
   	table.innerHTML = "";
 
@@ -49,23 +55,34 @@ function processingPlayers(event){
   	var dataGame = respond.dataGame;
 
   	numPlayers.innerHTML = "Number of players: " + players.length;
-  	gameMode.innerHTML = "Mode: " + dataGame.mode;
+  	gameMode.innerHTML = "Mode: " + dataGame.mode;*/
 
 
 }
 
-function getPlayers(idGame){
+function getMatch(idGame){
 	var request = new XMLHttpRequest();
-	var url="/players?idGame=" + idGame;
-	console.log(idGame);
-	request.open("GET",url,true);
-	request.addEventListener('load',processingPlayers ,false);
+	var url="/getMatchData?id_match=" + idMatch;
+	request.open("POST",url,true);
+	request.addEventListener('load',processingMatch ,false);
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
 	request.send(null);
 }
 
+function socketConnect(){
+	socket = io.connect();
+
+	//recive the order to start game
+	socket.on("playerStart", function(){
+		window.location.href = "/game?idMatch="+idMatch;
+	});
+
+}
+
 function initialize(event){
-	getPlayers(idGame);
+	getMatch(idMatch);
+	socketConnect();
+
 }
 
 

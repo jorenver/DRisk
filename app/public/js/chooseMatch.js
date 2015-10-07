@@ -1,10 +1,9 @@
-var id_creator = -1;
-
+var id_match = -1;
+var socket;
 
 function clickRow(event){
 	id_match = this.getAttribute('data-idmatch');
-	id_creator = this.getAttribute('data-idcreator');
-	console.log("***", id_creator);
+	console.log("***", id_match);
 	var rows = document.getElementsByClassName("row-table");
 
 
@@ -39,7 +38,7 @@ function processingMatches(event){
 	    var match = matches[i];
 	    var tr = document.createElement("tr");
 	    tr.setAttribute("class","row-table");
-	    tr.setAttribute('data-idcreator',match.nickName);
+	    tr.setAttribute('data-idmatch',match.idMatch);
 
 	    tr.addEventListener('click', clickRow, false);
 		var td = document.createElement("td");
@@ -60,32 +59,55 @@ function processingMatches(event){
 
   	}
 
-
-
 }
 
 function joinMatch(event){
-	if (id_creator == -1 || id_match == -1){
+	if (id_match == -1){
 		alert("Select one match from the list");
 		return;
 	}
-	window.location.href = "/waitroom?idmatch="+id_creator +"&idcreator=" + name;
-	console.log("peticion al servidor ID: (creador, persona)", id_creator, name);
-
+	console.log("peticion al servidor ID: (idmatch, persona)", id_match, name);
+	
+	socket.emit("chooseGame", {idMatch: id_match, idPlayer: name });
+	//window.location.href = "/chooseGame?id_match="+id_match +"&id_player=" + name;
 }
 
 function getMatches(){
+	console.log("getMatches cliente");
 	var request = new XMLHttpRequest();
-	var url="/matches";
+	var url="/getMatches";
 	request.open("POST",url,true);
 	request.addEventListener('load',processingMatches ,false);
-	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
-	request.send(null);
+	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	request.send("nick="+name);
+}
+
+function connectSocketChooseMap(){
+	socket = io.connect();
+
+	socket.on('getWaitRoom',function(data){
+ 		
+ 		if(data.sucess){
+ 			window.location.href = "/waitroom?id_match="+ data.idMatch;	
+ 		}
+ 		else{
+ 			alert("Error: you are logged with " + data.idPlayer);
+ 			console.log("redirijo ");
+ 			window.location.href = "/joinMatch?nick="+ data.idPlayer;	
+ 		}
+ 		
+  	});
+
+
 }
 
 function initialize(event){
 	getMatches();
 	btnJoin.addEventListener("click", joinMatch);
+	connectSocketChooseMap();
+
+
+
 }
 
 
