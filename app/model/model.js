@@ -35,14 +35,41 @@ exports.createMatch = function(request,response){
 		var Match={
 			idMatch:cont,
 			nickCreator:nick,
-			stateMatch:'pendiente'
+			numPlayer:0,
+			mode:"",
+			map:null,
+			listPlayer:[],
+			turn:"",
+			state:null,
+			stateMatch:'pendiente',
+			cards:[]
 		};
 		cont=cont+1;
 		Matches[Match.idMatch]=Match;
+		request.session.Match=Match;
 		console.log(Matches);
 		response.render('createMatch',{nick:nick,idMatch:Match.idMatch});
-	}else
+	}else if(!request.session.Match)
 		response.render('index',{error:'nick'});
+	else
+		response.render('createMatch',{nick:request.session.Match.nickCreator,idMatch:request.session.Match.idMatch});
 }
+
+exports.setDataMatch = function(request,response){
+	var nick= request.query.nick;
+	var idMatch= request.query.idMatch;
+	var numPlayer= request.query.numPlayer;
+	var gameMode= request.query.gameMode;
+	var Match;
+	Match=Matches[idMatch];
+	console.log(Match);
+	console.log(numPlayer);
+	Match.numPlayer=numPlayer;
+	Match.gameMode=gameMode;
+	console.log(Match);
+	response.render('chooseMap',{nick:nick,mode:gameMode});
+}
+
+
 
 exports.Matches= Matches;

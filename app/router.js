@@ -8,4 +8,5 @@ var joinMatchController = require('./controller/joinMatchController');
 
 router.get('/', indexController.index);
 router.get('/createMatch', createMatchController.createMatch);
+router.get('/setDataMatch', createMatchController.setDataMatch);
 router.get('/joinMatch', joinMatchController.joinMatch);
