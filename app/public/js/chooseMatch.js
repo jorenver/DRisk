@@ -86,17 +86,16 @@ function connectSocketChooseMap(){
 	socket = io.connect();
 
 	socket.on('getWaitRoom',function(data){
- 		console.log("pedir waitroom");
+ 		
  		if(data.sucess){
  			window.location.href = "/waitroom?id_match="+ data.idMatch;	
  		}
  		else{
- 			alert("error");
+ 			alert("Error: you are logged with " + data.idPlayer);
  			console.log("redirijo ");
  			window.location.href = "/joinMatch?nick="+ data.idPlayer;	
  		}
  		
-
   	});
 
 
@@ -105,9 +104,6 @@ function connectSocketChooseMap(){
 function initialize(event){
 	getMatches();
 	btnJoin.addEventListener("click", joinMatch);
-
-	// Create a new directed graph
-	//var g = new graphlib.Graph();
 	connectSocketChooseMap();
 
 

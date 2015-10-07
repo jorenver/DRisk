@@ -4,10 +4,16 @@ var colors = [
 ];
 
 
-function processingPlayers(event){
+function processingMatch(event){
 	var respond = JSON.parse(event.target.responseText);
-	var players = respond.players;
+	var match = respond.match;
+	//console.log(match);
+	var strMap = match.map;
+	console.log("strMap",strMap);
+	var map = new graphlib.json.read(strMap);
+	console.log(map.nodes());
 
+	/*
 	var table = document.getElementById("tablePlayers");
   	table.innerHTML = "";
 
@@ -49,23 +55,22 @@ function processingPlayers(event){
   	var dataGame = respond.dataGame;
 
   	numPlayers.innerHTML = "Number of players: " + players.length;
-  	gameMode.innerHTML = "Mode: " + dataGame.mode;
+  	gameMode.innerHTML = "Mode: " + dataGame.mode;*/
 
 
 }
 
-function getPlayers(idGame){
+function getMatch(idGame){
 	var request = new XMLHttpRequest();
-	var url="/players?idGame=" + idGame;
-	console.log(idGame);
-	request.open("GET",url,true);
-	request.addEventListener('load',processingPlayers ,false);
+	var url="/getMatchData?id_match=" + idMatch;
+	request.open("POST",url,true);
+	request.addEventListener('load',processingMatch ,false);
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
 	request.send(null);
 }
 
 function initialize(event){
-	getPlayers(idGame);
+	getMatch(idMatch);
 }
 
 

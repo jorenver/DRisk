@@ -11,11 +11,11 @@ exports.createServerSocket = function(io,sessionMiddleware){
 
     io.on('connection', function(player) {  
         var session=player.request.session;
-        console.log("se conecto un man");
+
         if(session.player){
 
         	player.on("chooseGame", function(data){
-        		console.log("**** datos",data.idPlayer, session.player);
+        		
         		if(data.idPlayer == session.player){
         			model.joinPlayer(data.idMatch, data.idPlayer);
 					model.printMatch(data.idMatch);

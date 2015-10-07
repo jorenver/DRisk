@@ -1,3 +1,33 @@
+var libGraph = require("graphlib");
+var Graph = libGraph.Graph;
+
+//grafo de prueba
+var testMap = new Graph({ directed: false, compound: false, multigraph: false });
+testMap.setNode("Cuba", {name: "Cuba", owner: null, numSoldier: 0 });
+testMap.setNode("Brasil", {name: "Brasil", owner: null, numSoldier: 0 });
+testMap.setNode("Chile", {name: "Chile", owner: null, numSoldier: 0 });
+testMap.setNode("Colombia", {name: "Colombia", owner: null, numSoldier: 0 });
+testMap.setNode("Ecuador", {name: "Ecuador", owner: null, numSoldier: 0 });
+testMap.setNode("Guyana", {name: "Guyana", owner: null, numSoldier: 0 });
+testMap.setNode("Paraguay", {name: "Paraguay", owner: null, numSoldier: 0 });
+testMap.setNode("Bolivia", {name: "Bolivia", owner: null, numSoldier: 0 });
+testMap.setNode("Peru", {name: "Peru", owner: null, numSoldier: 0 });
+
+testMap.setEdge("Cuba", "Brasil");
+testMap.setEdge("Cuba", "Colombia");
+testMap.setEdge("Brasil", "Chile");
+testMap.setEdge("Brasil", "Ecuador");
+testMap.setEdge("Chile", "Guyana");
+testMap.setEdge("Colombia", "Ecuador");
+testMap.setEdge("Colombia", "Paraguay");
+testMap.setEdge("Ecuador", "Guyana");
+testMap.setEdge("Ecuador", "Bolivia");
+testMap.setEdge("Guyana", "Peru");
+testMap.setEdge("Paraguay", "Bolivia");
+testMap.setEdge("Paraguay", "Peru");
+var strMap =  libGraph.json.write(testMap);
+
+
 var Matches={ 
 	'1': { idMatch: 1, 
 		nickCreator: 'jorenver', 
@@ -15,9 +45,16 @@ var Matches={
 		stateMatch: 'published',
 		mode: "World Domination",
 		numPlayers: 5,
+		map: strMap,
 		listPlayer:[{nick:'rodfcast'},{nick:'jorenver'},{nick:'obayona'}] 
 	}
 };
+
+
+
+
+
+
 var cont=3;
 
 function validarNick(nick){
@@ -94,6 +131,10 @@ exports.joinPlayer = function(idMatch, nickPlayer){
 
 exports.printMatch= function(idMatch){
 	console.log("***Match***" ,Matches[idMatch]);
+}
+
+exports.getMatch = function(idMatch){
+	return Matches[idMatch];
 }
 
 exports.Matches= Matches;
