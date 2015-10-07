@@ -15,14 +15,15 @@ exports.createServerSocket = function(io,sessionMiddleware){
         if(session.player){
 
         	player.on("chooseGame", function(data){
-
+        		console.log("**** datos",data.idPlayer, session.player);
         		if(data.idPlayer == session.player){
         			model.joinPlayer(data.idMatch, data.idPlayer);
 					model.printMatch(data.idMatch);
 					player.emit("getWaitRoom", {"idMatch": data.idMatch, "sucess": true} );
         		}
         		else{
-        			player.emit("getWaitRoom", {"idMatch": data.idMatch, "sucess": false} );
+        			player.emit("getWaitRoom", {"idMatch": data.idMatch, "sucess": false, 
+        				"idPlayer": session.player} );
         		}
 				
         	});

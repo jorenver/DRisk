@@ -92,6 +92,8 @@ function connectSocketChooseMap(){
  		}
  		else{
  			alert("error");
+ 			console.log("redirijo ");
+ 			window.location.href = "/joinMatch?nick="+ data.idPlayer;	
  		}
  		
 
