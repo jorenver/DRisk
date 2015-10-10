@@ -13,7 +13,7 @@ function sendData(){
 	var flag = input.checkValidity();
 	if(flag){
 		var maxPlayer = document.getElementById('inputMaxPlayer').value;
-		window.location.href="/setDataMatch?idMatch="+idMatch+"&nick="+ nick +"&nunPlayer=" + maxPlayer + "&gameMode=" +mode; 
+		window.location.href="/setDataMatch?idMatch="+idMatch+"&nick="+ nick +"&numPlayer=" + maxPlayer + "&gameMode=" +mode; 
 	}else{
 		if(document.getElementById('inputMaxPlayer').value > 6){
 			alert("Enter a smaller number of players");

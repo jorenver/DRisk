@@ -26,6 +26,15 @@ var Matches={
 		listPlayer:[{nick:'rodfcast'},{nick:'jorenver'},{nick:'obayona'}] 
 	}
 };
+var colors = [
+{string: "Red" , code: "#FF0000" }, 
+{string:"Green" , code:"#04B404"},
+{string:"Orange" , code: "#FF8000"},
+{string:"Blue" , code: "#0431B4"}, 
+{string:"Pink" , code:"#F5A9A9"}, 
+{string:"Yellow" , code: "#FFFF00"}, 
+{string:"Brown" , code:"#3B240B"}
+];
 
 
 
@@ -69,13 +78,14 @@ exports.createMatch = function(request,response){
 		};
 		cont=cont+1;
 		Matches[Match.idMatch]=Match;
-		request.session.Match=Match;
+		request.session.idMatch=Match.idMatch;
+		request.session.nick=Match.nickCreator;
 		console.log(Matches);
 		response.render('createMatch',{nick:nick,idMatch:Match.idMatch});
-	}else if(!request.session.Match)
+	}else if(!request.session.idMatch)
 		response.render('index',{error:'nick'});
 	else
-		response.render('createMatch',{nick:request.session.Match.nickCreator,idMatch:request.session.Match.idMatch});
+		response.render('createMatch',{nick:Matches[request.session.idMatch].nickCreator,idMatch:request.session.idMatch});
 }
 
 
@@ -89,7 +99,7 @@ exports.setDataMatch = function(request,response){
 	console.log(Match);
 	console.log(numPlayer);
 	Match.numPlayer=numPlayer;
-	Match.gameMode=gameMode;
+	Match.mode=gameMode;
 	console.log(Match);
 	response.render('chooseMap',{nick:nick,mode:gameMode});
 }
@@ -160,6 +170,49 @@ function loadGraph(filename){
 
 
 
+}
+
+exports.setMap = function(request,response){
+	console.log(request.body.mapChosen);
+	mapChosen=request.body.mapChosen;
+	var Map={
+		name:mapChosen,
+		graph:null,
+		svg:null
+	}
+	Matches[request.session.idMatch].map=Map;
+	numPlayer=Matches[request.session.idMatch].numPlayer;
+	mode=Matches[request.session.idMatch].mode;
+	console.log(Matches[request.session.idMatch]);
+	response.render('publicMatch',{idMatch:request.session.idMatch,
+		numPlayer:numPlayer,
+		mode:mode,
+		nameMap:Map.name});
+}
+
+exports.publicMatch = function(request,response){
+	console.log('*****************************');
+	console.log(request.session.idMatch);
+	if(request.session.idMatch){
+		Matches[request.session.idMatch].stateMatch='published';
+		console.log(Matches[request.session.idMatch]);
+		numPlayer=Matches[request.session.idMatch].numPlayer;
+		mode=Matches[request.session.idMatch].mode;
+		map=Matches[request.session.idMatch].map.name;
+		var player={
+			nick:request.session.nick,
+			idTerritory:null,
+			cards:[],
+			numSoldier:0,
+			color:colors[0]
+		};
+		Matches[request.session.idMatch].listPlayer.push(player);
+		console.log(Matches[request.session.idMatch]);
+		response.render('waitRoonCreator',{idMatch:request.session.idMatch,numPlayer:numPlayer,mode:mode,map:map,player:player});
+
+	}else{
+		response.render('index',{error:'no'});
+	}
 }
 
 

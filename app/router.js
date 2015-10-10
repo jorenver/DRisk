@@ -6,11 +6,14 @@ var indexController = require('./controller/indexController');
 var createMatchController = require('./controller/createMatchController');
 var joinMatchController = require('./controller/joinMatchController');
 var waitroomController = require('./controller/waitroomController');
+var chooseMapController = require('./controller/chooseMapController');
+var publicMatchController = require('./controller/publicMatchController');
 
 router.get('/', indexController.index);
 router.get('/createMatch', createMatchController.createMatch);
-
 router.get('/setDataMatch', createMatchController.setDataMatch);
+router.post('/setMap',chooseMapController.setMap);
+router.get('/publicMatch',publicMatchController.publicMatch);
 router.get('/joinMatch', joinMatchController.joinMatch);
 
 //Join 

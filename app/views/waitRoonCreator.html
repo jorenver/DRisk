@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DRISK</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,maximum-scale=1,minimum-scale=1">
+		<meta name="description" content="List of games">
+		<meta name="keywords" content="RISK, waitroom, SCORE-2016">
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
+		<script type="text/javascript" src="js/waitRoonCreator.js" ></script>
+		<link rel="stylesheet" href="css/tabla.css">
+	</head>
+	<body>
+		<script>
+		var idMatch = {{idMatch}};
+		</script>
+		<div id = "wraper">
+			<h1 >DRISK</h1>
+			
+			<div id = "info-game">
+				<h3 id= "numPlayers"> Max Player: {{numPlayer}}</h3>
+				<h3 id= "gameMode"> Game Mode: {{mode}}</h3>
+				<h3 id= "map"> Mapa: {{map}}</h3>
+				<div id="map" >
+					<img src = "images/map1.jpg" width = "500px" heigh = "200px">
+
+					</img>
+				</div>
+
+			</div>
+			<div id = "players" class = "CSSTableGenerator">
+				<table id = "tablePlayers" style="width:100%">
+				  <tr>
+				  	<td>nick</td>
+				  	<td>Color</td>
+				  </tr>
+				   <tr>
+				  	<td>{{player.nick}}</td>
+				  	<td>{{player.color}}</td>
+				  </tr>
+				</table>
+			</div>
+			</br>
+			</br>
+			<div>
+				<input id = "btnStart" type = "button" value = "Start" class = "Button"/>
+			</div>
+
+	</body>
+</html>

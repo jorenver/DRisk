@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DRISK</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,maximum-scale=1,minimum-scale=1">
+		<meta name="description" content="List of games">
+		<meta name="keywords" content="RISK, waitroom, SCORE-2016">
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
+		<script type="text/javascript" src="js/publicMatch.js" ></script>
+		<link rel="stylesheet" href="css/tabla.css">
+	</head>
+	<body>
+		<script>
+		var idMatch = {{idMatch}};
+		</script>
+		<div id = "wraper">
+			<h1 >DRISK</h1>
+			
+			<div id = "info-game">
+				<h3 id= "numPlayers"> Max Player: {{numPlayer}}</h3>
+				<h3 id= "gameMode"> Game Mode: {{mode}}</h3>
+				<h3 id= "map"> Mapa: {{nameMap}}</h3>
+				<div id="map" >
+					<img src = "images/map1.jpg" width = "500px" heigh = "200px">
+
+					</img>
+				</div>
+
+			</div>
+			</div>
+			<div>
+				<input id = "btnPrev" type = "button" value = "Previous" class = "Button"/>
+				<input id = "btnPublic" type = "button" value = "Public" class = "Button"/>
+			</div>
+
+	</body>
+</html>
