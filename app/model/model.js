@@ -100,8 +100,9 @@ exports.setDataMatch = function(request,response){
 
 
 
-exports.getPublishedMatches = function(request, response){
+exports.getPublishedMatches = function(request, response, page){
 	var list = [];
+	var tam = 10;
 
 	for (i in Matches){
 
@@ -113,13 +114,16 @@ exports.getPublishedMatches = function(request, response){
 				"nickName": match.nickCreator,
 				"gameMode": match.mode,
 				"players": match.listPlayer.length,
-				"totalPlayers": match.numPlayers
+				"totalPlayers": match.numPlayer
 			};
 			list.push(m);
 
 		}
 	}
-	response.send({games: list});
+	var count = Math.ceil(list.length/tam);
+
+	var registers = list.slice(page*tam, page*tam + tam);
+	response.send({games: registers, limit: count});
 
 }
 

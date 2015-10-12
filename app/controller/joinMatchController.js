@@ -10,9 +10,9 @@ exports.joinMatch = function(request,response){
 
 exports.getMatches = function(request, response){
 	console.log("getMatches");
-	var nickname = request.body.nick;
+	var nickname = request.query.nick;
+	var page = request.query.page;
 	if(nickname){
-		model.getPublishedMatches(request, response);
-
+		model.getPublishedMatches(request, response, page);
 	}
 }

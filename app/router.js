@@ -20,7 +20,7 @@ router.post('/joinMatch', joinMatchController.joinMatch);
 
 //Join 
 router.get('/joinMatch', joinMatchController.joinMatch);
-router.post('/getMatches', joinMatchController.getMatches);
+router.get('/getMatches', joinMatchController.getMatches);
 
 //waitroom players (not player creator)
 router.get('/waitroom', waitroomController.waitroom);
