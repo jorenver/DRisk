@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="css/match.css">
 		<script type="text/javascript">
 			var nick = "{{nick}}";
-			var  idMatch= "{{idMatch}}";
+			var idMatch= "{{idMatch}}";
 		</script>
 	</head>
 	<body>
@@ -31,8 +31,9 @@
 							<label class="matchLabel" > Max Number Player: </label>
 						</td>
 						<td>
-							<input id = "inputMaxPlayer" name = "maxPlayer" type="text" 
-							 pattern="[0-6]" >
+							<form id="dataMatchForm" method="post" action="/setDataMatch">
+								<input form = "dataMatchForm" id = "inputMaxPlayer" name = "numPlayer" type="text" pattern="[0-6]" required>
+							</form>
 						</td>
 					</tr>
 					<tr>
@@ -40,7 +41,7 @@
 							<label> Modes </label>
 						</td>
 						<td>
-							<select id="modes" >
+							<select form = "dataMatchForm" name = "gameMode" >
 							    <option value="World Domination">World Domination</option>
 							    <option value="Secret Mission">Secret Mission</option>
 							    <option value="Capital">Capital</option>

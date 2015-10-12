@@ -8,12 +8,10 @@ var Match =function (nickname,maxPlayer,mode){
 }
 
 function sendData(){
-	var mode = document.getElementById('modes').value;
-	var input = document.getElementById('inputMaxPlayer');
-	var flag = input.checkValidity();
+	var form = document.getElementById('dataMatchForm');
+	var flag = form.checkValidity();
 	if(flag){
-		var maxPlayer = document.getElementById('inputMaxPlayer').value;
-		window.location.href="/setDataMatch?idMatch="+idMatch+"&nick="+ nick +"&numPlayer=" + maxPlayer + "&gameMode=" +mode; 
+		form.submit(); 
 	}else{
 		if(document.getElementById('inputMaxPlayer').value > 6){
 			alert("Enter a smaller number of players");

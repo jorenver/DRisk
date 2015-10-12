@@ -1,9 +1,7 @@
 var libGraph = require("graphlib");
 var Graph = libGraph.Graph;
 
-
 var strMap =  loadGraph("../public/JSON/testMap.json");
-
 
 var Matches={ 
 	'1': { idMatch: 1, 
@@ -36,11 +34,6 @@ var colors = [
 {string:"Brown" , code:"#3B240B"}
 ];
 
-
-
-
-
-
 var cont=3;
 
 function validarNick(nick){
@@ -61,47 +54,48 @@ function validarNick(nick){
 }
 
 exports.createMatch = function(request,response){
-	var nick= request.query.nick;
+	var nick= request.body.nick;
 	console.log(validarNick(nick));
 	if(validarNick(nick)){
 		var Match={
-			"idMatch":cont,
-			"nickCreator":nick,
-			"numPlayer":0,
+			"idMatch": cont,
+			"nickCreator": nick,
+			"numPlayer": 0,
 			"mode":"",
-			"map":null,
-			"listPlayer":[],
+			"map": null,
+			"listPlayer": [],
 			"turn":"",
-			"state":null,
-			"stateMatch":'pending',
-			"cards":[]
+			"state": null,
+			"stateMatch": 'pending',
+			"cards": []
 		};
 		cont=cont+1;
-		Matches[Match.idMatch]=Match;
-		request.session.idMatch=Match.idMatch;
-		request.session.nick=Match.nickCreator;
-		console.log(Matches);
+		Matches[Match.idMatch] = Match;
+		request.session.idMatch = Match.idMatch;
+		request.session.nick = Match.nickCreator;
 		response.render('createMatch',{nick:nick,idMatch:Match.idMatch});
-	}else if(!request.session.idMatch)
+	}else if(!request.session.idMatch){
 		response.render('index',{error:'nick'});
-	else
+	}else{
 		response.render('createMatch',{nick:Matches[request.session.idMatch].nickCreator,idMatch:request.session.idMatch});
+	}
 }
 
 
 exports.setDataMatch = function(request,response){
-	var nick= request.query.nick;
-	var idMatch= request.query.idMatch;
-	var numPlayer= request.query.numPlayer;
-	var gameMode= request.query.gameMode;
+	var nick = request.session.nick;
+	var idMatch = request.session.idMatch;
+	var numPlayer = request.body.numPlayer;
+	var gameMode = request.body.gameMode;
 	var Match;
-	Match=Matches[idMatch];
-	console.log(Match);
-	console.log(numPlayer);
-	Match.numPlayer=numPlayer;
-	Match.mode=gameMode;
-	console.log(Match);
-	response.render('chooseMap',{nick:nick,mode:gameMode});
+
+	Match = Matches[idMatch];
+	if(Match!=null){
+		Match.numPlayer = numPlayer;
+		Match.mode = gameMode;
+		console.log(Matches);
+		response.render('chooseMap',{ nick:nick, mode:gameMode });
+	}
 }
 
 
@@ -180,14 +174,17 @@ exports.setMap = function(request,response){
 		graph:null,
 		svg:null
 	}
-	Matches[request.session.idMatch].map=Map;
-	numPlayer=Matches[request.session.idMatch].numPlayer;
-	mode=Matches[request.session.idMatch].mode;
-	console.log(Matches[request.session.idMatch]);
-	response.render('publicMatch',{idMatch:request.session.idMatch,
-		numPlayer:numPlayer,
-		mode:mode,
-		nameMap:Map.name});
+	var match = Matches[request.session.idMatch];
+	if(match!=null){
+		match.map = Map;
+		numPlayer=match.numPlayer;
+		mode=match.mode;
+		console.log(match);
+		response.render('publicMatch',{idMatch:request.session.idMatch,
+			numPlayer:numPlayer,
+			mode:mode,
+			nameMap:Map.name});
+	}
 }
 
 exports.publicMatch = function(request,response){

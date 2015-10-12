@@ -20,33 +20,25 @@
 			}
 			function joinMatch(event){
 				console.log(inputNick.value);
-				var val = inputNick.checkValidity();
+				var val = NickForm.checkValidity();
 				if(val){
-					if(inputNick.value.length != 0){
-						console.log(inputNick.value);
-						window.location.href = "/joinMatch?nick=" + inputNick.value;
-					}
+					NickForm.action = "/joinMatch";
+					NickForm.submit();					
 				}else{
 					alert("Enter nickname correctly!!");
 				}
-
-				
 				console.log(inputNick.value);
 			}
 
 			function createMatch(event){
-				console.log(inputNick.value);
-				var val = inputNick.checkValidity();
+				var val = NickForm.checkValidity();
 				if(val){
-					if(inputNick.value.length != 0){
-						console.log(inputNick.value);
-						window.location.href = "/createMatch?nick=" + inputNick.value;
-					}
+					NickForm.action = "/createMatch";
+					NickForm.submit();
 				}else{
 					alert("Enter nickname correctly!!");
 				}
 			}
-
 			window.addEventListener("load",init,false);
 		</script>
 	</head>
@@ -67,9 +59,9 @@
 					</section>
 				</div>
 				<div class="matchInputs">
-					<form id="NickForm" method="get">
-						<input class="input" id = "inputNick" name = "nickname" type="text" 
-						placeholder="Insert your nickname" pattern="[A-Za-z]{6,20}">
+					<form id="NickForm" method="post">
+						<input form="NickForm" class="input" id = "inputNick" name = "nick" type="text" 
+						placeholder="Insert your nickname" pattern="[A-Za-z]{6,20}" required>
 					</form>
 					<div class = "matchInputsButton">
 						<input id = "btnCreate" class="button" name="createMatch" 

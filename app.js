@@ -5,7 +5,7 @@ var swig = require('swig');
 var session = require('express-session');
 
 var app = express();
-var http=require('http').Server(app);
+var http = require('http').Server(app);
 
 /*Session*/
 var redis = require('redis');
@@ -17,10 +17,9 @@ var sessionMiddleware = session({
 			host:'localhost',
 			port: 6379,
 			client:client,
-			ttl: 260 }),
+			ttl: 100 }),
 	saveUninitialized: false,
-	resave: false,
-	cookie: { maxAge: 10*60*1000 }
+	resave: false
 });
 /*Session*/
 
@@ -45,7 +44,6 @@ app.use('/',router);
 http.listen(app.get('port'),function(){
     console.log("DRisk Aplication running in a port " + app.get('port'));
 });
-
 
 var io = require('socket.io')(http);
 serverSocket.createServerSocket(io,sessionMiddleware);
