@@ -114,7 +114,7 @@ exports.getPublishedMatches = function(request, response, page){
 				"nickName": match.nickCreator,
 				"gameMode": match.mode,
 				"players": match.listPlayer.length,
-				"totalPlayers": match.numPlayer
+				"totalPlayers": match.numPlayers
 			};
 			list.push(m);
 
