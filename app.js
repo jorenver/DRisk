@@ -17,7 +17,7 @@ var sessionMiddleware = session({
 			host:'localhost',
 			port: 6379,
 			client:client,
-			ttl: 100 }),
+			ttl: 1000 }),
 	saveUninitialized: false,
 	resave: false
 });

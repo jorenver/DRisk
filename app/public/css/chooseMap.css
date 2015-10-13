@@ -26,7 +26,6 @@ body{
 
 .mapInputStart{
 	padding: 5px 5px;
-	background-color: rgba(226,228,230,.25);
 	border-radius: 10px;
 	margin-bottom: 10px ;
 }
@@ -34,7 +33,10 @@ body{
 .mapInfoUser{
 	font-family: opcionUno;
 	color: white;
-	margin: 15px 0px;
+	background-color: rgba(39,97,135,1);
+	padding: 15px 15px;
+	border-radius: 5px;
+	width: 60%;
 }
 
 .mapWrapper{
@@ -42,16 +44,15 @@ body{
 }
 
 .mapList{
-	margin: 10px 10px;
-	height: 80%;
-	background-color: rgba(226,228,230,.25);
+	height: 75%;
+	width: 100%;
+	background-color: rgba(39,97,135,1);
 	border-radius: 10px;
 	padding: 10px 10px;
 }
 
 .mapInputs{
 	padding: 10px 10px;
-	background-color: rgba(226,228,230,.25);
 	border-radius: 10px;
 }
 

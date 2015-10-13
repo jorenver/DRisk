@@ -7,6 +7,7 @@
 		<meta name="description" content="List of games">
 		<meta name="keywords" content="RISK, waitroom, SCORE-2016">
 		<link rel="stylesheet" type="text/css" href="css/match.css">
+		<link rel="stylesheet" type="text/css" href="css/publicMatch.css">
 		<link rel="stylesheet" type="text/css" href="css/waitRoom.css">
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="js/waitRoomCreator.js" ></script>
@@ -15,18 +16,25 @@
 		</script>
 	</head>
 	<body>
-		<div class = "matchWrapper u-flex-column u-align-center u-justify-center">
+		<div class = "matchWrapper u-flex-row u-align-center u-justify-center">
 			<div class="matchInfoWrapper">
-				<div id = "players" class = "">
-					<table id = "tablePlayers" style="width:100%">
-					  <tr>
-					 	<td>nick</td>
-					  	<td>Color</td>
-					  </tr>
-					   <tr>
-					  	<td>{{player.nick}}</td>
-					  	<td>{{player.color}}</td>
-					  </tr>
+				<div class = "u-flex-column u-align-center u-justify-center">
+					<div class="matchInfo u-flex-row u-justify-space-around">
+						<label class="matchLabel"> Max Player: {{numPlayer}}</label>
+						<label class="matchLabel"> Game Mode: {{mode}}</label>
+					</div>
+					<label class="matchLabel"> Mapa: {{nameMap}}</label>
+					<div class="mapInfo u-flex-column u-align-center u-justify-center" >
+						<img src = "img/map.jpg" width = "450px" height = "300px">
+					</div>
+				</div>
+			</div>
+			<div class="matchInfoWrapper">
+				<div class="playerTitle u-flex-row u-justify-center">
+					<label >Players</label>
+				</div>
+				<div id = "players" class = "tablePlayerWrapper">
+					<table id = "tablePlayers" class="tablePlayer u-flex-column u-align-center">
 					</table>
 				</div>
 				<div class="matchInputsButton u-flex-row u-justify-center">

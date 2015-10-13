@@ -2,4 +2,50 @@
 	background-color: rgba(226,228,230, 0.5);
 	padding: 10px 10px 0px 10px;
 	border-radius: 10px;
+	width:  35%;
+	height: 65%;
+	margin: 10px 10px;
 }
+
+.tablePlayer{
+	width: 100%;
+	height: 100%;
+}
+
+.row-table{
+	font-family: opcionUno;
+	width: 80%;
+	margin: 5px 5px;
+}
+
+.row-table-color{
+	border-radius: 20px;
+	padding: 10px 10px;
+	width: 20px;
+	height: 20px;
+	box-shadow: 2px 2px 5px #999;
+	text-align: center;
+	border: 2px solid black;
+}
+
+.row-table-nick{
+	background-color: rgba(226,228,230, 0.5);
+	padding: 10px 10px 0px 10px;
+	width: 80%;
+	border-radius: 5px;
+}
+
+.tablePlayerWrapper{
+	
+}
+
+.playerTitle{
+	font-family: opcionUno;
+	width: 100%;
+	margin: 10px 10px;
+}
+
+.playerTitle label{
+	font-size: 24px;
+}
+

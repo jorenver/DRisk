@@ -1,50 +1,24 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>DRISK</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width,maximum-scale=1,minimum-scale=1">
-		<meta name="description" content="game DRISK">
-		<meta name="keywords" content="RISK, game, SCORE-2016">
-		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
-		<script type="text/javascript" src="js/game.js" ></script>
-		<link rel="stylesheet" type="text/css" href="css/game.css">
-	</head>
-	<body>
-		<div class="matchTitle">
-			<h1 >DRISK</h1>
+<head>
+	<link rel="stylesheet" type="text/css" href="game.css">
+	<title></title>
+</head>
+<body>
+	<div class="gameWrapper u-flex-column">
+		<div class="barWrapper u-flex-row">
+			<span>Bar</span>
 		</div>
-		<div id="gameMode">
-			<h1>Game Mode: {{mode}}</h1>
+		<div class="playersWrapper ">
+			<div id="listPlayers" class="players"></div>
+			<span>Players</span>
 		</div>
-		
-		<div id="wraper">
-
-			<table id="playerList">
-			{% for player in players %}
-				<tr><td class="player">{{player.nick}}</td></tr>
-			{%endfor%}
-			</table>
-			
-
-			<div id="wraperMap">
-				
-				<div id="containerMap">
-					<object type="image/svg+xml" data="svg/world.svg">
-					   <img src="svg/world.svg" alt="Browser fail" />
-					</object>
-				</div>
-				
-				<div id="containerButton">
-					<input class="button" type = "button" id = "btnAttack" class="button" value = "Attack" />
-					<input class="button" type = "button" id = "btnMove" class="button" value = "Move" />
-					<input class="button" type = "button" id = "btnNext" class="button" value = "Next Player" />
-				</div>
-			
-			</div>
-
+		<div class="actionWrapper u-flex-row">
+			<button>Change</button>
+			<button>Reforce</button>
+			<button>Attack</button>
+			<button>Move</button>
 		</div>
-
-
-	</body>
+	</div>
+</body>
 </html>

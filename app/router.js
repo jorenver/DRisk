@@ -25,7 +25,6 @@ router.post('/setMap',chooseMapController.setMap);
 
 router.get('/publicMatch',publicMatchController.publicMatch);
 
-
 //Join 
 router.post('/joinMatch', joinMatchController.joinMatch);
 router.get('/getMatches', joinMatchController.getMatches);
@@ -40,4 +39,4 @@ router.get('/customizeMap',customizeMapController.customizeMap);
 router.get('/startGame',startGameController.startGame);
 
 //Players
-//router.get('/players');
+router.get('/players',waitroomController.getPlayers);

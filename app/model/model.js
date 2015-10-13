@@ -25,13 +25,13 @@ var Matches={
 	}
 };
 var colors = [
-{string: "Red" , code: "#FF0000" }, 
-{string:"Green" , code:"#04B404"},
-{string:"Orange" , code: "#FF8000"},
-{string:"Blue" , code: "#0431B4"}, 
-{string:"Pink" , code:"#F5A9A9"}, 
-{string:"Yellow" , code: "#FFFF00"}, 
-{string:"Brown" , code:"#3B240B"}
+	{string: "Red" , code: "#FF0000" }, 
+	{string:"Green" , code:"#04B404"},
+	{string:"Orange" , code: "#FF8000"},
+	{string:"Blue" , code: "#0431B4"}, 
+	{string:"Pink" , code:"#F5A9A9"}, 
+	{string:"Yellow" , code: "#FFFF00"}, 
+	{string:"Brown" , code:"#3B240B"}
 ];
 
 var cont=3;
@@ -98,7 +98,57 @@ exports.setDataMatch = function(request,response){
 	}
 }
 
+exports.setMap = function(request,response){
+	console.log(request.body.mapChosen);
+	mapChosen=request.body.mapChosen;
+	var Map={
+		name:mapChosen,
+		graph:null,
+		svg:null
+	}
+	var match = Matches[request.session.idMatch];
+	if(match!=null){
+		match.map = Map;
+		var numPlayer = match.numPlayers;
+		var mode = match.mode;
+		response.render('publicMatch',{idMatch:request.session.idMatch,
+			numPlayer:numPlayer,
+			mode:mode,
+			nameMap:Map.name});
+	}
+}
 
+exports.publicMatch = function(request,response){
+	//manejar sesion aqui
+	if(request.session.idMatch){
+		var match = Matches[request.session.idMatch];
+		if(match){
+			var numPlayer = match.numPlayers;
+			var mode = match.mode;
+			var map = match.map.name;
+			if(match.stateMatch == 'pending'){
+				match.stateMatch = 'published';	
+				var player={
+					nick: request.session.nick,
+					idTerritory: null,
+					cards: [],
+					numSoldier: 0,
+					color:colors[match.listPlayer.length]
+				};
+				match.listPlayer.push(player);
+				response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer: numPlayer,
+													mode: mode , nameMap: map
+												  });
+			}else{
+				response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer: numPlayer,
+													mode: mode , nameMap: map
+												  });
+			}
+		}
+	}else{
+		response.render('index',{error:'no'});
+	}
+}
 
 exports.getPublishedMatches = function(request, response, page){
 	var list = [];
@@ -128,18 +178,15 @@ exports.getPublishedMatches = function(request, response, page){
 }
 
 exports.joinPlayer = function(idMatch, nickPlayer){
-
 	var players = Matches[idMatch].listPlayer;
-	
 	for (var i=0; i< players.length; i++){
 		if(players[i].nick == nickPlayer ){
 			return; //error
 		}
 	}
-
-	Matches[idMatch].listPlayer.push({nick: nickPlayer});
+	var currentIndex = Matches[idMatch].listPlayer.length;
+	Matches[idMatch].listPlayer.push({nick: nickPlayer , color:colors[currentIndex]});
 	console.log(Matches[idMatch]);
-
 }
 
 exports.printMatch= function(idMatch){
@@ -165,51 +212,6 @@ function loadGraph(filename){
 		graph.setEdge(edges[i].U, edges[i].V);
 	}
 	return libGraph.json.write(graph);
-
-
-
 }
-
-exports.setMap = function(request,response){
-	console.log(request.body.mapChosen);
-	mapChosen=request.body.mapChosen;
-	var Map={
-		name:mapChosen,
-		graph:null,
-		svg:null
-	}
-	var match = Matches[request.session.idMatch];
-	if(match!=null){
-		match.map = Map;
-		var numPlayer = match.numPlayers;
-		var mode = match.mode;
-		response.render('publicMatch',{idMatch:request.session.idMatch,
-			numPlayer:numPlayer,
-			mode:mode,
-			nameMap:Map.name});
-	}
-}
-
-exports.publicMatch = function(request,response){
-	if(request.session.idMatch){
-		Matches[request.session.idMatch].stateMatch='published';
-		numPlayer=Matches[request.session.idMatch].numPlayers;
-		mode=Matches[request.session.idMatch].mode;
-		map=Matches[request.session.idMatch].map.name;
-		var player={
-			nick: request.session.nick,
-			idTerritory: null,
-			cards: [],
-			numSoldier: 0,
-			color:colors[0]
-		};
-		Matches[request.session.idMatch].listPlayer.push(player);
-		console.log(Matches[request.session.idMatch]);
-		response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,map:map,player:player});
-	}else{
-		response.render('index',{error:'no'});
-	}
-}
-
 
 exports.Matches= Matches;
