@@ -11,76 +11,62 @@ html,body{
 	height: 100%;
 }
 
-.matchWrapper,.matchesWrapper{
-	width: 100%;
-	height: 90%;
+body{
+	background-image: url("../img/background.jpg");
+  	background-size: cover;
+}
+
+.u-flex-column{
 	display: flex;
 	flex-direction:column;
-	align-items:center;
-	justify-content:center;
 }
-.infoMatch{
+
+.u-flex-row{
 	display: flex;
 	flex-direction:row;
+}
+
+.u-justify-center{
 	justify-content:center;
-	background-color: #e2e4e6;
+}
+
+.u-align-center{
+	align-items:center;
+}
+
+.u-justify-space-around{
+	justify-content: space-around;
+}
+
+.matchWrapper{
+	width: 100%;
+	height: 100%;
+}
+
+.matchNickNameWrapper,.matchParameterWrapper,.mapParameterWrapper{
+	background-color: rgba(226,228,230, 0.5);
 	padding: 10px 10px 0px 10px;
 	border-radius: 10px;
-	font-family: opcionUno;
-}
-
-.matchNickNameWrapper,.matchParameterWrapper, .matchesList{
-	display: flex;
-	flex-direction:column;
-	justify-content:center;
-	background-color: #e2e4e6;
-	padding: 10px 10px 0px 10px;
-	border-radius: 10px;
-}
-
-.matchTitle{
-	color: white;
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	background-color: #276188;
-	height: 5%;
-	font-family: opcionCinco;
-	padding: 5px 5px;
-}
-
-.matchParameterTitles{
-	display: flex;
-	flex-direction: column;
-	padding: 10px 10px 0px 10px;
-	align-items:center;
-	font-family: opcionUno;
-}
-
-h1{	
-	font-size: 26px;
 }
 
 .matchDescription{
 	font-family: opcionDos;
 }
 
+.matchLabel{
+	font-family: opcionUno;
+}
+
 .matchInputs{
-	display: flex;
-	flex-direction:column;
-	align-items:center;
-	justify-content:center;
 	margin: 10px 5px;
 }
 
 .matchInputsButton{
-	display: flex;
-	flex-direction:row;
 	margin: 10px;
 }
 
 .button{
-	background-color: #276188;
+	background-color: #000096;
 	border-radius: 8px;
 	color: white;
 	font-family: opcionUno;
@@ -88,11 +74,12 @@ h1{
 	margin: 5px 5px;
 	padding: 5px 5px;
 	cursor: pointer;
+	transition: all 0.6s ease;
 }
 
 .button:hover{
-	background-color: #000096;
-
+	background-color: rgb(44,247,244);
+	color: black;
 }
 
 .input{
@@ -101,8 +88,22 @@ h1{
 	font-family: opcionUno;
 }
 
-.matchLabel{
+img{
+	background-size: cover;
+}
 
+
+
+/*Create match*/
+
+.matchParameterTitles{
+	padding: 10px 10px 0px 10px;
+	font-family: opcionUno;
+}
+
+.match-Options{
+	font-family: opcionUno;
+	margin: 5px 5px;
 }
 
 .match-Modes,.match-NumPlayer{
@@ -111,13 +112,8 @@ h1{
 	margin: 10px 5px;
 }
 
-.match-Options{
-	display: flex;
-	flex-direction:column;
-	font-family: opcionUno;
-	margin: 5px 5px;
-}
-
 select,input{
 	font-family: opcionUno;
 }
+
+/**/

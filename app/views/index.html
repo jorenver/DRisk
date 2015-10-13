@@ -43,14 +43,9 @@
 		</script>
 	</head>
 	<body>
-		<div class="matchTitle">
-			<h1 >DRISK</h1>
-		</div>
-		<div class = "matchWrapper">
-			<div>
-				<img src="">
-			</div>
-			<div class="matchNickNameWrapper">
+		<div class = "matchWrapper u-flex-column u-align-center u-justify-center">
+			<div class="matchNickNameWrapper  u-flex-column u-align-center">
+				<img src="img/risk_logo.png" height="75px" width="auto">
 				<div class="matchDescription">
 					<section>
 						<article>
@@ -58,12 +53,12 @@
 						</article>
 					</section>
 				</div>
-				<div class="matchInputs">
+				<div class="matchInputs u-flex-column u-align-center u-justify-center">
 					<form id="NickForm" method="post">
 						<input form="NickForm" class="input" id = "inputNick" name = "nick" type="text" 
 						placeholder="Insert your nickname" pattern="[A-Za-z]{6,20}" required>
 					</form>
-					<div class = "matchInputsButton">
+					<div class = "matchInputsButton u-flex-row">
 						<input id = "btnCreate" class="button" name="createMatch" 
 						type="button" value="Create Match" >
 						<input id = "btnJoin" class="button" name="joinMatch" type="button" value="Join Match">

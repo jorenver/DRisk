@@ -30,3 +30,7 @@ function previousPage(event){
 	console.log("aqui!");
 	//window.location.href = "/createMatch";
 }
+
+function customizeMap(event){
+	window.location.href = "/customizeMap";
+}

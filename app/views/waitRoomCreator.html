@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DRISK</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,maximum-scale=1,minimum-scale=1">
+		<meta name="description" content="List of games">
+		<meta name="keywords" content="RISK, waitroom, SCORE-2016">
+		<link rel="stylesheet" type="text/css" href="css/match.css">
+		<link rel="stylesheet" type="text/css" href="css/waitRoom.css">
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
+		<script type="text/javascript" src="js/waitRoomCreator.js" ></script>
+		<script>
+			var idMatch = {{idMatch}};
+		</script>
+	</head>
+	<body>
+		<div class = "matchWrapper u-flex-column u-align-center u-justify-center">
+			<div class="matchInfoWrapper">
+				<div id = "players" class = "">
+					<table id = "tablePlayers" style="width:100%">
+					  <tr>
+					 	<td>nick</td>
+					  	<td>Color</td>
+					  </tr>
+					   <tr>
+					  	<td>{{player.nick}}</td>
+					  	<td>{{player.color}}</td>
+					  </tr>
+					</table>
+				</div>
+				<div class="matchInputsButton u-flex-row u-justify-center">
+					<input id = "btnPrev" type = "button" value = "Previous" class = "button"/>
+					<input id = "btnPublic" type = "button" value = "Start" class = "button" onclick="startGame();" />
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

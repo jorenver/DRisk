@@ -57,17 +57,21 @@ function processingPlayers(event){
 }
 
 function getPlayers(idGame){
+	/*
 	var request = new XMLHttpRequest();
 	var url="/players?idGame=" + idGame;
 	request.open("GET",url,true);
 	request.addEventListener('load',processingPlayers ,false);
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
-	request.send(null);
+	request.send(null);*/
 }
 
 function initialize(event){
-	getPlayers(idGame);
+	getPlayers(idMatch);
 }
 
+function startGame(event){
+	window.location.href = "/startGame";
+}
 
 window.addEventListener('load',initialize,false);

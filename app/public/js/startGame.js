@@ -69,5 +69,4 @@ function initialize(event){
 	getPlayers(idGame);
 }
 
-
 window.addEventListener('load',initialize,false);

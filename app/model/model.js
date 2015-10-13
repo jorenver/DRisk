@@ -60,7 +60,7 @@ exports.createMatch = function(request,response){
 		var Match={
 			"idMatch": cont,
 			"nickCreator": nick,
-			"numPlayer": 0,
+			"numPlayers": 0,
 			"mode":"",
 			"map": null,
 			"listPlayer": [],
@@ -91,7 +91,7 @@ exports.setDataMatch = function(request,response){
 
 	Match = Matches[idMatch];
 	if(Match!=null){
-		Match.numPlayer = numPlayer;
+		Match.numPlayers = numPlayer;
 		Match.mode = gameMode;
 		console.log(Matches);
 		response.render('chooseMap',{ nick:nick, mode:gameMode });
@@ -114,7 +114,7 @@ exports.getPublishedMatches = function(request, response, page){
 				"nickName": match.nickCreator,
 				"gameMode": match.mode,
 				"players": match.listPlayer.length,
-				"totalPlayers": match.numPlayer
+				"totalPlayers": match.numPlayers
 			};
 			list.push(m);
 
@@ -181,9 +181,8 @@ exports.setMap = function(request,response){
 	var match = Matches[request.session.idMatch];
 	if(match!=null){
 		match.map = Map;
-		numPlayer=match.numPlayer;
-		mode=match.mode;
-		console.log(match);
+		var numPlayer = match.numPlayers;
+		var mode = match.mode;
 		response.render('publicMatch',{idMatch:request.session.idMatch,
 			numPlayer:numPlayer,
 			mode:mode,
@@ -192,25 +191,21 @@ exports.setMap = function(request,response){
 }
 
 exports.publicMatch = function(request,response){
-	console.log('*****************************');
-	console.log(request.session.idMatch);
 	if(request.session.idMatch){
 		Matches[request.session.idMatch].stateMatch='published';
-		console.log(Matches[request.session.idMatch]);
-		numPlayer=Matches[request.session.idMatch].numPlayer;
+		numPlayer=Matches[request.session.idMatch].numPlayers;
 		mode=Matches[request.session.idMatch].mode;
 		map=Matches[request.session.idMatch].map.name;
 		var player={
-			nick:request.session.nick,
-			idTerritory:null,
-			cards:[],
-			numSoldier:0,
+			nick: request.session.nick,
+			idTerritory: null,
+			cards: [],
+			numSoldier: 0,
 			color:colors[0]
 		};
 		Matches[request.session.idMatch].listPlayer.push(player);
 		console.log(Matches[request.session.idMatch]);
-		response.render('waitRoonCreator',{idMatch:request.session.idMatch,numPlayer:numPlayer,mode:mode,map:map,player:player});
-
+		response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,map:map,player:player});
 	}else{
 		response.render('index',{error:'no'});
 	}

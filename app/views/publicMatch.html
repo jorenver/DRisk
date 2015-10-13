@@ -8,31 +8,30 @@
 		<meta name="keywords" content="RISK, waitroom, SCORE-2016">
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="js/publicMatch.js" ></script>
-		<link rel="stylesheet" href="css/tabla.css">
+		<link rel="stylesheet" type="text/css" href="css/match.css">
+		<link rel="stylesheet" type="text/css" href="css/publicMatch.css">
+		<script>
+			var idMatch = {{idMatch}};
+		</script>
 	</head>
 	<body>
-		<script>
-		var idMatch = {{idMatch}};
-		</script>
-		<div id = "wraper">
-			<h1 >DRISK</h1>
-			
-			<div id = "info-game">
-				<h3 id= "numPlayers"> Max Player: {{numPlayer}}</h3>
-				<h3 id= "gameMode"> Game Mode: {{mode}}</h3>
-				<h3 id= "map"> Mapa: {{nameMap}}</h3>
-				<div id="map" >
-					<img src = "images/map1.jpg" width = "500px" heigh = "200px">
-
-					</img>
+		<div class = "matchWrapper u-flex-column u-align-center u-justify-center">
+			<div class="matchInfoWrapper">
+				<div class = "u-flex-column u-align-center u-justify-center">
+					<div class="matchInfo u-flex-row u-justify-space-around">
+						<label class="matchLabel"> Max Player: {{numPlayer}}</label>
+						<label class="matchLabel"> Game Mode: {{mode}}</label>
+					</div>
+					<label class="matchLabel"> Mapa: {{nameMap}}</label>
+					<div class="mapInfo u-flex-column u-align-center u-justify-center" >
+						<img src = "img/map.jpg" width = "700px" heigh = "500px">
+					</div>
 				</div>
-
+				<div class="matchInputsButton u-flex-row u-justify-center">
+					<input id = "btnPrev" type = "button" value = "Previous" class = "button"/>
+					<input id = "btnPublic" type = "button" value = "Public" class = "button"/>
+				</div>
 			</div>
-			</div>
-			<div>
-				<input id = "btnPrev" type = "button" value = "Previous" class = "Button"/>
-				<input id = "btnPublic" type = "button" value = "Public" class = "Button"/>
-			</div>
-
+		</div>
 	</body>
 </html>
