@@ -9,19 +9,14 @@ exports.createServerSocket = function(io,sessionMiddleware){
     });
     
     io.on('connection', function(player) {  
-        var session=player.request.session;
-        if(session.player){
+        var session= player.request.session;
+        if(session.nick){
         	clients[session.player] = session.player;
         	player.on("chooseGame", function(data){
-        		if(data.idPlayer == session.player){ 
-        			model.joinPlayer(data.idMatch, data.idPlayer);
-					model.printMatch(data.idMatch);
-					player.emit("getWaitRoom", {"idMatch": data.idMatch, "sucess": true} );
-        		}
-        		else{
-        			player.emit("getWaitRoom", {"idMatch": data.idMatch, "sucess": false, 
-        				"idPlayer": session.player} );
-        		}
+			model.joinPlayer(data.idMatch, session.player);
+            session.idMatch = data.idMatch;
+			model.printMatch(data.idMatch);
+			player.emit("getWaitRoom" );
         	});
         }
     }); 

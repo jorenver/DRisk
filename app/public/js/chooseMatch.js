@@ -144,7 +144,7 @@ function joinMatch(event){
 		return;
 	}
 	
-	socket.emit("chooseGame", {idMatch: id_match, idPlayer: name });
+	socket.emit("chooseGame", {idMatch: id_match});
 }
 
 function getMatches(){
@@ -161,13 +161,7 @@ function connectSocketChooseMap(){
 
 	socket.on('getWaitRoom',function(data){
  		
- 		if(data.sucess){
- 			window.location.href = "/waitroom?id_match="+ data.idMatch;	
- 		}
- 		else{
- 			alert("Error: you are logged with " + data.idPlayer);
- 			window.location.href = "/joinMatch?nick="+ data.idPlayer;	
- 		}
+ 		window.location.href = "/waitroom";	
  		
   	});
 

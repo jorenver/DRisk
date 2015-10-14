@@ -3,11 +3,9 @@ var model = require('../model/model');
 var Matches = model.Matches;
 
 exports.waitroom = function(request,response){
-	var id_match= request.query.id_match;
-	if(!request.session.player){
-		request.session.player = nick;
-	}
-	response.render('waitroom',{idMatch:id_match });
+	var id_match = request.session.idMatch;
+	var nick = request.session.nick;
+	response.render('waitroom',{idMatch:id_match, nick: nick });
 }
 
 exports.getMatchData = function(request, response){

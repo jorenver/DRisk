@@ -13,6 +13,12 @@ function processingMatch(event){
 	console.log("strMap",strMap);
 	var map = new graphlib.json.read(strMap);
 	console.log(map.nodes());
+
+	var stage = new selectTerritory();
+
+	stage.doUpdateMap({nick: "eloy" , idTerritory:"Cuba" , graph: map});
+	console.log("nodo", map.node("Cuba"))
+
 	/*
 	var table = document.getElementById("tablePlayers");
   	table.innerHTML = "";
