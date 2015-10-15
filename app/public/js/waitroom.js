@@ -8,7 +8,7 @@ var socket;
 function processingMatch(event){
 	var respond = JSON.parse(event.target.responseText);
 	var match = respond.match;
-	//console.log(match);
+	console.log(match);
 	var strMap = match.map;
 	console.log("strMap",strMap);
 	var map = new graphlib.json.read(strMap);
@@ -69,6 +69,7 @@ function processingMatch(event){
 function getMatch(idGame){
 	var request = new XMLHttpRequest();
 	var url="/getMatchData?id_match=" + idMatch;
+	console.log(url);
 	request.open("POST",url,true);
 	request.addEventListener('load',processingMatch ,false);
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");

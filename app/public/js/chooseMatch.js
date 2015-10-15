@@ -143,7 +143,7 @@ function joinMatch(event){
 		alert("Select one match from the list");
 		return;
 	}
-	
+
 	socket.emit("chooseGame", {idMatch: id_match});
 }
 
@@ -160,8 +160,8 @@ function connectSocketChooseMap(){
 	socket = io.connect();
 
 	socket.on('getWaitRoom',function(data){
- 		
- 		window.location.href = "/waitroom";	
+ 		var idMatch = data.idMatch;
+ 		window.location.href = "/waitroom?id_match="+ idMatch;	
  		
   	});
 

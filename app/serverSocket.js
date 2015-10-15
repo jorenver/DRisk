@@ -12,11 +12,13 @@ exports.createServerSocket = function(io,sessionMiddleware){
         var session= player.request.session;
         if(session.nick){
         	clients[session.player] = session.player;
-        	player.on("chooseGame", function(data){
-			model.joinPlayer(data.idMatch, session.player);
-            session.idMatch = data.idMatch;
-			model.printMatch(data.idMatch);
-			player.emit("getWaitRoom" );
+        	
+            player.on("chooseGame", function(data){
+    			
+                model.joinPlayer(data.idMatch, session.nick);
+                console.log("variable de session",session.idMatch);
+    			model.printMatch(data.idMatch);
+    			player.emit("getWaitRoom", {idMatch: data.idMatch} );
         	});
         }
     }); 
