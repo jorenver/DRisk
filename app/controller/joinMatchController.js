@@ -2,8 +2,8 @@ var model = require('../model/model');
 
 exports.joinMatch = function(request,response){
 	var nick= request.body.nick;
-	if(!request.session.player){
-		request.session.player = nick;
+	if(!request.session.nick){
+		request.session.nick = nick;
 	}
 	response.render('chooseMatch',{nick:nick});
 }

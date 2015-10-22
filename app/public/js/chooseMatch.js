@@ -143,8 +143,8 @@ function joinMatch(event){
 		alert("Select one match from the list");
 		return;
 	}
-	
-	socket.emit("chooseGame", {idMatch: id_match, idPlayer: name });
+
+	socket.emit("chooseGame", {idMatch: id_match});
 }
 
 function getMatches(){
@@ -160,14 +160,8 @@ function connectSocketChooseMap(){
 	socket = io.connect();
 
 	socket.on('getWaitRoom',function(data){
- 		
- 		if(data.sucess){
- 			window.location.href = "/waitroom?id_match="+ data.idMatch;	
- 		}
- 		else{
- 			alert("Error: you are logged with " + data.idPlayer);
- 			window.location.href = "/joinMatch?nick="+ data.idPlayer;	
- 		}
+ 		var idMatch = data.idMatch;
+ 		window.location.href = "/waitroom?id_match="+ idMatch;	
  		
   	});
 
@@ -185,6 +179,7 @@ function initialize(event){
 	connectSocketChooseMap();
 	back.addEventListener("click", prevPage);
 	next.addEventListener("click", nextPage);
+	socket.emit('addPlayerChoose');
 
 }
 
