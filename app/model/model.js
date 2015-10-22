@@ -213,5 +213,30 @@ function loadGraph(filename){
 	}
 	return libGraph.json.write(graph);
 }
+exports.publicMatch = function(idMatch,nick,io){
+	console.log('se published');
+	Matches[idMatch].stateMatch='published';
+	numPlayer=Matches[idMatch].numPlayers;
+	mode=Matches[idMatch].mode;
+	var player={
+		nick: nick,
+		idTerritory: null,
+		cards: [],
+		numSoldier: 0,
+		color:colors[0]
+	};
+	Matches[idMatch].listPlayer.push(player);
+	console.log(Matches[idMatch]);
+	//response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,map:map,player:player});
+	io.emit('goWaitRoomCreator');
+}
 
+
+exports.goWaitRoom = function(request,response){
+	numPlayer=Matches[request.session.idMatch].numPlayers;
+	mode=Matches[request.session.idMatch].mode;
+	map=Matches[request.session.idMatch].map.name;
+	response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,map:map,player:player});
+
+}
 exports.Matches= Matches;

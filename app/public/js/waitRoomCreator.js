@@ -2,7 +2,7 @@ var colors = [
 {string: "Red" , code: "#FF0000" }, {string:"Green" , code:"#04B404"},{string:"Orange" , code: "#FF8000"},
 {string:"Blue" , code: "#0431B4"}, {string:"Pink" , code:"#F5A9A9"}, {string:"Yellow" , code: "#FFFF00"}, {string:"Brown" , code:"#3B240B"}
 ];
-
+var socket;
 
 function insertHeaders(table,headers){
 	var array = [ { 'attribute' : 'class', 'value': 'row-table' } ];
@@ -76,10 +76,17 @@ function getPlayers(idGame){
 
 function initialize(event){
 	getPlayers(idMatch);
+	socketConnect();
 }
 
-function startGame(event){
-	window.location.href = "/startGame";
+function socketConnect(){
+	socket = io.connect();
+
+	//recive the order to start game
+	socket.on("playerStart", function(){
+		window.location.href = "/game?idMatch="+idMatch;
+	});
+
 }
 
 window.addEventListener('load',initialize,false);

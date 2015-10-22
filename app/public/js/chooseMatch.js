@@ -179,6 +179,7 @@ function initialize(event){
 	connectSocketChooseMap();
 	back.addEventListener("click", prevPage);
 	next.addEventListener("click", nextPage);
+	socket.emit('addPlayerChoose');
 
 }
 

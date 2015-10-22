@@ -89,6 +89,7 @@ function socketConnect(){
 function initialize(event){
 	getMatch(idMatch);
 	socketConnect();
+	socket.emit('removePlayerChoose');
 
 }
 
