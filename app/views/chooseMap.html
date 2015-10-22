@@ -15,7 +15,16 @@
 		<div class="mapParameterWrapper u-flex-column u-justify-center u-align-center" style="width:50%;">
 			<div class="mapInfoUser u-flex-column u-align-center">
 				<h1 class="mapTitle">Match of {{nick}}</h1>
-				<h1 class="mapTitle">Mode of {{mode}}</h1>
+				{% if mode == 'World Domination' %}
+					<img src="img/globe.png">
+  				{% endif %}
+  				{% if mode == 'Secret Mission' %}
+					<img src="img/secret.png">
+  				{% endif %}
+  				{% if mode == 'Capital' %}
+					<img src="img/capital.png">
+  				{% endif %}
+				<h1 class="mapTitle">{{mode}}</h1>
 			</div>
 			<div class="u-flex-column u-justify-center u-align-center " style="width: 60%;">
 					<div class="mapInputs flex-row">
@@ -34,7 +43,6 @@
 						</div>
 						<img class="mapImages" name="listaImagenes" src="/img/ecuador.png" width="350px" height="250px" />
 					</div>
-				
 			</div>
 			<div class="mapInputStart">
 				<form id="optionsMap" name="optionsMap" method="post" action="/setMap">
