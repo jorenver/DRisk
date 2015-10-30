@@ -6,6 +6,7 @@ var indexController = require('./controller/indexController');
 var createMatchController = require('./controller/createMatchController');
 var joinMatchController = require('./controller/joinMatchController');
 var waitroomController = require('./controller/waitroomController');
+var waitRoomCreatorController = require('./controller/waitRoomCreatorController');
 var chooseMapController = require('./controller/chooseMapController');
 var publicMatchController = require('./controller/publicMatchController');
 
@@ -40,3 +41,6 @@ router.get('/startGame',startGameController.startGame);
 
 //Players
 router.get('/players',waitroomController.getPlayers);
+
+//waitroom players creator
+router.get('/waitRoomCreator', waitRoomCreatorController.waitRoomCreator);

@@ -117,7 +117,7 @@ exports.setMap = function(request,response){
 			nameMap:Map.name});
 	}
 }
-
+/*
 exports.publicMatch = function(request,response){
 	//manejar sesion aqui
 	if(request.session.idMatch){
@@ -149,6 +149,7 @@ exports.publicMatch = function(request,response){
 		response.render('index',{error:'no'});
 	}
 }
+*/
 
 exports.getPublishedMatches = function(request, response, page){
 	var list = [];
