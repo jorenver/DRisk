@@ -12,7 +12,8 @@
 		<script type="text/javascript" src="js/selectTerritory.js" ></script>
 		<script type="text/javascript" src="js/waitroom.js" ></script>
 		<link rel="stylesheet" type="text/css" href="/css/match.css">
-		<!--<link rel="stylesheet" type="text/css" href="css/table.css">-->
+		<link rel="stylesheet" type="text/css" href="css/publicMatch.css">
+		<link rel="stylesheet" type="text/css" href="css/waitRoom.css">
 		<style type="text/css">
 			h1{
 				font-family: opcionUno;
@@ -21,28 +22,31 @@
 	</head>
 	<body>
 		<script>
-		var idMatch = "{{idMatch}}";
+			var idMatch = "{{idMatch}}";
 		</script>
-		<div class="matchTitle">
-			<h1 >DRISK</h1>
-		</div>
-		<div id = "wraper" class="matchWrapper">
-			<h1 >Please, Wait until the game begins</h1></br>
-			<div class="infoMatch">
-				<div id = "info-game">
-					<h3 id= "numPlayers"> </h3>
-					<h3 id= "gameMode"> </h3>
-					<div id="map" >
-						<img src = "images/map1.jpg" width = "500px" heigh = "200px">
-
-						</img>
+		<div class = "matchWrapper u-flex-row u-justify-center u-align-center">
+			<div class="matchInfoWrapper">
+				<div class = "u-flex-column u-align-center u-justify-center">
+					<div class="matchInfo u-flex-row u-justify-space-around">
+						<label class="matchLabel"> Max Player: {{numPlayer}}</label>
+						<label class="matchLabel"> Game Mode: {{mode}}</label>
 					</div>
+					<label class="matchLabel"> Mapa: {{nameMap}}</label>
+					<div class="mapInfo u-flex-column u-align-center u-justify-center" >
+						<img src = "img/map.jpg" width = "450px" height = "300px">
+					</div>
+					<h1 >Please, Wait until the game begins</h1>
 				</div>
-				<div id = "players" class = "CSSTableGenerator">
-					<table id = "tablePlayers" style="width:100%">
-					  
+			</div>
+			<div class="matchInfoWrapper">
+				<div class="playerTitle u-flex-row u-justify-center">
+					<label >Players</label>
+				</div>
+				<div id = "players" class = "tablePlayerWrapper">
+					<table id = "tablePlayers" class="tablePlayer u-flex-column u-align-center">
 					</table>
 				</div>
 			</div>
+		</div>
 	</body>
 </html>

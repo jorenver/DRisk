@@ -43,7 +43,7 @@ body{
 	height: 100%;
 }
 
-.matchNickNameWrapper,.matchParameterWrapper,.mapParameterWrapper{
+.matchNickNameWrapper,.matchParameterWrapper,.mapParameterWrapper,.matchesList{
 	background-color: rgba(226,228,230, 0.5);
 	padding: 10px 10px 0px 10px;
 	border-radius: 10px;
@@ -117,3 +117,23 @@ select,input{
 }
 
 /**/
+
+.row-table-header{
+	font-family: opcionUno;
+	margin: 10px 10px;
+}
+
+.row-table-header td{
+	font-size: 24px;
+	margin: 10px;
+}
+
+.row-table{
+	font-family: opcionUno;
+	margin: 10px 10px;
+}
+
+.tableWrapper{
+	padding: 10px;
+	margin: 10px;
+}

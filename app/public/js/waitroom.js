@@ -62,8 +62,6 @@ function processingMatch(event){
 
   	numPlayers.innerHTML = "Number of players: " + players.length;
   	gameMode.innerHTML = "Mode: " + dataGame.mode;*/
-
-
 }
 
 function getMatch(idGame){
@@ -78,10 +76,8 @@ function getMatch(idGame){
 
 function socketConnect(){
 	socket = io.connect();
-
-	//recive the order to start game
-	socket.on("playerStart", function(){
-		window.location.href = "/game?idMatch="+idMatch;
+	socket.on("playerStart", function(){ //recive the order to start game
+		window.location.href = "/starGame?idMatch="+idMatch;
 	});
 
 }
@@ -90,7 +86,6 @@ function initialize(event){
 	getMatch(idMatch);
 	socketConnect();
 	socket.emit('removePlayerChoose');
-
 }
 
 

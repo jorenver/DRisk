@@ -9,32 +9,28 @@
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 		<script src="../socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="js/chooseMatch.js" ></script>
-		<link rel="stylesheet" type="text/css" href="css/list.css">
 		<link rel="stylesheet" type="text/css" href="/css/match.css">
 	<script>
 		var name = "{{nick}}";
 	</script>
 	</head>
 	<body>
-		<div class="matchTitle">
-			<h1 >DRISK</h1>
-		</div>
-		<div class="matchWrapper">
+		<div class = "matchWrapper u-flex-column u-justify-center u-align-center">
 			<div id = "wraper" class="matchesList">
-				<h1 >{{nick}}, choose a match</h1></br>
-				<div id = "list">
-					<table id = "table" style="width:100%" class = "CSSTableGenerator">
+				<div class="matchParameterTitles u-flex-column u-align-center">
+					<h1>{{nick}}, choose a match</h1>
+				</div>
+				<div id = "list" class="tableWrapper">
+					<table id = "table" style="width:100%">
 
 
 					</table>
 				</div>
-			</br>
-			</br>
-				<div class = "tableButtons">
+				<div class="matchInputs u-flex-row u-align-center u-justify-center">
 					<input type = "button" id = "back" class="button" value = "<"/>
 					<input type = "button" id = "next" class="button" value = ">" />
 				</div>
-				<div class="matchButtons">
+				<div class="matchInputs u-flex-row u-align-center u-justify-center">
 					<input type = "button" id = "btnJoin" class="button" value = "Join" />
 					<input type = "button" id = "btnBack" class="button" value = "Back"/>
 				</div>

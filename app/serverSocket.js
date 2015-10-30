@@ -13,20 +13,11 @@ exports.createServerSocket = function(io,sessionMiddleware){
         var session= player.request.session;
         if(session.nick && session.idMatch==null){
         	clients[session.player] = session.player;
-        	
-            player.on("chooseGame", function(data){
-    			
-                model.joinPlayer(data.idMatch, session.nick);
-                console.log("variable de session",session.idMatch);
-    			model.printMatch(data.idMatch);
-    			player.emit("getWaitRoom", {idMatch: data.idMatch} );
-        	});
-
+    
              player.on("addPlayerChoose", function(data){
                 console.log('se agrega');
                 clientsChoose[session.nick]=player;
                 console.log(clientsChoose);
-                
             });
 
             player.on("removePlayerChoose", function(data){
@@ -40,7 +31,14 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 console.log('se va a publicar 2');
                 idMatch=session.idMatch;
                 nick=session.nick;
-                model.publicMatch(idMatch,nick,io);  
+                model.emitPublicMatch(idMatch,nick,io);  
+            });
+
+            player.on("chooseGame", function(data){
+                model.joinPlayer(data.idMatch, session.nick);
+                console.log("variable de session",session.idMatch);
+                model.printMatch(data.idMatch);
+                player.emit("getWaitRoom", {idMatch: data.idMatch} );
             });
         }
     }); 
