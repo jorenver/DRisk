@@ -17,8 +17,9 @@ exports.createServerSocket = function(io,sessionMiddleware){
             player.on("chooseGame", function(data){
     			
                 model.joinPlayer(data.idMatch, session.nick);
+                session.idMatch=data.idMatch;
                 console.log("variable de session",session.idMatch);
-    			model.printMatch(data.idMatch);
+    			//model.printMatch(data.idMatch);
     			player.emit("getWaitRoom", {idMatch: data.idMatch} );
                 //notificar a los clientes que se encuentran en la partida de la persona que se unio
                 //incrementar el contador de la partida en chooseGame
@@ -47,13 +48,6 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 clients[idMatch].push(io);
                 //model.publicMatch(idMatch,nick,io);  
                 model.emitPublicMatch(idMatch,nick,io);  
-            });
-
-            player.on("chooseGame", function(data){
-                model.joinPlayer(data.idMatch, session.nick);
-                console.log("variable de session",session.idMatch);
-                model.printMatch(data.idMatch);
-                player.emit("getWaitRoom", {idMatch: data.idMatch} );
             });
 
             player.on("startGame", function(data){

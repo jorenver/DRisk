@@ -123,7 +123,7 @@ exports.setDataMatch = function(request,response){
 	if(Match!=null){
 		Match.numPlayers = numPlayer;
 		Match.mode = gameMode;
-		console.log(Matches);
+		//console.log(Matches);
 		response.render('chooseMap',{ nick:nick, mode:gameMode });
 	}
 }
@@ -218,7 +218,7 @@ exports.joinPlayer = function(idMatch, nickPlayer){
 		color:colors[currentIndex]
 	};
 	Matches[idMatch].listPlayer.push(player);
-	console.log(Matches[idMatch]);
+	//console.log(Matches[idMatch]);
 }
 
 exports.printMatch= function(idMatch){
