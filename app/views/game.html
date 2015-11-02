@@ -1,23 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="game.css">
+	<link rel="stylesheet" type="text/css" href="css/game.css">
+	<link rel="stylesheet" type="text/css" href="css/match.css">
 	<title></title>
 </head>
 <body>
-	<div class="gameWrapper u-flex-column">
-		<div class="barWrapper u-flex-row">
-			<span>Bar</span>
+	<div class="gameWrapper u-flex-column u-align-center">
+		<div class="barWrapper u-flex-row u-justify-space-around">
+			<div class="barOption">
+				<span>Carta</span>
+			</div>
+			<div class="barOption">
+				<span>Soldados</span>
+			</div>
 		</div>
-		<div class="playersWrapper ">
-			<div id="listPlayers" class="players"></div>
-			<span>Players</span>
+		<div class="u-flex-row">
+			<!--<div class="playersWrapper ">
+				<div id="listPlayers" class="players"></div>
+				<span>Players</span>
+			</div>-->
+			<div class="boardWrapper u-flex-row u-justify-center u-align-center">
+				<table>
+					<tr id="row-1">
+						<td class="tile">11</td>
+						<td class="tile">12</td>
+						<td class="tile">13</td>
+						<td class="tile">14</td>
+					</tr>
+					<tr id="row-2">
+						<td class="tile">21</td>
+						<td class="tile">22</td>
+						<td class="tile">23</td>
+						<td class="tile">24</td>
+					</tr>
+					<tr id="row-3">
+						<td class="tile">31</td>
+						<td class="tile">32</td>
+						<td class="tile">33</td>
+						<td class="tile">34</td>
+					</tr>
+					<tr id="row-4">
+						<td class="tile">41</td>
+						<td class="tile">42</td>
+						<td class="tile">43</td>
+						<td class="tile">44</td>
+					</tr>
+				</table>
+			</div>
 		</div>
-		<div class="actionWrapper u-flex-row">
-			<button>Change</button>
-			<button>Reforce</button>
-			<button>Attack</button>
-			<button>Move</button>
+		<div class="actionWrapper u-flex-row u-justify-center">
+			<input type="button" class="button" value="Change" style="width:70px;">
+			<input type="button" class="button" value="Reforce" style="width:70px;">
+			<input type="button" class="button" value="Attack" style="width:70px;">
+			<input type="button" class="button" value="Move" style="width:70px;">
 		</div>
 	</div>
 </body>

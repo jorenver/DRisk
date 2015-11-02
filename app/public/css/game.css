@@ -10,80 +10,37 @@ html,body{
 	background-color:#484f57; 
 	height: 100%;
 }
-#gameMode{
-	color: white;
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	height: 5%;
-	font-family: opcionCinco;
-	padding: 5px 5px;
-}
 
-
-#wraper{
-	display: flex;
-	flex-direction: row;
-	align-items:center;
-
-}
-
-object {
-	height: 650px;
-	width: 1000px;
-}
-
-
-#playerList{
-	width: 10%;
-	background-color: #276188;
-}
-
-#map{
-	height: 100%;
+.gameWrapper{
 	width: 100%;
-
+	height: 100%;
 }
 
-#containerMap{
-    padding: 15px;
-    margin-left: 40px;
-    background-color: #031134;
-}
-
-.player{
-	font-family: opcionCinco;
-	color: white;
-	padding: 20px;
-	
-}
-
-
-
-.matchTitle{
-	color: white;
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	background-color: #276188;
-	height: 5%;
-	font-family: opcionCinco;
-	padding: 5px 5px;
-}
-
-.button{
-	background-color: #276188;
-	border-radius: 8px;
-	color: white;
+.barWrapper{
+	width: 100%;
+	margin: 10px;
 	font-family: opcionUno;
-	font-size: 16px;
-	margin: 5px 5px;
-	padding: 5px 5px;
-	cursor: pointer;
 }
 
-#containerButton{
-	display:flex;
-	justify-content:center;
-	align-items:center;
+.barOption{
+
+}
+
+.playersWrapper{
+	width: 5%;
+}
+
+.boardWrapper{
+	width: 100%;
+	background-color: white;
+}
+
+.actionWrapper{
+	margin: 20px;
+}
+
+.tile{
+	border: 2px solid black;
+	width: 100px;
+	height: 100px;
 }
