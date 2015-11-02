@@ -1,0 +1,13 @@
+{"Graph":{
+	"Nodes":["WesternAustralia","EasternAustralia","NewGuinea","Indonesia"],
+	"Edges":[{"U": "WesternAustralia", "V":  "Indonesia" },
+			 {"U": "WesternAustralia", "V":  "EasternAustralia" },
+			 {"U": "EasternAustralia", "V":  "WesternAustralia" },
+			 {"U": "EasternAustralia", "V":  "NewGuinea" },
+			 {"U": "NewGuinea", "V":  "WesternAustralia" },
+			 {"U": "NewGuinea", "V":  "EasternAustralia" },
+			 {"U": "NewGuinea", "V":  "Indonesia" },
+			 {"U": "Indonesia", "V":  "WesternAustralia" },
+			 {"U": "Indonesia", "V":  "NewGuinea" }]
+	}
+}

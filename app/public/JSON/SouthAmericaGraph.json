@@ -1,0 +1,14 @@
+{"Graph":{
+	"Nodes":["Argentina","Brazil","Peru","Venezuela"],
+	"Edges":[{"U": "Argentina", "V":  "Brazil" },
+			 {"U": "Argentina", "V":  "Peru" },
+			 {"U": "Brazil", "V":  "Argentina" },
+			 {"U": "Brazil", "V":  "Peru" },
+			 {"U": "Brazil", "V":  "Venezuela" },
+			 {"U": "Peru", "V":  "Argentina" },
+			 {"U": "Peru", "V":  "Brazil" },
+			 {"U": "Peru", "V":  "Venezuela" },
+			 {"U": "Venezuela", "V":  "Brazil" }, 
+			 {"U": "Venezuela", "V":  "Peru" }]
+	}
+}
