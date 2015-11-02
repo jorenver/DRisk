@@ -133,8 +133,9 @@ exports.setMap = function(request,response){
 	mapChosen=request.body.mapChosen;
 	var Map={
 		name:mapChosen,
-		graph:null,
-		svg:null
+		graph:loadGraph("../public/JSON/testMap.json"),//provicional
+		svg:null,
+		isStrGraph: true,
 	}
 	var match = Matches[request.session.idMatch];
 	if(match!=null){
@@ -226,7 +227,17 @@ exports.printMatch= function(idMatch){
 }
 
 exports.getMatch = function(idMatch){
+	
 	return Matches[idMatch];
+}
+
+exports.convertGraph = function(idMatch){
+	var match = Matches[idMatch];
+	console.log("match antes", match);
+	var strgraph = match.map.graph;
+	match.map.graph = libGraph.json.read(strgraph);
+	console.log("match", match);
+
 }
 
 function loadGraph(filename){
@@ -281,4 +292,4 @@ exports.waitroom = function(request,response){
 }
 
 
-exports.Matches= Matches;
+exports.Matches = Matches;

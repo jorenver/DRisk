@@ -1,5 +1,5 @@
 var model = require('./model/model.js');
-
+var stage = require('./stateMachineServer.js');
 
 exports.createServerSocket = function(io,sessionMiddleware){
     var clients={};
@@ -57,12 +57,42 @@ exports.createServerSocket = function(io,sessionMiddleware){
             });
 
             player.on("startGame", function(data){
-                model.Matches[session.idMatch].stateMatch='playing';
+                var currentMatch = model.Matches[session.idMatch];
+                currentMatch.stateMatch='playing';
+                var listPlayer = currentMatch.listPlayer;
+                suffle(listPlayer); //suffle the list of players
+                console.log("lista de jugadores", listPlayer);
+                var playerTurn = listPlayer.shift(); //dequeue
+                currentMatch.turn = playerTurn.nick; //set the first turn
+                listPlayer.push(playerTurn); //enqueue 
+                currentMatch.stage = new stage.selectTerritory();//set the stage select territory
                 players=clients[session.idMatch];
+
+
                 for(p in players){
                     players[p].emit('playerStart');
                 }
             });
+
+            player.on("doMove", function(args){
+                var currentMatch = model.Matches[session.idMatch];
+                currentMatch.stage.updateMap(null, null, null);
+            });
+
         }
     }); 
 }
+
+
+
+    function suffle(input){
+         
+        for (var i = input.length-1; i >=0; i--) {
+         
+            var randomIndex = Math.floor(Math.random()*(i+1)); 
+            var itemAtIndex = input[randomIndex]; 
+             
+            input[randomIndex] = input[i]; 
+            input[i] = itemAtIndex;
+        }
+    }

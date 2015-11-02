@@ -32,7 +32,7 @@ router.get('/getMatches', joinMatchController.getMatches);
 
 //waitroom players (not player creator)
 router.get('/waitroom', waitroomController.waitroom);
-router.post('/getMatchData', waitroomController.getMatchData);
+router.get('/getMatchData', waitroomController.getMatchData);
 
 //Map
 router.get('/customizeMap',customizeMapController.customizeMap);

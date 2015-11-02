@@ -3,10 +3,16 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="css/game.css">
 	<link rel="stylesheet" type="text/css" href="css/match.css">
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
+	<script type="text/javascript" src="js/graphlib.min.js" ></script>
+	<script src="../socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="js/raphael-min.js" ></script>
+	<script type="text/javascript" src="js/stateMachine.js" ></script>	
+	<script type="text/javascript" src="js/game.js" ></script>
 	<title></title>
 	<script>
 			var idMatch = {{idMatch}};
-			var nick= {{nick}}
+			var nick= "{{nick}}"; 
 	</script>
 </head>
 <body>
@@ -28,28 +34,19 @@
 			<div class="boardWrapper u-flex-row u-justify-center u-align-center">
 				<table>
 					<tr id="row-1">
-						<td class="tile">11</td>
-						<td class="tile">12</td>
-						<td class="tile">13</td>
-						<td class="tile">14</td>
+						<td class="tile" id = "Cuba" > Cuba null 0</td>
+						<td class="tile" id = "Brasil" >Brasil null 0</td>
+						<td class="tile" id = "Chile" > Chile null 0</td>
 					</tr>
 					<tr id="row-2">
-						<td class="tile">21</td>
-						<td class="tile">22</td>
-						<td class="tile">23</td>
-						<td class="tile">24</td>
+						<td class="tile" id = "Colombia">Colombia null 0</td>
+						<td class="tile" id = "Ecuador" >Ecuador null 0</td>
+						<td class="tile" id ="Guyana" >Guyana null 0"</td>
 					</tr>
 					<tr id="row-3">
-						<td class="tile">31</td>
-						<td class="tile">32</td>
-						<td class="tile">33</td>
-						<td class="tile">34</td>
-					</tr>
-					<tr id="row-4">
-						<td class="tile">41</td>
-						<td class="tile">42</td>
-						<td class="tile">43</td>
-						<td class="tile">44</td>
+						<td class="tile" id = "Paraguay" >Paraguay null 0</td>
+						<td class="tile" id = "Bolivia"> Bolivia null 0</td>
+						<td class="tile" id = "Peru"> Peru null 0</td>
 					</tr>
 				</table>
 			</div>

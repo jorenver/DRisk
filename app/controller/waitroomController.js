@@ -14,7 +14,10 @@ exports.getMatchData = function(request, response){//get data from a match
 	var id_match= request.query.id_match;
 	var matchData = model.getMatch(id_match);
 	//validar no nulo, mandar 404
-	response.json({match: matchData});
+	if(matchData){
+		response.json({match: matchData});
+	}
+	
 }
 
 exports.getPlayers = function(request,response){
