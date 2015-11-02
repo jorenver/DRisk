@@ -6,25 +6,22 @@
 		<meta name="viewport" content="width=device-width,maximum-scale=1,minimum-scale=1">
 		<meta name="description" content="List of games">
 		<meta name="keywords" content="RISK, waitroom, SCORE-2016">
-		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
-		<script src="../socket.io/socket.io.js"></script>
-		<script type="text/javascript" src="js/graphlib.min.js" ></script>
-		<script type="text/javascript" src="js/selectTerritory.js" ></script>
-		<script type="text/javascript" src="js/waitroom.js" ></script>
-		<link rel="stylesheet" type="text/css" href="/css/match.css">
+		<link rel="stylesheet" type="text/css" href="css/match.css">
 		<link rel="stylesheet" type="text/css" href="css/publicMatch.css">
 		<link rel="stylesheet" type="text/css" href="css/waitRoom.css">
-		<style type="text/css">
-			h1{
-				font-family: opcionUno;
-			}
-		</style>
+		<script src="../socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
+		<script type="text/javascript" src="js/waitroom.js" ></script>
+		<script>
+			var idMatch = {{idMatch}};
+			var listPlayer=[];
+
+			
+		</script>
 	</head>
 	<body>
-		<script>
-			var idMatch = "{{idMatch}}";
-		</script>
-		<div class = "matchWrapper u-flex-row u-justify-center u-align-center">
+		<div class = "matchWrapper u-flex-row u-align-center u-justify-center">
+
 			<div class="matchInfoWrapper">
 				<div class = "u-flex-column u-align-center u-justify-center">
 					<div class="matchInfo u-flex-row u-justify-space-around">
@@ -44,8 +41,14 @@
 				</div>
 				<div id = "players" class = "tablePlayerWrapper">
 					<table id = "tablePlayers" class="tablePlayer u-flex-column u-align-center">
+						{% for p in listPlayer %}
+							
+							
+						{%endfor%}
+
 					</table>
 				</div>
+				
 			</div>
 		</div>
 	</body>

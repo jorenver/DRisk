@@ -1,10 +1,16 @@
+var socket;
 function publicMatch(event){
-	window.location.href = "/publicMatch";
+	socket.emit('publicMatch');
 
 }
 
 function initialize (){
+	socket = io.connect();
+	socket.on('goWaitRoomCreator', function(data){
+  		window.location.href = "/waitRoomCreator";	
+  	});
 	btnPublic.addEventListener('click',publicMatch,false);
+
 }
 
 

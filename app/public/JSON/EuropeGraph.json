@@ -1,0 +1,26 @@
+{"Graph":{
+	"Nodes":["Iceland","GreatBritain","Scandinavia","Ukraine","NorthernEurope","WesternEurope","SouthernEurope"],
+	"Edges":[{"U": "Iceland", "V":  "NorthernEurope" },
+			 {"U": "Iceland", "V":  "GreatBritain" },
+			 {"U": "Iceland", "V":  "Scandinavia" },
+			 {"U": "GreatBritain", "V":  "NorthernEurope" },
+			 {"U": "GreatBritain", "V":  "Scandinavia" },
+			 {"U": "GreatBritain", "V":  "Iceland" },
+			 {"U": "Scandinavia", "V":  "GreatBritain" },
+			 {"U": "Scandinavia", "V":  "Iceland" },
+			 {"U": "Scandinavia", "V":  "NorthernEurope" },
+			 {"U": "Scandinavia", "V":  "Ukraine" },
+			 {"U": "Ukraine", "V":  "SouthernEurope" },
+			 {"U": "Ukraine", "V":  "NorthernEurope" },
+			 {"U": "Ukraine", "V":  "Scandinavia" },
+			 {"U": "NorthernEurope", "V":  "Ukraine" },
+			 {"U": "NorthernEurope", "V":  "Scandinavia" },
+			 {"U": "NorthernEurope", "V":  "GreatBritain" },
+			 {"U": "WesternEurope", "V":  "SouthernEurope" },
+			 {"U": "WesternEurope", "V":  "NorthernEurope" },
+			 {"U": "WesternEurope", "V":  "GreatBritain" },
+			 {"U": "SouthernEurope", "V":  "Ukraine" },
+			 {"U": "SouthernEurope", "V":  "NorthernEurope" },
+			 {"U": "SouthernEurope", "V":  "WesternEurope" }]
+	}
+}

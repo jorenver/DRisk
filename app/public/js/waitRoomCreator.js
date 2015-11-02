@@ -71,15 +71,26 @@ function getPlayers(idGame){
 	request.send(null);
 }
 
+
+function initialize(event){
+	getPlayers(idMatch);
+	socketConnect();
+}
+function startGame(){
+	socket.emit('startGame');
+}
+
 function socketConnect(){
 	socket = io.connect();
-	socket.on("playerStart", function(){//recive the order to start game
-		window.location.href = "/game?idMatch="+idMatch;
+
+	//recive the order to start game
+	socket.on("playerStart", function(){
+		window.location.href = "/game";
 	});
 }
 
 function startGame(){
-	window.location.href = "/startGame?idMatch="+idMatch;
+	socket.emit('startGame')
 }
 
 function initialize(event){
