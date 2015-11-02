@@ -9,14 +9,10 @@ var numPages = 10;
 function clickRow(event){
 	id_match = this.getAttribute('data-idmatch');
 	var rows = document.getElementsByClassName("row-table");
-
-
 	for (var i = 0; i < rows.length; i++) {
-	   rows[i].style.backgroundColor = "white"; 
+	   rows[i].style.backgroundColor = ""; 
 	}
-
 	this.style.backgroundColor = "red";
-
 }
 
 function processingMatches(event){
@@ -34,7 +30,8 @@ function processingMatches(event){
   	var headers = ["Creator", "Game Mode","Players" ];
 
     var tr = document.createElement("tr");
-
+    tr.setAttribute('class','row-table-header');
+    
   	for (j in headers){
       var th = document.createElement("td");
       th.innerHTML = headers[j];

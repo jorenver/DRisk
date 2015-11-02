@@ -2,6 +2,15 @@ var libGraph = require("graphlib");
 var Graph = libGraph.Graph;
 
 var strMap =  loadGraph("../public/JSON/testMap.json");
+var colors = [
+	{string: "Red" , code: "#FF0000" }, 
+	{string:"Green" , code:"#04B404"},
+	{string:"Orange" , code: "#FF8000"},
+	{string:"Blue" , code: "#0431B4"}, 
+	{string:"Pink" , code:"#F5A9A9"}, 
+	{string:"Yellow" , code: "#FFFF00"}, 
+	{string:"Brown" , code:"#3B240B"}
+];
 
 var Matches={ 
 	'1': { idMatch: 1, 
@@ -9,7 +18,22 @@ var Matches={
 		stateMatch: 'published',
 		mode: "World Domination",
 		numPlayers: 5,
-		listPlayer:[{nick:'jorenver'},{nick:'kevanort'},{nick:'obayona'}] 
+		listPlayer:[{
+			nick:'jorenver',idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[0]},
+			{nick:'kevanort',
+			idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[1]},	
+			{nick:'obayona',
+			idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[2] }
+		]
 	},
 	'2': { idMatch: 2, 
 		nickCreator: 'eloyasd', 
@@ -21,20 +45,27 @@ var Matches={
 		mode: "World Domination",
 		numPlayers: 5,
 		map: strMap,
-		listPlayer:[{nick:'rodfcast'},{nick:'jorenver'},{nick:'obayona'}] 
+		listPlayer:[{
+			nick:'rodfcast',idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[0]},
+			{nick:'kevanort',
+			idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[1]},	
+			{nick:'kawayuo',
+			idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[2] }
+		] 
 	}
 };
-var colors = [
-	{string: "Red" , code: "#FF0000" }, 
-	{string:"Green" , code:"#04B404"},
-	{string:"Orange" , code: "#FF8000"},
-	{string:"Blue" , code: "#0431B4"}, 
-	{string:"Pink" , code:"#F5A9A9"}, 
-	{string:"Yellow" , code: "#FFFF00"}, 
-	{string:"Brown" , code:"#3B240B"}
-];
 
-var cont=3;
+
+var cont=4;
 
 function validarNick(nick){
 	for(i in Matches){
@@ -55,7 +86,6 @@ function validarNick(nick){
 
 exports.createMatch = function(request,response){
 	var nick= request.body.nick;
-	console.log(validarNick(nick));
 	if(validarNick(nick)){
 		var Match={
 			"idMatch": cont,
@@ -117,7 +147,7 @@ exports.setMap = function(request,response){
 			nameMap:Map.name});
 	}
 }
-
+/*
 exports.publicMatch = function(request,response){
 	//manejar sesion aqui
 	if(request.session.idMatch){
@@ -149,15 +179,13 @@ exports.publicMatch = function(request,response){
 		response.render('index',{error:'no'});
 	}
 }
+*/
 
 exports.getPublishedMatches = function(request, response, page){
 	var list = [];
 	var tam = 10;
-
 	for (i in Matches){
-
 		var match = Matches[i];
-
 		if(match.stateMatch == 'published'){
 			var m = {
 				"idMatch": match.idMatch,
@@ -167,14 +195,11 @@ exports.getPublishedMatches = function(request, response, page){
 				"totalPlayers": match.numPlayers
 			};
 			list.push(m);
-
 		}
 	}
 	var count = Math.ceil(list.length/tam);
-
 	var registers = list.slice(page*tam, page*tam + tam);
 	response.send({games: registers, limit: count});
-
 }
 
 exports.joinPlayer = function(idMatch, nickPlayer){
@@ -185,7 +210,14 @@ exports.joinPlayer = function(idMatch, nickPlayer){
 		}
 	}
 	var currentIndex = Matches[idMatch].listPlayer.length;
-	Matches[idMatch].listPlayer.push({nick: nickPlayer , color:colors[currentIndex]});
+	var player={
+		nick: nickPlayer,
+		idTerritory: null,
+		cards: [],
+		numSoldier: 0,
+		color:colors[currentIndex]
+	};
+	Matches[idMatch].listPlayer.push(player);
 	console.log(Matches[idMatch]);
 }
 
@@ -213,7 +245,8 @@ function loadGraph(filename){
 	}
 	return libGraph.json.write(graph);
 }
-exports.publicMatch = function(idMatch,nick,io){
+
+exports.emitPublicMatch = function(idMatch,nick,io){
 	console.log('se published');
 	Matches[idMatch].stateMatch='published';
 	numPlayer=Matches[idMatch].numPlayers;
@@ -227,7 +260,6 @@ exports.publicMatch = function(idMatch,nick,io){
 	};
 	Matches[idMatch].listPlayer.push(player);
 	console.log(Matches[idMatch]);
-	//response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,map:map,player:player});
 	io.emit('goWaitRoomCreator');
 }
 
@@ -237,6 +269,16 @@ exports.goWaitRoom = function(request,response){
 	mode=Matches[request.session.idMatch].mode;
 	map=Matches[request.session.idMatch].map.name;
 	response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,map:map,player:player});
-
 }
+
+
+exports.waitroom = function(request,response){
+	var idMatch = request.query.id_match;
+	var nick = request.session.nick;
+	var match=Matches[idMatch];
+
+	response.render('waitroom',{idMatch:idMatch, nick: nick,numPlayer:match.numPlayers,mode:match.mode,listPlayer:match.listPlayer });
+}
+
+
 exports.Matches= Matches;

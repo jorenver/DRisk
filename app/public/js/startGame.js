@@ -27,10 +27,6 @@ function processingPlayers(event){
 	    var player = players[i];
 	    var tr = document.createElement("tr");
 	    tr.setAttribute("class","row-table");
-	    //tr.setAttribute('data-idmatch',.idMatch);
-	    //tr.setAttribute('data-idcreator',match.idCreator);
-
-	    //tr.addEventListener('click', clickRow, false);
 		var td = document.createElement("td");
 		td.innerHTML = colors[i].string;
 		td.style.backgroundColor = colors[i].code;

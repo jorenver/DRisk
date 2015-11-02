@@ -6,11 +6,12 @@ var indexController = require('./controller/indexController');
 var createMatchController = require('./controller/createMatchController');
 var joinMatchController = require('./controller/joinMatchController');
 var waitroomController = require('./controller/waitroomController');
+var waitRoomCreatorController = require('./controller/waitRoomCreatorController');
 var chooseMapController = require('./controller/chooseMapController');
 var publicMatchController = require('./controller/publicMatchController');
 
 var customizeMapController = require('./controller/customizeMapController');
-var startGameController = require('./controller/startGameController');
+var gameController = require('./controller/gameController');
 
 router.get('/', indexController.index);
 
@@ -36,7 +37,10 @@ router.post('/getMatchData', waitroomController.getMatchData);
 //Map
 router.get('/customizeMap',customizeMapController.customizeMap);
 //Start game
-router.get('/startGame',startGameController.startGame);
+router.get('/game',gameController.Start);
 
 //Players
 router.get('/players',waitroomController.getPlayers);
+
+//waitroom players creator
+router.get('/waitRoomCreator', waitRoomCreatorController.waitRoomCreator);

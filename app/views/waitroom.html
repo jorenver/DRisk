@@ -6,43 +6,50 @@
 		<meta name="viewport" content="width=device-width,maximum-scale=1,minimum-scale=1">
 		<meta name="description" content="List of games">
 		<meta name="keywords" content="RISK, waitroom, SCORE-2016">
-		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="css/match.css">
+		<link rel="stylesheet" type="text/css" href="css/publicMatch.css">
+		<link rel="stylesheet" type="text/css" href="css/waitRoom.css">
 		<script src="../socket.io/socket.io.js"></script>
-		<script type="text/javascript" src="js/graphlib.min.js" ></script>
-		<script type="text/javascript" src="js/selectTerritory.js" ></script>
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="js/waitroom.js" ></script>
-		<link rel="stylesheet" type="text/css" href="/css/match.css">
-		<!--<link rel="stylesheet" type="text/css" href="css/table.css">-->
-		<style type="text/css">
-			h1{
-				font-family: opcionUno;
-			}
-		</style>
+		<script>
+			var idMatch = {{idMatch}};
+			var listPlayer=[];
+
+			
+		</script>
 	</head>
 	<body>
-		<script>
-		var idMatch = "{{idMatch}}";
-		</script>
-		<div class="matchTitle">
-			<h1 >DRISK</h1>
-		</div>
-		<div id = "wraper" class="matchWrapper">
-			<h1 >Please, Wait until the game begins</h1></br>
-			<div class="infoMatch">
-				<div id = "info-game">
-					<h3 id= "numPlayers"> </h3>
-					<h3 id= "gameMode"> </h3>
-					<div id="map" >
-						<img src = "images/map1.jpg" width = "500px" heigh = "200px">
+		<div class = "matchWrapper u-flex-row u-align-center u-justify-center">
 
-						</img>
+			<div class="matchInfoWrapper">
+				<div class = "u-flex-column u-align-center u-justify-center">
+					<div class="matchInfo u-flex-row u-justify-space-around">
+						<label class="matchLabel"> Max Player: {{numPlayer}}</label>
+						<label class="matchLabel"> Game Mode: {{mode}}</label>
 					</div>
-				</div>
-				<div id = "players" class = "CSSTableGenerator">
-					<table id = "tablePlayers" style="width:100%">
-					  
-					</table>
+					<label class="matchLabel"> Mapa: {{nameMap}}</label>
+					<div class="mapInfo u-flex-column u-align-center u-justify-center" >
+						<img src = "img/map.jpg" width = "450px" height = "300px">
+					</div>
+					<h1 >Please, Wait until the game begins</h1>
 				</div>
 			</div>
+			<div class="matchInfoWrapper">
+				<div class="playerTitle u-flex-row u-justify-center">
+					<label >Players</label>
+				</div>
+				<div id = "players" class = "tablePlayerWrapper">
+					<table id = "tablePlayers" class="tablePlayer u-flex-column u-align-center">
+						{% for p in listPlayer %}
+							
+							
+						{%endfor%}
+
+					</table>
+				</div>
+				
+			</div>
+		</div>
 	</body>
 </html>
