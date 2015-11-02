@@ -27,7 +27,6 @@ function processingPlayers(event){
 	
 	var headers = ["Color", "Player"];
 	//insertHeaders(table,headers);
-
   	for(var i =0; i< players.length; i++){
 	    var player = players[i];
 	    var row = rowPlayer(player);
@@ -63,8 +62,6 @@ function createElement(type,array){
 	return element;
 }
 
-
-
 function getPlayers(idGame){
 	var request = new XMLHttpRequest();
 	var url="/players?idMatch=" + idGame;
@@ -73,6 +70,7 @@ function getPlayers(idGame){
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
 	request.send(null);
 }
+
 
 function initialize(event){
 	getPlayers(idMatch);
@@ -89,7 +87,15 @@ function socketConnect(){
 	socket.on("playerStart", function(){
 		window.location.href = "/game";
 	});
+}
 
+function startGame(){
+	socket.emit('startGame')
+}
+
+function initialize(event){
+	getPlayers(idMatch);//idMatch : variable recibida desde el server
+	socketConnect();
 }
 
 window.addEventListener('load',initialize,false);

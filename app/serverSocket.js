@@ -24,9 +24,10 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 //incrementar el contador de la partida en chooseGame
         	});
 
+        	clients[session.player] = session.player;
+    
              player.on("addPlayerChoose", function(data){
                 clientsChoose[session.nick]=player;
-                
             });
 
             player.on("removePlayerChoose", function(data){
@@ -44,7 +45,15 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 nick=session.nick;
                 clients[idMatch]=[];
                 clients[idMatch].push(io);
-                model.publicMatch(idMatch,nick,io);  
+                //model.publicMatch(idMatch,nick,io);  
+                model.emitPublicMatch(idMatch,nick,io);  
+            });
+
+            player.on("chooseGame", function(data){
+                model.joinPlayer(data.idMatch, session.nick);
+                console.log("variable de session",session.idMatch);
+                model.printMatch(data.idMatch);
+                player.emit("getWaitRoom", {idMatch: data.idMatch} );
             });
 
             player.on("startGame", function(data){

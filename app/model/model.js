@@ -86,7 +86,6 @@ function validarNick(nick){
 
 exports.createMatch = function(request,response){
 	var nick= request.body.nick;
-	console.log(validarNick(nick));
 	if(validarNick(nick)){
 		var Match={
 			"idMatch": cont,
@@ -185,11 +184,8 @@ exports.publicMatch = function(request,response){
 exports.getPublishedMatches = function(request, response, page){
 	var list = [];
 	var tam = 10;
-
 	for (i in Matches){
-
 		var match = Matches[i];
-
 		if(match.stateMatch == 'published'){
 			var m = {
 				"idMatch": match.idMatch,
@@ -199,14 +195,11 @@ exports.getPublishedMatches = function(request, response, page){
 				"totalPlayers": match.numPlayers
 			};
 			list.push(m);
-
 		}
 	}
 	var count = Math.ceil(list.length/tam);
-
 	var registers = list.slice(page*tam, page*tam + tam);
 	response.send({games: registers, limit: count});
-
 }
 
 exports.joinPlayer = function(idMatch, nickPlayer){
@@ -252,7 +245,8 @@ function loadGraph(filename){
 	}
 	return libGraph.json.write(graph);
 }
-exports.publicMatch = function(idMatch,nick,io){
+
+exports.emitPublicMatch = function(idMatch,nick,io){
 	console.log('se published');
 	Matches[idMatch].stateMatch='published';
 	numPlayer=Matches[idMatch].numPlayers;
@@ -266,7 +260,6 @@ exports.publicMatch = function(idMatch,nick,io){
 	};
 	Matches[idMatch].listPlayer.push(player);
 	console.log(Matches[idMatch]);
-	//response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,map:map,player:player});
 	io.emit('goWaitRoomCreator');
 }
 
@@ -276,8 +269,8 @@ exports.goWaitRoom = function(request,response){
 	mode=Matches[request.session.idMatch].mode;
 	map=Matches[request.session.idMatch].map.name;
 	response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,map:map,player:player});
-
 }
+
 
 exports.waitroom = function(request,response){
 	var idMatch = request.query.id_match;
@@ -286,7 +279,6 @@ exports.waitroom = function(request,response){
 
 	response.render('waitroom',{idMatch:idMatch, nick: nick,numPlayer:match.numPlayers,mode:match.mode,listPlayer:match.listPlayer });
 }
-
 
 
 exports.Matches= Matches;
