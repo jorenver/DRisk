@@ -3,6 +3,10 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="game.css">
 	<title></title>
+	<script>
+			var idMatch = {{idMatch}};
+			var nick= {{nick}}
+	</script>
 </head>
 <body>
 	<div class="gameWrapper u-flex-column">
@@ -12,6 +16,7 @@
 		<div class="playersWrapper ">
 			<div id="listPlayers" class="players"></div>
 			{{idMatch}}
+			{{nick}}
 			<span>Players</span>
 		</div>
 		<div class="actionWrapper u-flex-row">
