@@ -78,13 +78,16 @@ function initialize(event){
 	getPlayers(idMatch);
 	socketConnect();
 }
+function startGame(){
+	socket.emit('startGame');
+}
 
 function socketConnect(){
 	socket = io.connect();
 
 	//recive the order to start game
 	socket.on("playerStart", function(){
-		window.location.href = "/game?idMatch="+idMatch;
+		window.location.href = "/game";
 	});
 
 }

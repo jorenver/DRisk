@@ -11,9 +11,9 @@ exports.createServerSocket = function(io,sessionMiddleware){
     
     io.on('connection', function(player) {  
         var session= player.request.session;
-        if(session.nick && session.idMatch==null){
-        	clients[session.player] = session.player;
-        	console.log('problema');
+        if(session.nick){
+        	//clients[session.player] = session.player;
+
             player.on("chooseGame", function(data){
     			
                 model.joinPlayer(data.idMatch, session.nick);
@@ -25,26 +25,34 @@ exports.createServerSocket = function(io,sessionMiddleware){
         	});
 
              player.on("addPlayerChoose", function(data){
-                console.log('se agrega');
                 clientsChoose[session.nick]=player;
-                console.log(clientsChoose);
                 
             });
 
             player.on("removePlayerChoose", function(data){
-                console.log('se elimina');
-                console.log(session.nick);
                 delete clientsChoose[session.nick];               
-                console.log(clientsChoose);
+                if(clients[session.idMatch]){
+                    clients[session.idMatch].push(io);
+                }
+
             });
-        }else if(session.idMatch && session.nick){
-            console.log('si entre');
+
             player.on("publicMatch", function(data){
                 console.log('se va a publicar 2');
                 idMatch=session.idMatch;
                 console.log(idMatch)
                 nick=session.nick;
+                clients[idMatch]=[];
+                clients[idMatch].push(io);
                 model.publicMatch(idMatch,nick,io);  
+            });
+
+            player.on("startGame", function(data){
+                model.Matches[session.idMatch].stateMatch='playing';
+                players=clients[session.idMatch];
+                for(p in players){
+                    players[p].emit('playerStart');
+                }
             });
         }
     }); 

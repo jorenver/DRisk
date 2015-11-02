@@ -2,6 +2,15 @@ var libGraph = require("graphlib");
 var Graph = libGraph.Graph;
 
 var strMap =  loadGraph("../public/JSON/testMap.json");
+var colors = [
+	{string: "Red" , code: "#FF0000" }, 
+	{string:"Green" , code:"#04B404"},
+	{string:"Orange" , code: "#FF8000"},
+	{string:"Blue" , code: "#0431B4"}, 
+	{string:"Pink" , code:"#F5A9A9"}, 
+	{string:"Yellow" , code: "#FFFF00"}, 
+	{string:"Brown" , code:"#3B240B"}
+];
 
 var Matches={ 
 	'1': { idMatch: 1, 
@@ -9,7 +18,22 @@ var Matches={
 		stateMatch: 'published',
 		mode: "World Domination",
 		numPlayers: 5,
-		listPlayer:[{nick:'jorenver'},{nick:'kevanort'},{nick:'obayona'}] 
+		listPlayer:[{
+			nick:'jorenver',idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[0]},
+			{nick:'kevanort',
+			idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[1]},	
+			{nick:'obayona',
+			idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[2] }
+		]
 	},
 	'2': { idMatch: 2, 
 		nickCreator: 'eloyasd', 
@@ -21,20 +45,27 @@ var Matches={
 		mode: "World Domination",
 		numPlayers: 5,
 		map: strMap,
-		listPlayer:[{nick:'rodfcast'},{nick:'jorenver'},{nick:'obayona'}] 
+		listPlayer:[{
+			nick:'rodfcast',idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[0]},
+			{nick:'kevanort',
+			idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[1]},	
+			{nick:'kawayuo',
+			idTerritory: null,
+			cards: [],
+			numSoldier: 0,
+			color:colors[2] }
+		] 
 	}
 };
-var colors = [
-	{string: "Red" , code: "#FF0000" }, 
-	{string:"Green" , code:"#04B404"},
-	{string:"Orange" , code: "#FF8000"},
-	{string:"Blue" , code: "#0431B4"}, 
-	{string:"Pink" , code:"#F5A9A9"}, 
-	{string:"Yellow" , code: "#FFFF00"}, 
-	{string:"Brown" , code:"#3B240B"}
-];
 
-var cont=3;
+
+var cont=4;
 
 function validarNick(nick){
 	for(i in Matches){
@@ -186,7 +217,14 @@ exports.joinPlayer = function(idMatch, nickPlayer){
 		}
 	}
 	var currentIndex = Matches[idMatch].listPlayer.length;
-	Matches[idMatch].listPlayer.push({nick: nickPlayer , color:colors[currentIndex]});
+	var player={
+		nick: nickPlayer,
+		idTerritory: null,
+		cards: [],
+		numSoldier: 0,
+		color:colors[currentIndex]
+	};
+	Matches[idMatch].listPlayer.push(player);
 	console.log(Matches[idMatch]);
 }
 
@@ -240,4 +278,15 @@ exports.goWaitRoom = function(request,response){
 	response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,map:map,player:player});
 
 }
+
+exports.waitroom = function(request,response){
+	var idMatch = request.query.id_match;
+	var nick = request.session.nick;
+	var match=Matches[idMatch];
+
+	response.render('waitroom',{idMatch:idMatch, nick: nick,numPlayer:match.numPlayers,mode:match.mode,listPlayer:match.listPlayer });
+}
+
+
+
 exports.Matches= Matches;

@@ -81,7 +81,7 @@ function socketConnect(){
 
 	//recive the order to start game
 	socket.on("playerStart", function(){
-		window.location.href = "/game?idMatch="+idMatch;
+		window.location.href = "/game";
 	});
 
 }
