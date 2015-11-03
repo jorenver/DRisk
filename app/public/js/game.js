@@ -48,7 +48,7 @@ function clickTerritory(idTerritory){
 	});
 
 	if(value){
-		socket.emit("doMove", {idTerritory: idTerritory } );
+		socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory: idTerritory } );
 	}
 	else{
 		console.log("error");
@@ -73,14 +73,23 @@ function connectSocketGame(){
 
 	socket.on("updateMap", function(args){
 		
+		console.log("updateMap", args.nickTurn);
+		match.turn = args.nickTurn;
 		stage.doUpdateMap(args, match, graph); //actualiza grafo
 
 		//redraw map
+		var cell = document.getElementById(args.idTerritory);
+		var territory = graph.node(args.idTerritory);
+
+		cell.innerHTML = args.idTerritory + " " + territory.owner + " " + territory.numSoldier;
 
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
 		}
 
+		if(isMyTurn()){
+			alert("es mi turno");
+		}
 
 	});
 }

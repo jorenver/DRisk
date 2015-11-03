@@ -4,16 +4,17 @@ var selectTerritory = function(){
     //recibe an object {nick, idTerritory, graph }
     this.stageName = "Select"; 
 
-    this.updateMap = function(args, match, graph){
+    this.doMove = function(args, match){
         //update the graph
 
         console.log("********actualizando grafo******");
-        /*var nick = args.nick;
+        var nick = args.nick;
         var idTerritory = args.idTerritory;
+        console.log(nick, idTerritory);
+        var graphPtr = match.map.graph;
 
-
-        graph.node(idTerritory).owner = nick;
-        graph.node(idTerritory).numSoldier += 1;*/
+        graphPtr.node(idTerritory).owner = nick;
+        graphPtr.node(idTerritory).numSoldier += 1;
     }
 
     this.nextStage = function(){

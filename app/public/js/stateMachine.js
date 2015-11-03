@@ -7,10 +7,9 @@ var selectTerritory = function(){
 
 	this.validateMove = function(args){
 		var idTerritory = args.idTerritory;
-		console.log(args.graph);
 
 		var territory = args.graph.node(idTerritory);
-		console.log(territory);
+		
 		if( !territory.owner || (territory.owner == args.nick ) ){
 			return true;
 		}
@@ -26,6 +25,8 @@ var selectTerritory = function(){
 		var idTerritory = args.idTerritory;
 		graph.node(idTerritory).owner = nick;
 		graph.node(idTerritory).numSoldier += 1;
+
+		console.log("grafo actualizado", graph);
 	}
 
 	this.nextStage = function(){

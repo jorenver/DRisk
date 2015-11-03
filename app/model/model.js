@@ -133,9 +133,8 @@ exports.setMap = function(request,response){
 	mapChosen=request.body.mapChosen;
 	var Map={
 		name:mapChosen,
-		graph:loadGraph("../public/JSON/testMap.json"),//provicional
-		svg:null,
-		isStrGraph: true,
+		graph: loadGraph("../public/JSON/testMap.json"),//provicional
+		svg:null
 	}
 	var match = Matches[request.session.idMatch];
 	if(match!=null){
@@ -228,16 +227,11 @@ exports.printMatch= function(idMatch){
 
 exports.getMatch = function(idMatch){
 	
-	return Matches[idMatch];
-}
-
-exports.convertGraph = function(idMatch){
-	var match = Matches[idMatch];
-	console.log("match antes", match);
-	var strgraph = match.map.graph;
-	match.map.graph = libGraph.json.read(strgraph);
-	console.log("match", match);
-
+	var newMatch = JSON.parse(JSON.stringify(Matches[idMatch]));
+	//convert graph in a json
+	var strgraph = libGraph.json.write(Matches[idMatch].map.graph);
+	newMatch.map.graph = strgraph;
+	return newMatch;
 }
 
 function loadGraph(filename){
@@ -254,7 +248,7 @@ function loadGraph(filename){
 	for(var i=0; i<edges.length; i++){
 		graph.setEdge(edges[i].U, edges[i].V);
 	}
-	return libGraph.json.write(graph);
+	return graph;
 }
 
 exports.emitPublicMatch = function(idMatch,nick,io){

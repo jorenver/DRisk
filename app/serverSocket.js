@@ -17,7 +17,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
             player.on("chooseGame", function(data){
     			
                 model.joinPlayer(data.idMatch, session.nick);
-                session.idMatch=data.idMatch;
+                session.idMatch = data.idMatch;
                 console.log("variable de session",session.idMatch);
     			//model.printMatch(data.idMatch);
     			player.emit("getWaitRoom", {idMatch: data.idMatch} );
@@ -60,17 +60,38 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 currentMatch.turn = playerTurn.nick; //set the first turn
                 listPlayer.push(playerTurn); //enqueue 
                 currentMatch.stage = new stage.selectTerritory();//set the stage select territory
-                players=clients[session.idMatch];
+                var playersSocket = clients[session.idMatch];
 
 
-                for(p in players){
-                    players[p].emit('playerStart');
+                for(p in playersSocket){
+                    playersSocket[p].emit('playerStart');
                 }
             });
 
             player.on("doMove", function(args){
-                var currentMatch = model.Matches[session.idMatch];
-                currentMatch.stage.updateMap(null, null, null);
+                var currentMatch = model.Matches[args.idMatch];
+                console.log("doMove", currentMatch);
+                currentMatch.stage.doMove(args, currentMatch);
+                var playersSocket = clients[args.idMatch];
+
+                //change the turn
+                var listPlayer = currentMatch.listPlayer;
+                var playerTurn = listPlayer.shift(); //dequeue
+                currentMatch.turn = playerTurn.nick; //set the first turn
+                listPlayer.push(playerTurn); //enqueue 
+
+                //build the data
+                var data = {
+                    nick: args.nick, 
+                    idTerritory: args.idTerritory,
+                    nickTurn: playerTurn.nick, 
+                    stage: "Select"
+                };
+
+                for(p in playersSocket){
+                    playersSocket[p].emit('updateMap', data);
+                }
+
             });
 
         }
