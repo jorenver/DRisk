@@ -47,7 +47,7 @@ var reforceTerritory = function(){
 
 		var territory = args.graph.node(idTerritory);
 		
-		if( !territory.owner || (territory.owner == args.nick ) ){
+		if(territory.owner == args.nick){
 			return true;
 		}
 		else{
@@ -64,6 +64,74 @@ var reforceTerritory = function(){
 		graph.node(idTerritory).numSoldier += 1;
 
 		console.log("grafo actualizado Reforce", graph);
+	}
+
+	this.nextStage = function(){
+		//return the next stage
+
+	}
+
+
+}
+
+var atckTerritory = function(){
+
+	//recibe an object {nick, idTerritory, graph }
+	this.stageName = "Atack"; 
+
+	this.validateMove = function(args){
+
+	}
+
+	this.doUpdateMap = function(args, match, graph){
+		//update the graph
+		
+	}
+
+	this.nextStage = function(){
+		//return the next stage
+
+	}
+
+
+}
+
+
+var move = function(){
+
+	//recibe an object {nick, idTerritory, graph }
+	this.stageName = "Atack"; 
+
+	this.validateMove = function(args){
+
+	}
+
+	this.doUpdateMap = function(args, match, graph){
+		//update the graph
+		
+	}
+
+	this.nextStage = function(){
+		//return the next stage
+
+	}
+
+
+}
+
+
+var changeCarts = function(){
+
+	//recibe an object {nick, idTerritory, graph }
+	this.stageName = "Carts"; 
+
+	this.validateMove = function(args){
+
+	}
+
+	this.doUpdateMap = function(args, match, graph){
+		//update the graph
+		
 	}
 
 	this.nextStage = function(){

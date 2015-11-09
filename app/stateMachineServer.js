@@ -197,8 +197,41 @@ var move = function(){
 
 }
 
+var changeCarts = function(){
+
+    //recibe an object {nick, idTerritory, graph }
+    this.stageName = "Carts";
+    this.initStage= function(match){
+        console.log('init Carts');
+    }
+
+    this.isChangeTurn= function(){
+        return true;
+    } 
+
+    this.doMove = function(args, match){
+        //update the graph
+        console.log("********actualizando grafo Carts******");
+    }
+
+    this.nextStage = function(){
+        //return the next stage
+    }
+
+    this.buildData= function(args, playerTurn, stage){
+        console.log('bild data Carts');
+        
+    }
+
+    this.validateChangeStage=function(match){
+      
+    }
+
+}
+
 exports.selectTerritory = selectTerritory;
 exports.reforceTerritory = reforceTerritory;
 exports.atackTerritory = atackTerritory;
 exports.move = move;
+exports.changeCarts = changeCarts;
 
