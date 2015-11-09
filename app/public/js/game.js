@@ -85,6 +85,7 @@ function connectSocketGame(){
 
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
+			console.log(stage);
 		}
 
 		if(isMyTurn()){

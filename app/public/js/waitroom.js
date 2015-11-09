@@ -86,6 +86,7 @@ function socketConnect(){
 
 }
 
+
 function initialize(event){
 	getMatch(idMatch);
 	socketConnect();

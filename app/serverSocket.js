@@ -60,12 +60,29 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 currentMatch.turn = playerTurn.nick; //set the first turn
                 listPlayer.push(playerTurn); //enqueue 
                 currentMatch.stage = new stage.selectTerritory();//set the stage select territory
+                /*
+                    set num soilder for each player
+                    2 players= 40 soldier
+                    3 players= 35 soldier
+                    4 players= 30 soldier
+                    5 players= 25 soldier
+                    6 players= 20 soldier
+                */
+                numSoldier=50-5*listPlayer.length;
+                numSoldier=1;
+                console.log('++++++++++++++++++number of soilder for each player:', numSoldier)
+                for(p in listPlayer){
+                    console.log(listPlayer[p]);
+                    listPlayer[p].numSoldier=numSoldier;
+                    console.log(listPlayer[p]);
+                }
                 var playersSocket = clients[session.idMatch];
-
-
                 for(p in playersSocket){
                     playersSocket[p].emit('playerStart');
                 }
+
+                
+
             });
 
             player.on("doMove", function(args){
@@ -73,21 +90,25 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 console.log("doMove", currentMatch);
                 currentMatch.stage.doMove(args, currentMatch);
                 var playersSocket = clients[args.idMatch];
-
-                //change the turn
                 var listPlayer = currentMatch.listPlayer;
-                var playerTurn = listPlayer.shift(); //dequeue
-                currentMatch.turn = playerTurn.nick; //set the first turn
-                listPlayer.push(playerTurn); //enqueue 
+                if(currentMatch.stage.isChangeTurn()){
+                    //change the turn
+                    var playerTurn = listPlayer.shift(); //dequeue
+                    currentMatch.turn = playerTurn.nick; //set the first turn
+                    listPlayer.push(playerTurn); //enqueue
+                }else{
+                    console.log('se mantiene el turno')
+                    var playerTurn = listPlayer[listPlayer.length-1];
+                    console.log(playerTurn)
+                }
+                nextState=currentMatch.stage.validateChangeStage(currentMatch);//get name of next stage
+                data=currentMatch.stage.buildData(args,playerTurn,nextState);
+                if(currentMatch.stage.stageName!=nextState){ // only if is neceray change stage
+                    currentMatch.stage=currentMatch.stage.nextStage();
+                    currentMatch.stage.initStage(currentMatch);
+                    console.log('cambie de estado');
 
-                //build the data
-                var data = {
-                    nick: args.nick, 
-                    idTerritory: args.idTerritory,
-                    nickTurn: playerTurn.nick, 
-                    stage: "Select"
-                };
-
+                }
                 for(p in playersSocket){
                     playersSocket[p].emit('updateMap', data);
                 }
