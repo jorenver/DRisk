@@ -5,6 +5,7 @@ var graph;
 
 //sockets
 var socket;
+var territorysSelected;
 
 
 function loadMatch(event){
@@ -58,6 +59,38 @@ function clickTerritory(idTerritory){
 }
 
 
+function clickTowTerritorys(idTerritory){
+	
+	//valido con el grafo la jugada de acuerdo a los datos
+	if(!territorysSelected[0] ){
+		territorysSelected[0]=idTerritory;
+	}else{
+		territorysSelected[1]=idTerritory;
+	}
+
+
+	var value = stage.validateMove({
+		nick: nick,
+		graph: graph,
+		idTerritory1: territorysSelected[0],
+		idTerritory2: territorysSelected[1]
+	});
+
+	if(value){
+		socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory1: territorysSelected[0] } );
+		territorysSelected[0]=null;
+		territorysSelected[1]=null;
+	}
+	else{
+		console.log("error");
+		territorysSelected[0]=null;
+		territorysSelected[1]=null;
+	}
+	console.log("grafo actualizado", match.map.graph);
+
+}
+
+
 function getMatch(){
 	var request = new XMLHttpRequest();
 	var url="/getMatchData?id_match=" + idMatch;
@@ -85,6 +118,9 @@ function connectSocketGame(){
 
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
+			if(args.stage=='Atack' || args.stage=='Move'){
+				setClick(clickTowTerritorys);
+			}
 			console.log(stage);
 		}
 
@@ -95,7 +131,7 @@ function connectSocketGame(){
 	});
 }
 
-function setClick(){
+function setClick(action){
 	var cells = document.getElementsByClassName("tile");
 	
 	for (var i =0; i< cells.length; i++){
@@ -103,7 +139,7 @@ function setClick(){
 			if(isMyTurn()){
 				var territory = this.id;
 				console.log("click en "+ territory);
-				clickTerritory(territory);
+				action(territory);
 			}
 			
 
@@ -117,7 +153,11 @@ function initialize(event){
 	console.log(nick, idMatch);
 	getMatch(); //obtengo el match por ajax
 	connectSocketGame();
-	setClick();
+	territorysSelected={
+		territory1:null,
+		territory12:null
+	}
+	setClick(clickTerritory);
 	
 }
 
