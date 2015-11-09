@@ -78,14 +78,12 @@ function clickTowTerritorys(idTerritory){
 
 	if(value){
 		socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
-		territorysSelected[0]=null;
-		territorysSelected[1]=null;
 	}
 	else{
 		console.log("error");
-		territorysSelected[0]=null;
-		territorysSelected[1]=null;
 	}
+	territorysSelected[0]=null;
+	territorysSelected[1]=null;
 	console.log("grafo actualizado", match.map.graph);
 
 }
