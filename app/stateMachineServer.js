@@ -174,7 +174,7 @@ var move = function(){
     }
 
     this.isChangeTurn= function(){
-        return true;
+        return false;
     } 
 
     this.doMove = function(args, match){
@@ -229,9 +229,42 @@ var changeCarts = function(){
 
 }
 
+var receiveCarts = function(){
+
+    //recibe an object {nick, idTerritory, graph }
+    this.stageName = "receiveCarts";
+    this.initStage= function(match){
+        console.log('init receive Carts');
+    }
+
+    this.isChangeTurn= function(){
+        return false;
+    } 
+
+    this.doMove = function(args, match){
+        //update the graph
+        console.log("********actualizando grafo Carts******");
+    }
+
+    this.nextStage = function(){
+        //return the next stage
+    }
+
+    this.buildData= function(args, playerTurn, stage){
+        console.log('bild data receive Carts');
+        
+    }
+
+    this.validateChangeStage=function(match){
+      
+    }
+
+}
+
 exports.selectTerritory = selectTerritory;
 exports.reforceTerritory = reforceTerritory;
 exports.atackTerritory = atackTerritory;
 exports.move = move;
 exports.changeCarts = changeCarts;
+exports.receiveCarts = receiveCarts;
 

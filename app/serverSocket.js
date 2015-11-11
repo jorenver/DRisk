@@ -102,7 +102,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     console.log(playerTurn)
                 }
                 nextState=currentMatch.stage.validateChangeStage(currentMatch);//get name of next stage
-                data=currentMatch.stage.buildData(args,playerTurn,nextState);
+                var data=currentMatch.stage.buildData(args,playerTurn,nextState);
                 if(currentMatch.stage.stageName!=nextState){ // only if is neceray change stage
                     currentMatch.stage=currentMatch.stage.nextStage();
                     currentMatch.stage.initStage(currentMatch);

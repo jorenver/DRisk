@@ -59,33 +59,31 @@ function clickTerritory(idTerritory){
 }
 
 
-function clickTowTerritorys(idTerritory){
+function clickTwoTerritorys(idTerritory){
 	
 	//valido con el grafo la jugada de acuerdo a los datos
 	if(!territorysSelected[0] ){
 		territorysSelected[0]=idTerritory;
 	}else{
 		territorysSelected[1]=idTerritory;
+		var value = stage.validateMove({
+			nick: nick,
+			graph: graph,
+			idTerritory1: territorysSelected[0],
+			idTerritory2: territorysSelected[1]
+		});
+
+		if(value){
+			socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
+		}
+		else{
+			console.log("error");
+		}
+		territorysSelected[0]=null;
+		territorysSelected[1]=null;
+		console.log("grafo actualizado", match.map.graph);
 	}
-
-
-	var value = stage.validateMove({
-		nick: nick,
-		graph: graph,
-		idTerritory1: territorysSelected[0],
-		idTerritory2: territorysSelected[1]
-	});
-
-	if(value){
-		socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
-	}
-	else{
-		console.log("error");
-	}
-	territorysSelected[0]=null;
-	territorysSelected[1]=null;
-	console.log("grafo actualizado", match.map.graph);
-
+	
 }
 
 

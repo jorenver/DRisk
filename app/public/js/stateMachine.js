@@ -142,6 +142,28 @@ var changeCarts = function(){
 
 }
 
+var receiveCarts = function(){
+
+	//recibe an object {nick, idTerritory, graph }
+	this.stageName = "receiveCarts"; 
+
+	this.validateMove = function(args){
+
+	}
+
+	this.doUpdateMap = function(args, match, graph){
+		//update the graph
+		
+	}
+
+	this.nextStage = function(){
+		//return the next stage
+
+	}
+
+
+}
+
 
 
 
