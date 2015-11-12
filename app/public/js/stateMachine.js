@@ -74,7 +74,7 @@ var reforceTerritory = function(){
 
 }
 
-var atckTerritory = function(){
+var atackTerritory = function(){
 
 	//recibe an object {nick, idTerritory, graph }
 	this.stageName = "Atack"; 
@@ -120,10 +120,10 @@ var move = function(){
 }
 
 
-var changeCarts = function(){
+var changeCards = function(){
 
-	//recibe an object {nick, idTerritory, graph }
-	this.stageName = "Carts"; 
+	//recieve an object {nick, idTerritory, graph }
+	this.stageName = "changeCards"; 
 
 	this.validateMove = function(args){
 
@@ -142,10 +142,10 @@ var changeCarts = function(){
 
 }
 
-var receiveCarts = function(){
+var recieveCards = function(){
 
 	//recibe an object {nick, idTerritory, graph }
-	this.stageName = "receiveCarts"; 
+	this.stageName = "recieveCards"; 
 
 	this.validateMove = function(args){
 

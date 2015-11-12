@@ -1,5 +1,7 @@
 var libGraph = require("graphlib");
 var Graph = libGraph.Graph;
+var cardFactory = require("./cardFactory");
+
 
 var strMap =  loadGraph("../public/JSON/testMap.json");
 var colors = [
@@ -138,7 +140,8 @@ exports.setMap = function(request,response){
 	}
 	var match = Matches[request.session.idMatch];
 	if(match!=null){
-		match.map = Map;
+		match.map = Map; //set map
+		match.cards = cardFactory.createCards(match.map.graph); //set cards
 		var numPlayer = match.numPlayers;
 		var mode = match.mode;
 		response.render('publicMatch',{idMatch:request.session.idMatch,
@@ -147,6 +150,9 @@ exports.setMap = function(request,response){
 			nameMap:Map.name});
 	}
 }
+
+
+
 /*
 exports.publicMatch = function(request,response){
 	//manejar sesion aqui
@@ -225,12 +231,40 @@ exports.printMatch= function(idMatch){
 	console.log("***Match***" ,Matches[idMatch]);
 }
 
-exports.getMatch = function(idMatch){
+exports.getMatch = function(idMatch, nick){
 	
-	var newMatch = JSON.parse(JSON.stringify(Matches[idMatch]));
-	//convert graph in a json
-	var strgraph = libGraph.json.write(Matches[idMatch].map.graph);
-	newMatch.map.graph = strgraph;
+	//copy the important data for a determinate player
+	var match = Matches[idMatch];
+
+	var listPlayerTemp = [];
+	for (var i =0; i < match.listPlayer.length; i++ ){
+		var player = match.listPlayer[i];
+		var playerTemp = {
+			nick: player.nick,
+			color: player.color,
+			numSoldier: player.numSoldier,
+		};
+		listPlayerTemp.push(playerTemp);
+
+	}
+
+	var strgraph = libGraph.json.write(match.map.graph);
+	var svg = loadSVG("../public/JSON/svgtest.json");
+
+	var newMap = {
+		name: match.map.name,
+		graph: strgraph,
+		svg: svg
+	}
+
+	var newMatch = {
+		nickCreator: match.nickCreator, 
+		numPlayers: match.numPlayers,
+		map: newMap,
+		listPlayer: listPlayerTemp,
+		turn: match.turn,
+	};
+
 	return newMatch;
 }
 
@@ -249,6 +283,10 @@ function loadGraph(filename){
 		graph.setEdge(edges[i].U, edges[i].V);
 	}
 	return graph;
+}
+
+function loadSVG(filename){
+	return require(filename).svg;
 }
 
 exports.emitPublicMatch = function(idMatch,nick,io){

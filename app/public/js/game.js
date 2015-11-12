@@ -7,6 +7,8 @@ var graph;
 var socket;
 var territorysSelected;
 
+//raphael variables
+var paper;
 
 function loadMatch(event){
 	var respond = JSON.parse(event.target.responseText);
@@ -20,6 +22,25 @@ function loadMatch(event){
 	console.log(graph);
 	//dibujar el mapa, los jugadores, y setear selectTerritoryEvent 
 	//a cada territorio
+
+	var svgjson = match.map.svg.countries; 
+
+	console.log("***svg- cliente", svgjson);
+	
+	paper = Raphael(document.getElementById('canvas'));
+
+	for (var i = 0; i < svgjson.length; i++){
+	 	var svgdata = svgjson[i];
+	 	var territory = paper.path(svgdata.d);
+	 	territory.node.id = svgdata.id;
+
+	 	territory.attr({"fill": svgdata.fill});
+
+		territory.attr({'stroke-opacity': 0});
+
+	 }
+
+
 
 	if(isMyTurn()){
 		console.log("es mi turno");
@@ -58,6 +79,15 @@ function clickTerritory(idTerritory){
 
 }
 
+function changeCards(){
+
+	/*var players = match.listPlayer;
+	for (var i = 0; i< ; i++){
+
+	}*/
+
+}
+
 
 function clickTwoTerritorys(idTerritory){
 	
@@ -89,7 +119,7 @@ function clickTwoTerritorys(idTerritory){
 
 function getMatch(){
 	var request = new XMLHttpRequest();
-	var url="/getMatchData?id_match=" + idMatch;
+	var url="/getMatchData?id_match=" + idMatch +"&nick="+ nick;
 	console.log(url);
 	request.open("GET",url,true);
 	request.addEventListener('load',loadMatch ,false);
