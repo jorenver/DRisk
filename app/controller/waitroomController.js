@@ -12,7 +12,8 @@ exports.waitroom = function(request,response){//wait room to players not creator
 
 exports.getMatchData = function(request, response){//get data from a match
 	var id_match= request.query.id_match;
-	var matchData = model.getMatch(id_match);
+	var nick = request.session.nick;
+	var matchData = model.getMatch(id_match, nick);
 	//validar no nulo, mandar 404
 	if(matchData){
 		response.json({match: matchData});

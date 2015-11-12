@@ -66,7 +66,7 @@ function processingMatch(event){
 
 function getMatch(idGame){
 	var request = new XMLHttpRequest();
-	var url="/getMatchData?id_match=" + idMatch;
+	var url="/getMatchData?id_match=" + idMatch + "&nick=" + nick;
 	console.log(url);
 	request.open("POST",url,true);
 	request.addEventListener('load',processingMatch ,false);
