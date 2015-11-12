@@ -249,12 +249,12 @@ exports.getMatch = function(idMatch, nick){
 	}
 
 	var strgraph = libGraph.json.write(match.map.graph);
-	var svg = loadSVG("../public/JSON/svgtest.json");
+	//var svg = loadSVG("../public/JSON/svgtest.json");
 
 	var newMap = {
 		name: match.map.name,
 		graph: strgraph,
-		svg: svg
+		svg: null
 	}
 
 	var newMatch = {

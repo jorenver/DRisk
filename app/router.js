@@ -38,6 +38,7 @@ router.get('/getMatchData', waitroomController.getMatchData);
 router.get('/customizeMap',customizeMapController.customizeMap);
 //Start game
 router.get('/game',gameController.Start);
+router.get('/getNumSoldier',gameController.getNumSoldier);
 
 //Players
 router.get('/players',waitroomController.getPlayers);

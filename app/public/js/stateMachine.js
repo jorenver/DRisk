@@ -1,4 +1,11 @@
 //state selectTerritory
+function searchPlayer(list,nick){
+    for(i in list) {
+        if(list[i].nick==nick)
+            return list[i];
+    }
+    return null;
+}
 
 var selectTerritory = function(){
 
@@ -25,6 +32,11 @@ var selectTerritory = function(){
 		var idTerritory = args.idTerritory;
 		graph.node(idTerritory).owner = nick;
 		graph.node(idTerritory).numSoldier += 1;
+		var player;
+		player= searchPlayer(match.listPlayer,nick);
+        console.log(player)
+        player.numSoldier-=1;
+        console.log(player);
 
 		console.log("grafo actualizado Select", graph);
 	}
@@ -62,7 +74,11 @@ var reforceTerritory = function(){
 		var idTerritory = args.idTerritory;
 		graph.node(idTerritory).owner = nick;
 		graph.node(idTerritory).numSoldier += 1;
-
+		var player;
+		player= searchPlayer(match.listPlayer,nick);
+        console.log(player)
+        player.numSoldier-=1;
+        console.log(player);
 		console.log("grafo actualizado Reforce", graph);
 	}
 

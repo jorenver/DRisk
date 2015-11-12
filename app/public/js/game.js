@@ -127,6 +127,25 @@ function getMatch(){
 	request.send(null);	
 }
 
+function searchPlayer(list,nick){
+    for(i in list) {
+        if(list[i].nick==nick)
+            return list[i];
+    }
+    return null;
+}
+
+function procesarNumSolidier(event){
+	var respond = JSON.parse(event.target.responseText);
+	var numSoldier = respond.numSoldier; 
+	var user = respond.nick; 
+	var player;
+	player= searchPlayer(match.listPlayer,nick);
+    console.log(player)
+    player.numSoldier=numSoldier;
+	console.log(player)
+}
+
 function connectSocketGame(){
 	socket= io.connect();
 
@@ -135,7 +154,6 @@ function connectSocketGame(){
 		console.log("updateMap", args.nickTurn);
 		match.turn = args.nickTurn;
 		stage.doUpdateMap(args, match, graph); //actualiza grafo
-
 		//redraw map
 		var cell = document.getElementById(args.idTerritory);
 		var territory = graph.node(args.idTerritory);
@@ -144,8 +162,16 @@ function connectSocketGame(){
 
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
+			if(args.stage=='Reforce'){
+				var url = "/getNumSoldier?nick="+match.turn;
+		        var request = new XMLHttpRequest();
+		        request.addEventListener('load',procesarNumSolidier, false);
+		        request.open("GET",url, true);
+		        request.send(null);
+			}
+			
 			if(args.stage=='Atack' || args.stage=='Move'){
-				setClick(clickTowTerritorys);
+				setClick(clickTwoTerritorys);
 			}
 			console.log(stage);
 		}
