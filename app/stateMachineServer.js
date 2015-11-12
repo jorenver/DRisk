@@ -212,6 +212,7 @@ var changeCarts = function(){
     this.doMove = function(args, match){
         //update the graph
         console.log("********actualizando grafo Carts******");
+        //lastTerritorysConquers
     }
 
     this.nextStage = function(){

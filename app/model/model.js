@@ -261,6 +261,7 @@ exports.emitPublicMatch = function(idMatch,nick,io){
 		idTerritory: null,
 		cards: [],
 		numSoldier: 0,
+		lastTerritorysConquers:0,
 		color:colors[0]
 	};
 	Matches[idMatch].listPlayer.push(player);
