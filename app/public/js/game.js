@@ -253,6 +253,8 @@ function updateTerritory(territoryPath,color){
 	paper.project.importSVG('../svg/soldier.svg',function(soldier){
 		soldier.position = territoryPath.position;
 		soldier.scale(0.10);
+		var span = document.getElementById('soldierNum');
+		span.innerHTML = parseInt(span.innerHTML)-1;
 	});
 }
 

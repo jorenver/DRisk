@@ -71,9 +71,9 @@ var selectTerritory = function(){
 }
 
 var reforceTerritory = function(){
-
     //recibe an object {nick, idTerritory, graph }
     this.stageName = "Reforce";
+    
     this.initStage= function(match){
         console.log('init Reforce');
         var listPlayer=match.listPlayer;
