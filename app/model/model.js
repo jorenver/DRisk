@@ -4,13 +4,13 @@ var cardFactory = require("./cardFactory");
 
 
 var strMap =  loadGraph("../public/JSON/testMap.json");
-var colors = [
-	{string: "Red" , code: "#FF0000" }, 
-	{string:"Green" , code:"#04B404"},
-	{string:"Orange" , code: "#FF8000"},
-	{string:"Blue" , code: "#0431B4"}, 
+var colors = [ 
+	{string:"Green" , code:"#0AFE47"},
+	{string: "Red" , code: "#F70000" },
+	{string:"Orange" , code: "#EAA400"},
+	{string:"Blue" , code: "#6A6AFF"}, 
 	{string:"Pink" , code:"#F5A9A9"}, 
-	{string:"Yellow" , code: "#FFFF00"}, 
+	{string:"Yellow" , code: "#F7DE00"}, 
 	{string:"Brown" , code:"#3B240B"}
 ];
 
@@ -135,7 +135,7 @@ exports.setMap = function(request,response){
 	mapChosen=request.body.mapChosen;
 	var Map={
 		name:mapChosen,
-		graph: loadGraph("../public/JSON/testMap.json"),//provicional
+		graph: loadGraph("../public/JSON/worldGraph.json"),//world map
 		svg:null
 	}
 	var match = Matches[request.session.idMatch];

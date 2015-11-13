@@ -21,7 +21,6 @@ var selectTerritory = function(){
 
     this.doMove = function(args, match){
         //update the graph
-
         console.log("********actualizando grafo Select******");
         var nick = args.nick;
         var idTerritory = args.idTerritory;
