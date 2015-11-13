@@ -68,7 +68,7 @@ function getMatch(idGame){
 	var request = new XMLHttpRequest();
 	var url="/getMatchData?id_match=" + idMatch + "&nick=" + nick;
 	console.log(url);
-	request.open("POST",url,true);
+	request.open("GET",url,true);
 	request.addEventListener('load',processingMatch ,false);
 	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
 	request.send(null);
@@ -83,12 +83,74 @@ function socketConnect(){
 		window.location.href = "/game";
 
 	});
+	socket.on("addPlayer", function(data){
+		var table = document.getElementById("tablePlayers");
+	    var player = data.player;
+	    var row = rowPlayer(player);
+	    table.appendChild(row);
+	});
 
 }
 
+function processingPlayers(event){
+	var respond = JSON.parse(event.target.responseText);
+	var players = respond.players;
+	
+	if(players.length == 0){
+		return;
+	}
+	var table = document.getElementById("tablePlayers");
+	$('table').empty();
+	
+	var headers = ["Color", "Player"];
+	//insertHeaders(table,headers);
+  	for(var i =0; i< players.length; i++){
+	    var player = players[i];
+	    var row = rowPlayer(player);
+	    table.appendChild(row);
+  	}
+}
+
+function rowPlayer(player){
+	var array = [ { 'attribute' : 'class', 'value': 'row-table u-flex-row u-justify-center' } ];
+	var tr = createElement('tr',array);
+	var nick = player.nick;
+	var color = player.color;
+	console.log(color);
+
+	array = [ { 'attribute' : 'class', 'value': 'row-table-color  u-flex-row u-justify-center u-align-center' } ];
+	var td = createElement('td',array);
+	td.innerHTML = ""; td.style.backgroundColor = color.code;
+	tr.appendChild(td);
+
+	array = [ { 'attribute' : 'class', 'value': 'row-table-nick' } ];
+	td = createElement('td',array);
+	td.innerHTML = nick;
+	tr.appendChild(td);
+
+	return tr;
+}
+function createElement(type,array){
+	var element = document.createElement(type);
+	for(var i in array){
+		element.setAttribute(array[i].attribute,array[i].value);
+	}
+	return element;
+}
+
+function getPlayers(idGame){
+	var request = new XMLHttpRequest();
+	var url="/players?idMatch=" + idGame;
+	request.open("GET",url,true);
+	request.addEventListener('load',processingPlayers ,false);
+	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+	request.send(null);
+}
 
 function initialize(event){
-	getMatch(idMatch);
+	getPlayers(idMatch);
+	//getMatch(idMatch);
+	
 	socketConnect();
 	socket.emit('removePlayerChoose');
 }

@@ -208,10 +208,14 @@ exports.getPublishedMatches = function(request, response, page){
 	response.send({games: registers, limit: count});
 }
 
-exports.joinPlayer = function(idMatch, nickPlayer){
+exports.joinPlayer = function(idMatch, nickPlayer,ios){
 	var players = Matches[idMatch].listPlayer;
+	console.log('entre al join')
+	console.log(players)
 	for (var i=0; i< players.length; i++){
 		if(players[i].nick == nickPlayer ){
+			console.log('problema')
+			console.log(players[i],nickPlayer)
 			return; //error
 		}
 	}
@@ -224,6 +228,12 @@ exports.joinPlayer = function(idMatch, nickPlayer){
 		color:colors[currentIndex]
 	};
 	Matches[idMatch].listPlayer.push(player);
+	console.log(ios.length)
+	ios[ios.length-1].emit("getWaitRoom", {idMatch:idMatch} );
+	for(var i=0;i<ios.length-1;i++){
+		console.log('me agrego en los otros jugadores')
+		ios[i].emit("addPlayer", {player: player} );
+	}
 	//console.log(Matches[idMatch]);
 }
 

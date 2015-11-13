@@ -24,6 +24,7 @@ exports.getMatchData = function(request, response){//get data from a match
 exports.getPlayers = function(request,response){
 	var idMatch = request.query.idMatch;
 	var match = model.getMatch(idMatch);
+	console.log('00000000000000',match.listPlayer)
 	if(match!=null){
 		response.json({ players : match.listPlayer});
 	}
