@@ -13,6 +13,7 @@ var selectTerritory = function(){
 	this.stageName = "Select"; 
 
 	this.validateMove = function(args){
+		
 		var idTerritory = args.idTerritory;
 
 		var territory = args.graph.node(idTerritory);

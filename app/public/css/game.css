@@ -18,12 +18,15 @@ html,body{
 
 .barWrapper{
 	width: 100%;
-	margin: 10px;
-	font-family: opcionUno;
+	background-color: rgba(226,228,230, 0.5);
 }
 
 .barOption{
+	margin: 0px 40px;
+}
 
+.barOption span{
+	font-family: opcionUno;
 }
 
 .playersWrapper{
@@ -36,11 +39,54 @@ html,body{
 }
 
 .actionWrapper{
-	margin: 20px;
+	margin-top: 50px;
 }
 
 .tile{
 	border: 2px solid black;
 	width: 100px;
 	height: 100px;
+}
+
+.mapWrapper{
+	height:400px;
+}
+
+.listPlayerWrapper{
+	width: 10%;
+}
+
+.row-table{
+	font-family: opcionUno;
+	width: 80%;
+	margin: 5px 5px;
+}
+
+.row-table-color{
+	border-radius: 20px;
+	padding: 10px 10px;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	border: 2px solid black;
+}
+
+.row-table-nick{
+	background-color: rgba(226,228,230, 0.5);
+	padding: 5px 5px 5px 5px;
+	width: 80%;
+	border-radius: 5px;
+}
+
+.actionButton{
+	background-color: #ffc800;
+	border-radius: 50px;
+	font-family: opcionUno;
+	font-size: 16px;
+	margin: 5px 5px;
+	padding: 5px 5px;
+	cursor: pointer;
+	transition: all 0.6s ease;
+	width: 80px;
+	height: 80px;
 }

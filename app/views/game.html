@@ -5,8 +5,8 @@
 	<link rel="stylesheet" type="text/css" href="css/match.css">
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 	<script type="text/javascript" src="js/graphlib.min.js" ></script>
+	<script type="text/javascript" src="js/lib/paperjs/dist/paper-full.js"></script>
 	<script src="../socket.io/socket.io.js"></script>
-	<script type="text/javascript" src="js/raphael-min.js" ></script>
 	<script type="text/javascript" src="js/stateMachine.js" ></script>	
 	<script type="text/javascript" src="js/game.js" ></script>
 	<title></title>
@@ -15,49 +15,33 @@
 			var nick= "{{nick}}"; 
 	</script>
 </head>
-<body>
+<body style="background-image: url('../img/background_earth.png');
+			 background-repeat: repeat;">
 	<div id = "canvas">
 	</div>
 	<div class="gameWrapper u-flex-column u-align-center">
-		<div class="barWrapper u-flex-row u-justify-space-around">
+		<div class="barWrapper u-flex-row u-justify-center">
 			<div class="barOption">
-				<span>Carta</span>
+				<img src="../img/cards.jpg" width="45px" height="45px">
+				<span>0</span>
 			</div>
 			<div class="barOption">
-				<span>Soldados</span>
+				<img src="../svg/soldierIcon.svg" width="45px" height="45px" />
+				<span>10</span>
 			</div>
 		</div>
-		
-
 		<div class="u-flex-column">
-			<!--<div class="playersWrapper ">
-				<div id="listPlayers" class="players"></div>
-				<span>Players</span>
-			</div>-->
-			<div class="boardWrapper u-flex-row u-justify-center u-align-center">
-				<table>
-					<tr id="row-1">
-						<td class="tile" id = "Cuba" > Cuba null 0</td>
-						<td class="tile" id = "Brasil" >Brasil null 0</td>
-						<td class="tile" id = "Chile" > Chile null 0</td>
-					</tr>
-					<tr id="row-2">
-						<td class="tile" id = "Colombia">Colombia null 0</td>
-						<td class="tile" id = "Ecuador" >Ecuador null 0</td>
-						<td class="tile" id ="Guyana" >Guyana null 0"</td>
-					</tr>
-					<tr id="row-3">
-						<td class="tile" id = "Paraguay" >Paraguay null 0</td>
-						<td class="tile" id = "Bolivia"> Bolivia null 0</td>
-						<td class="tile" id = "Peru"> Peru null 0</td>
-					</tr>
-				</table>
+			<div class="mapWrapper u-flex-row u-align-center">
+				<table id ="listPlayer" class="listPlayerWrapper">
+
+				</table >
+				<canvas id="myCanvas" width="900" height="500"></canvas>
 			</div>
 			<div class="actionWrapper u-flex-row u-justify-center">
-				<input type="button" class="button" value="Change" style="width:70px;">
-				<input type="button" class="button" value="Reforce" style="width:70px;">
-				<input type="button" class="button" value="Attack" style="width:70px;">
-				<input type="button" class="button" value="Move" style="width:70px;">
+				<input type="button" class="actionButton" value="Change">
+				<input type="button" class="actionButton" value="Reforce">
+				<input type="button" class="actionButton" value="Attack">
+				<input type="button" class="actionButton" value="Move" >
 			</div>
 		</div>
 	</div>
