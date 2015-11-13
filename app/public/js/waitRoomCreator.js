@@ -87,15 +87,20 @@ function socketConnect(){
 	socket.on("playerStart", function(){
 		window.location.href = "/game";
 	});
+	socket.on("addPlayer", function(data){
+		var table = document.getElementById("tablePlayers");
+	    var player = data.player;
+	    var row = rowPlayer(player);
+	    table.appendChild(row);
+  		
+	});
+
 }
 
 function startGame(){
 	socket.emit('startGame')
 }
 
-function initialize(event){
-	getPlayers(idMatch);//idMatch : variable recibida desde el server
-	socketConnect();
-}
+
 
 window.addEventListener('load',initialize,false);
