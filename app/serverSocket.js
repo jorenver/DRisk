@@ -103,6 +103,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     currentMatch.stage.initStage(currentMatch);
                     console.log('cambie de estado');
                 }
+                
                 for(p in playersSocket){
                     playersSocket[p].emit('updateMap', data);
                 }

@@ -101,6 +101,7 @@ function connectSocketGame(){
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
 			if(args.stage=='Reforce'){
+				console.log("reforzar");
 				var url = "/getNumSoldier?nick="+match.turn;
 		        var request = new XMLHttpRequest();
 		        request.addEventListener('load',procesarNumSolidier, false);
@@ -155,11 +156,10 @@ function loadMatch(event){
 	var strMap = match.map.graph;
 	graph = new graphlib.json.read(strMap);
 	console.log(graph);
-	/*
-	if(isMyTurn()){
-		console.log("es mi turno");
-		alert("es mi turno");
-	}*/
+
+	if(player && turnItem){
+		turnItem.fillColor = player.color.code;
+	}
 }
 
 
@@ -227,16 +227,28 @@ function setClick(action){
 
 function updateTerritory(territoryPath,color){
 	territoryPath.fillColor = color;
+	
 	var soldier = soldierItem.clone();
 	soldier.position = territoryPath.position;
 	soldier.scale(0.10);
 	paper.project.activeLayer.addChild(soldier);
+
 	updateNumSoldier(territoryPath);
+	/*
+	var numSoldier = territoryPath.data.numSoldier;
+	var numSoldierPath = new paper.PointText({
+		fillColor : 'white',
+    	fontSize: 15
+	});
+	numSoldierPath.point.x = territoryPath.position.x + 25;
+	numSoldierPath.point.y = territoryPath.position.y;
+	numSoldierPath.content = numSoldier;*/
+	//territoryPath.addChild(numSoldier);
 }
 
 function updateNumSoldier(territoryPath){
-	if(territoryPath.data == null){
-		territoryPath.data.numSoldier = 1;
+	if(territoryPath.data.numSoldier == null){
+		territoryPath.data.numSoldier = 1 ;
 	}else{
 		territoryPath.data.numSoldier = territoryPath.data.numSoldier + 1; 
 	}
@@ -251,8 +263,8 @@ function clickTerritory(territoryPath){
 	});
 	// "player" is the current player
 	if(value){
-		updateTerritory(territoryPath,player.color.code);
 		//colocate a soldier into territory, change color and update num soldiers
+		updateTerritory(territoryPath,player.color.code);
 		socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory: idTerritory } );
 	}else{
 		console.log("Error al seleccionar territorio");
@@ -277,12 +289,14 @@ function loadTurnItem(){
     	point: [x,y],
     	content: 'YOUR TURN',
     	fontFamily: 'Plump',
-		fillColor : player.color.code,
     	strokeWidth : 1,
     	strokeColor : 'black',
     	fontWeight: 'bold',
     	fontSize: 50
 	});
+	if(player){
+		turnItem.fillColor = player.color.code;
+	}
 	turnItem.opacity = 1;
 	turnItem.visible = false;
 }
@@ -297,9 +311,9 @@ function animationOn(){
 
 function turnAnimation(){
 	if(isMyTurn()){
-		if(turnItem.opacity > 0.01){
+		if(turnItem.opacity > 0.05){
 			turnItem.visible = true
-			turnItem.opacity = turnItem.opacity - 0.01;
+			turnItem.opacity = turnItem.opacity - 0.05;
 		}else{
 			turnItem.visible = false;
 			turnItem.remove();
