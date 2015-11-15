@@ -9,9 +9,10 @@ var socket;
 var territorysSelected;
 
 //raphael variables
-var paper;
 //paper variables
 var mapGroup;
+var soldierItem;
+var turnItem;
 
 function isMyTurn(){
 	if(match.turn == nick){
@@ -92,15 +93,11 @@ function connectSocketGame(){
 		console.log("updateMap", args.nickTurn);
 		match.turn = args.nickTurn;
 		stage.doUpdateMap(args, match, graph); //actualiza grafo
-
 		//redraw map
-		var cell = document.getElementById(args.idTerritory);
 		var territory = graph.node(args.idTerritory);
-		//cell.innerHTML = args.idTerritory + " " + territory.owner + " " + territory.numSoldier;
 		var territoryPath = searchTerritory(mapGroup.children,args.idTerritory);
 		var lastPlayer = searchPlayer(match.listPlayer,territory.owner);
-		updateTerritory(territoryPath, lastPlayer.color.code);
-
+		updateTerritory(territoryPath,lastPlayer.color.code);
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
 			if(args.stage=='Reforce'){
@@ -109,18 +106,17 @@ function connectSocketGame(){
 		        request.addEventListener('load',procesarNumSolidier, false);
 		        request.open("GET",url, true);
 		        request.send(null);
-			}
-			
+		        $("#reforceAction").css('background-color','#43888e');
+			}	
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
 			}
 			console.log(stage);
 		}
-
+		
 		if(isMyTurn()){
-			alert("es mi turno");
+			loadTurnItem();
 		}
-
 	});
 }
 
@@ -159,11 +155,11 @@ function loadMatch(event){
 	var strMap = match.map.graph;
 	graph = new graphlib.json.read(strMap);
 	console.log(graph);
-
+	/*
 	if(isMyTurn()){
 		console.log("es mi turno");
 		alert("es mi turno");
-	}
+	}*/
 }
 
 
@@ -197,8 +193,8 @@ function initLibPaper(url){
 	// Create an empty project and a view for the canvas:
 	paper.setup(canvas);
 	loadSVGMap(url);
-	// Draw the view now:
-	paper.view.draw();
+	loadSoldierItem();
+	paper.view.draw();// Draw the view now:
 }
 
 function loadSVGMap(file){	
@@ -211,13 +207,14 @@ function loadSVGMap(file){
 			mapGroup = paper.project.importSVG(xml.getElementsByTagName("svg")[0]);
 			mapGroup.scale(0.70);
 			setClick(clickTerritory);
+			loadTurnItem();
+			paper.view.on('frame',animationOn);
 		}
 	});
 }
 
 function setClick(action){
-	var groupTerritory = mapGroup.children;
-	//groupTerritory: array de territorios, cada elemento es un objeto de tipo Group
+	var groupTerritory = mapGroup.children;// array de territorios, cada elemento es un objeto de tipo Group
 	for(var i = 0 ; i < groupTerritory.length ; i++){
 		groupTerritory[i].on('click',function(event){
 			if(isMyTurn()){
@@ -228,18 +225,34 @@ function setClick(action){
 	}
 }
 
+function updateTerritory(territoryPath,color){
+	territoryPath.fillColor = color;
+	var soldier = soldierItem.clone();
+	soldier.position = territoryPath.position;
+	soldier.scale(0.10);
+	paper.project.activeLayer.addChild(soldier);
+	updateNumSoldier(territoryPath);
+}
+
+function updateNumSoldier(territoryPath){
+	if(territoryPath.data == null){
+		territoryPath.data.numSoldier = 1;
+	}else{
+		territoryPath.data.numSoldier = territoryPath.data.numSoldier + 1; 
+	}
+}
 
 function clickTerritory(territoryPath){
-	//valido con el grafo la jugada de acuerdo a los datos
 	var idTerritory = territoryPath.name;
-	var value = stage.validateMove({
+	var value = stage.validateMove({//valido con el grafo la jugada de acuerdo a los datos
 		nick: nick,
 		graph: graph,
 		idTerritory: idTerritory
 	});
+	// "player" is the current player
 	if(value){
-		// "player" is the current player
-		updateTerritory(territoryPath, player.color.code);//colocate a soldier into territory and change color
+		updateTerritory(territoryPath,player.color.code);
+		//colocate a soldier into territory, change color and update num soldiers
 		socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory: idTerritory } );
 	}else{
 		console.log("Error al seleccionar territorio");
@@ -247,15 +260,52 @@ function clickTerritory(territoryPath){
 	console.log("grafo actualizado", match.map.graph);
 }
 
-function updateTerritory(territoryPath,color){
-	territoryPath.fillColor = color
-	//traer el url del svg desde el server
+function loadSoldierItem(){
+	//load a svg and it transforms to item
 	paper.project.importSVG('../svg/soldier.svg',function(soldier){
-		soldier.position = territoryPath.position;
-		soldier.scale(0.10);
-		var span = document.getElementById('soldierNum');
-		span.innerHTML = parseInt(span.innerHTML)-1;
+		soldierItem = soldier;
+		soldier.remove();
 	});
 }
+
+function loadTurnItem(){
+	//load a textitem with information about turn
+	var x,y;
+	x = paper.view.size.width/2 - 50;
+	y = paper.view.size.height/2;
+	turnItem = new paper.PointText({
+    	point: [x,y],
+    	content: 'YOUR TURN',
+    	fontFamily: 'Plump',
+		fillColor : player.color.code,
+    	strokeWidth : 1,
+    	strokeColor : 'black',
+    	fontWeight: 'bold',
+    	fontSize: 50
+	});
+	turnItem.opacity = 1;
+	turnItem.visible = false;
+}
+
+function animationOn(){
+	if(match){
+		if(turnItem){
+			turnAnimation();
+		}
+	}
+}
+
+function turnAnimation(){
+	if(isMyTurn()){
+		if(turnItem.opacity > 0.01){
+			turnItem.visible = true
+			turnItem.opacity = turnItem.opacity - 0.01;
+		}else{
+			turnItem.visible = false;
+			turnItem.remove();
+		}
+	}
+}
+
 
 window.addEventListener('load',initialize,false);

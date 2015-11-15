@@ -14,11 +14,16 @@
 }
 
 @font-face{
-	font-family: 'opcionCuatro';
-	src:url('fonts/Plump.ttf');
+	font-family: 'opcionCinco';
+	src:url('fonts/KGRedHands.ttf');
 }
 
 @font-face{
-	font-family: 'opcionCinco';
-	src:url('fonts/KGRedHands.ttf');
+	font-family: 'SilverForte';
+	src:url('fonts/Silver Forte.ttf');
+}
+
+@font-face{
+	font-family: 'Plump';
+	src:url('fonts/Plump.ttf');
 }

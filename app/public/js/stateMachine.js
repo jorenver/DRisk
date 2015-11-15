@@ -87,8 +87,6 @@ var reforceTerritory = function(){
 		//return the next stage
 
 	}
-
-
 }
 
 var atackTerritory = function(){
