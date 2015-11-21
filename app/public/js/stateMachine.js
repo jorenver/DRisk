@@ -48,6 +48,7 @@ var selectTerritory = function(){
 
 	}
 
+
 }
 
 var reforceTerritory = function(){

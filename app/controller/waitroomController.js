@@ -6,8 +6,8 @@ var Matches = model.Matches;
 exports.waitroom = function(request,response){//wait room to players not creator
 	var id_match = request.query.id_match;
 	var nick = request.session.nick;
+	request.session.idMatch = id_match;
 	response.render('waitroom',{idMatch:id_match, nick: nick });
-
 }
 
 exports.getMatchData = function(request, response){//get data from a match

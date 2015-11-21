@@ -155,19 +155,15 @@ function getMatches(){
 
 function connectSocketChooseMap(){
 	socket = io.connect();
-
 	socket.on('getWaitRoom',function(data){
  		var idMatch = data.idMatch;
  		window.location.href = "/waitroom?id_match="+ idMatch;	
- 		
   	});
 
   	socket.on('PublicMatch', function(data){
   		var table = document.getElementById("table");
   		replaceRow(data, table);
   	});
-
-
 }
 
 function initialize(event){

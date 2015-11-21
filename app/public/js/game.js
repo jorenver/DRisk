@@ -80,17 +80,18 @@ function procesarNumSolidier(event){
 	var respond = JSON.parse(event.target.responseText);
 	var numSoldier = respond.numSoldier; 
 	var user = respond.nick; 
-	var player;
-	player= searchPlayer(match.listPlayer,nick);
-    console.log(player)
-    player.numSoldier=numSoldier;
-	console.log(player)
+    player.numSoldier = numSoldier;
+    $("#soldierNum").html(player.numSoldier);
 }
 
 function connectSocketGame(){
 	socket= io.connect();
+
+	socket.on('connect',function(){
+		socket.emit('addConnection');
+	});
+
 	socket.on("updateMap", function(args){
-		console.log("updateMap", args.nickTurn);
 		match.turn = args.nickTurn;
 		stage.doUpdateMap(args, match, graph); //actualiza grafo
 		//redraw map
@@ -101,7 +102,6 @@ function connectSocketGame(){
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
 			if(args.stage=='Reforce'){
-				console.log("reforzar");
 				var url = "/getNumSoldier?nick="+match.turn;
 		        var request = new XMLHttpRequest();
 		        request.addEventListener('load',procesarNumSolidier, false);
@@ -112,9 +112,7 @@ function connectSocketGame(){
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
 			}
-			console.log(stage);
 		}
-		
 		if(isMyTurn()){
 			loadTurnItem();
 		}
@@ -137,7 +135,7 @@ function loadPlayersInfo(listPlayer){
 		nick = document.createElement('td')
 		$(nick).attr('class','row-table-nick');
 		nick.innerHTML = listPlayer[i].nick;
-		
+
 		row.appendChild(td);
 		row.appendChild(nick);
 		wrapper.appendChild(row);
@@ -148,20 +146,16 @@ function loadMatch(event){
 	var respond = JSON.parse(event.target.responseText);
 	match = respond.match;
 	console.log("***match- cliente", match);
-
 	//load the information of current player 
 	player = searchPlayer(match.listPlayer,nick);
 	loadPlayersInfo(match.listPlayer);
 	//cargar el grafo
 	var strMap = match.map.graph;
 	graph = new graphlib.json.read(strMap);
-	console.log(graph);
-
 	if(player && turnItem){
 		turnItem.fillColor = player.color.code;
 	}
 }
-
 
 function getMatch(){
 	var request = new XMLHttpRequest();
@@ -232,18 +226,19 @@ function updateTerritory(territoryPath,color){
 	soldier.position = territoryPath.position;
 	soldier.scale(0.10);
 	paper.project.activeLayer.addChild(soldier);
-
 	updateNumSoldier(territoryPath);
-	/*
 	var numSoldier = territoryPath.data.numSoldier;
-	var numSoldierPath = new paper.PointText({
-		fillColor : 'white',
-    	fontSize: 15
-	});
+	var numSoldierPath = paper.project.activeLayer.getItem({ name : territoryPath.name + "-soldier" });
+	if(!numSoldierPath){
+		var numSoldierPath = new paper.PointText({
+			name : territoryPath.name + "-soldier",
+			fillColor : 'white',
+	    	fontSize: 15
+		});
+	}
 	numSoldierPath.point.x = territoryPath.position.x + 25;
 	numSoldierPath.point.y = territoryPath.position.y;
-	numSoldierPath.content = numSoldier;*/
-	//territoryPath.addChild(numSoldier);
+	numSoldierPath.content = numSoldier;
 }
 
 function updateNumSoldier(territoryPath){
@@ -264,8 +259,9 @@ function clickTerritory(territoryPath){
 	// "player" is the current player
 	if(value){
 		//colocate a soldier into territory, change color and update num soldiers
-		updateTerritory(territoryPath,player.color.code);
+		//updateTerritory(territoryPath,player.color.code);
 		socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory: idTerritory } );
+		$("#soldierNum").html(player.numSoldier);
 	}else{
 		console.log("Error al seleccionar territorio");
 	}

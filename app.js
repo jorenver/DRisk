@@ -9,6 +9,7 @@ var http = require('http').Server(app);
 
 /*Session*/
 var redis = require('redis');
+var ip = require('ip');
 var client = redis.createClient();
 var redisStore = require('connect-redis')(session);
 var sessionMiddleware = session({
@@ -29,6 +30,7 @@ var router=require('./app/router.js');
 var serverSocket=require('./app/serverSocket.js');
 
 app.set('port', 7000);
+app.set('ipAddress',ip.address()); // my ip address
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -41,7 +43,7 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/app/views');
 app.use('/',router);
 
-http.listen(app.get('port'),function(){
+http.listen(app.get('port'),app.get('ipAddress'),function(){
     console.log("DRisk Aplication running in a port " + app.get('port'));
 });
 

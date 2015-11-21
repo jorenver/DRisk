@@ -8,9 +8,9 @@ function searchPlayer(list,nick){
 
 
 var selectTerritory = function(){
-
     //recibe an object {nick, idTerritory, graph }
     this.stageName = "Select";
+
     this.initStage= function(match){
         console.log('init Select')
     }
@@ -37,7 +37,6 @@ var selectTerritory = function(){
 
     this.nextStage = function(){
         return new reforceTerritory();
-
     }
 
     this.buildData= function(args, playerTurn, stage){
@@ -80,16 +79,16 @@ var reforceTerritory = function(){
         player= searchPlayer(listPlayer,match.turn);
         //calcular el numero de soldados
         player.numSoldier=5;
-
     }
 
     this.isChangeTurn= function(){
+
         return false;
+    
     } 
 
     this.doMove = function(args, match){
         //update the graph
-
         console.log("********actualizando grafo Reforce******");
         var nick = args.nick;
         var idTerritory = args.idTerritory;
@@ -121,8 +120,8 @@ var reforceTerritory = function(){
         return data;
     }
 
-    this.validateChangeStage=function(match){
-         var listPlayer=match.listPlayer;
+    this.validateChangeStage=function(match){ 
+        var listPlayer=match.listPlayer;
         player= searchPlayer(listPlayer,match.turn);
         if(player.numSoldier==0)
             return 'Atack';

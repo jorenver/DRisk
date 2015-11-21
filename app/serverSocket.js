@@ -10,26 +10,44 @@ exports.createServerSocket = function(io,sessionMiddleware){
     });
     
     io.on('connection', function(player) {  
-        var session= player.request.session;
+        var session = player.request.session;
         if(session.nick){
-        	//clients[session.player] = session.player;
+
+            player.on('addConnection',function(){
+                //when a client has connected, we have to save that connection
+                //player: is a current Socket connection
+                if(session.idMatch){
+                    if(!clients[session.idMatch]){
+                        clients[session.idMatch] = [];
+                    }
+                    clients[session.idMatch].push(player);
+                }
+            });
+
+            player.on("closeConnection",function(){
+                //when a client has disconnected, we have to eliminate that client
+                //player: is a current Socket connection
+                var sockets = clients[session.idMatch];//it gets all the clients has joined to this match
+                if(sockets){
+                    //we can get one specific socket by id
+                    for (i in sockets){
+                        if(sockets[i].id == player.id){
+                            console.log("se borro conexion")
+                            delete sockets[c];
+                        }
+                    }
+                }
+            });
 
             player.on("chooseGame", function(data){
-                session.idMatch = data.idMatch;
-                if(clients[session.idMatch]){
-                    clients[session.idMatch].push(io);
-                }
-                model.joinPlayer(data.idMatch, session.nick,clients[session.idMatch]);
-                console.log("variable de session",session.idMatch);
-    			//model.printMatch(data.idMatch);
-    			//player.emit("getWaitRoom", {idMatch: data.idMatch} );
-                //notificar a los clientes que se encuentran en la partida de la persona que se unio
-                //incrementar el contador de la partida en chooseGame
+                player.emit("getWaitRoom",{idMatch:idMatch});//player goes to the wait room
+                var sockets = clients[idMatch];
+                model.joinPlayer(data.idMatch, session.nick,sockets);//notify to all players about the new player
         	});
 
-        	clients[session.player] = session.player;
+        	//clients[session.player] = session.player;
     
-             player.on("addPlayerChoose", function(data){
+            player.on("addPlayerChoose", function(data){
                 clientsChoose[session.nick]=player;
             });
 
@@ -38,14 +56,8 @@ exports.createServerSocket = function(io,sessionMiddleware){
             });
 
             player.on("publicMatch", function(data){
-                console.log('se va a publicar 2');
-                idMatch=session.idMatch;
-                console.log(idMatch)
-                nick=session.nick;
-                clients[idMatch]=[];
-                clients[idMatch].push(io);
-                //model.publicMatch(idMatch,nick,io);  
-                model.emitPublicMatch(idMatch,nick,io);  
+                idMatch = session.idMatch;    nick = session.nick;
+                model.emitPublicMatch(idMatch,nick,player);//stay the current match as 'published'
             });
 
             player.on("startGame", function(data){
@@ -70,9 +82,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 numSoldier = 2;
                 console.log('++++++++++++++++++number of soilder for each player:', numSoldier)
                 for(p in listPlayer){
-                    console.log(listPlayer[p]);
                     listPlayer[p].numSoldier=numSoldier;
-                    console.log(listPlayer[p]);
                 }
                 var playersSocket = clients[session.idMatch];
                 for(p in playersSocket){
@@ -86,8 +96,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 currentMatch.stage.doMove(args, currentMatch);
                 var playersSocket = clients[args.idMatch];
                 var listPlayer = currentMatch.listPlayer;
-                if(currentMatch.stage.isChangeTurn()){
-                    //change the turn
+                if(currentMatch.stage.isChangeTurn()){//change the turn
                     var playerTurn = listPlayer.shift(); //dequeue
                     currentMatch.turn = playerTurn.nick; //set the first turn
                     listPlayer.push(playerTurn); //enqueue
@@ -103,16 +112,14 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     currentMatch.stage.initStage(currentMatch);
                     console.log('cambie de estado');
                 }
-                
                 for(p in playersSocket){
                     playersSocket[p].emit('updateMap', data);
                 }
             });
         }
-    }); 
+    });
+
 }
-
-
 
     function suffle(input){
          

@@ -82,25 +82,25 @@ function startGame(){
 
 function socketConnect(){
 	socket = io.connect();
+	
+	socket.on('connect',function(){
+		console.log("conexion lista");
+		socket.emit('addConnection');
+	});
 
 	//recive the order to start game
 	socket.on("playerStart", function(){
+		socket.emit('closeConnection');
 		window.location.href = "/game";
 	});
+	
 	socket.on("addPlayer", function(data){
 		var table = document.getElementById("tablePlayers");
 	    var player = data.player;
 	    var row = rowPlayer(player);
 	    table.appendChild(row);
-  		
 	});
-
 }
-
-function startGame(){
-	socket.emit('startGame')
-}
-
 
 
 window.addEventListener('load',initialize,false);

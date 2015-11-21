@@ -77,11 +77,13 @@ function getMatch(idGame){
 function socketConnect(){
 	socket = io.connect();
 
-
+	socket.on('connect',function(){
+		console.log("conexion lista");
+		socket.emit('addConnection');
+	});
 	//recive the order to start game
 	socket.on("playerStart", function(){
 		window.location.href = "/game";
-
 	});
 	socket.on("addPlayer", function(data){
 		var table = document.getElementById("tablePlayers");
@@ -89,7 +91,6 @@ function socketConnect(){
 	    var row = rowPlayer(player);
 	    table.appendChild(row);
 	});
-
 }
 
 function processingPlayers(event){
@@ -150,7 +151,6 @@ function getPlayers(idGame){
 function initialize(event){
 	getPlayers(idMatch);
 	//getMatch(idMatch);
-	
 	socketConnect();
 	socket.emit('removePlayerChoose');
 }

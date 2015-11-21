@@ -151,42 +151,6 @@ exports.setMap = function(request,response){
 	}
 }
 
-
-
-/*
-exports.publicMatch = function(request,response){
-	//manejar sesion aqui
-	if(request.session.idMatch){
-		var match = Matches[request.session.idMatch];
-		if(match){
-			var numPlayer = match.numPlayers;
-			var mode = match.mode;
-			var map = match.map.name;
-			if(match.stateMatch == 'pending'){
-				match.stateMatch = 'published';	
-				var player={
-					nick: request.session.nick,
-					idTerritory: null,
-					cards: [],
-					numSoldier: 0,
-					color:colors[match.listPlayer.length]
-				};
-				match.listPlayer.push(player);
-				response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer: numPlayer,
-													mode: mode , nameMap: map
-												  });
-			}else{
-				response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer: numPlayer,
-													mode: mode , nameMap: map
-												  });
-			}
-		}
-	}else{
-		response.render('index',{error:'no'});
-	}
-}
-*/
-
 exports.getPublishedMatches = function(request, response, page){
 	var list = [];
 	var tam = 10;
@@ -208,13 +172,12 @@ exports.getPublishedMatches = function(request, response, page){
 	response.send({games: registers, limit: count});
 }
 
-exports.joinPlayer = function(idMatch, nickPlayer,ios){
+exports.joinPlayer = function(idMatch, nickPlayer,sockets){
 	var players = Matches[idMatch].listPlayer;
-	console.log('entre al join')
-	console.log(players)
+	//validate if current player already have been added to this match
 	for (var i=0; i< players.length; i++){
 		if(players[i].nick == nickPlayer ){
-			console.log('problema')
+			console.log('ya se agrego este player a la partida')
 			console.log(players[i],nickPlayer)
 			return; //error
 		}
@@ -228,13 +191,9 @@ exports.joinPlayer = function(idMatch, nickPlayer,ios){
 		color:colors[currentIndex]
 	};
 	Matches[idMatch].listPlayer.push(player);
-	console.log(ios.length)
-	ios[ios.length-1].emit("getWaitRoom", {idMatch:idMatch} );
-	for(var i=0;i<ios.length-1;i++){
-		console.log('me agrego en los otros jugadores')
-		ios[i].emit("addPlayer", {player: player} );
+	for(var i=0;i<sockets.length;i++){//broadcast to all the players 
+		sockets[i].emit("addPlayer", {player: player} );
 	}
-	//console.log(Matches[idMatch]);
 }
 
 exports.printMatch= function(idMatch){
@@ -300,7 +259,6 @@ function loadSVG(filename){
 }
 
 exports.emitPublicMatch = function(idMatch,nick,io){
-	console.log('se published');
 	Matches[idMatch].stateMatch='published';
 	numPlayer=Matches[idMatch].numPlayers;
 	mode=Matches[idMatch].mode;
