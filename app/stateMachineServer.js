@@ -6,6 +6,42 @@ function searchPlayer(list,nick){
     return null;
 }
 
+function getNumDices(list,num){
+    do{
+        var index=0;
+        var min=list[index];
+        for (var i = 0; i < list.length; i++) {
+            if (list[i]<min) {
+                min=list[i];
+                index=i;
+            }
+        }
+        delete list[index];
+    }while(list.length>num);
+    return list;
+}
+function removeMaxDice(list){
+    var max=0;
+    var max=list[index];
+    for (var i = 0; i < list.length; i++) {
+        if (list[i]>max) {
+            max=list[i];
+            index=i;
+        }
+    }
+    delete list[index];
+    return max;
+}
+
+function generateDices(n){
+    var list=[];
+    for (var i =0 ; i<n ; i++) {
+        var aleatorio = Math.round(Math.random()*5)+1;
+        list.push(aleatorio);
+    }
+    return list;
+}
+
 
 var selectTerritory = function(){
     //recibe an object {nick, idTerritory, graph }
@@ -123,6 +159,7 @@ var reforceTerritory = function(){
     this.validateChangeStage=function(match){ 
         var listPlayer=match.listPlayer;
         player= searchPlayer(listPlayer,match.turn);
+        console.log('77777777777777 validando cambio '+player.numSoldier)
         if(player.numSoldier==0)
             return 'Atack';
         else
@@ -146,6 +183,58 @@ var atackTerritory = function(){
     this.doMove = function(args, match){
         //update the graph
         console.log("********actualizando grafo Atack******");
+        //calculate dice
+        //attacker: 2 soldiers 1 dice, 3 soldiers 2 dice, 4 o more soldier 3 dice
+        //defender: 1 soldier 1 dice, 2 o more soldiers 2 dice
+        var listDiceAttacker=[],listDiceDefender=[],numDefender, numAttacker;
+        var graph,nickAttacker,nickDefender,numSoldierA,numSoldierD,territoryA,territoryD,nDeadA,nDedD;
+        graph=match.map.graph;
+        territoryA=graph.node(args.idTerritory1);
+        territoryB=graph.node(args.idTerritory2);
+        nickAttacker=territoryA.owner;
+        nickDefender=territoryD.owner;
+        numSoldierA=territoryA.numSoldier;
+        numSoldierD=territoryB.numSoldier;
+        if(numSoldierA>=4){
+            numAttacker=3;
+        }
+        else{
+            numAttacker=numSoldierA-1;
+        }
+
+        if(numSoldierD>=2){
+            numDefender=2;
+        }
+        else{
+            numDefender=numSoldierD-1;
+        }
+        //round
+        nDedD=0;
+        nDeadA=0;
+        listDiceDefender=generateDices(numDefender);
+        listDiceAttacker=generateDices(numAttacker);
+        numSoldierA=territoryA.numSoldier;
+        numSoldierD=territoryB.numSoldier;
+        auxA=getNumDices(listDiceAttacker,Math.min(listDiceAttacker.length, listDiceDefender.length));
+        auxD=getNumDices(listDiceDefender,Math.min(listDiceAttacker.length, listDiceDefender.length));
+        while(auxA!=[] && auxD!=[]){
+            if(removeMaxDice(auxA)>removeMaxDice(auxD)){
+                console.log('gana atacante');
+                console.log('Defensor: '+territoryD.numSoldier);
+                territoryD.numSoldier-=1;
+                console.log('Defensor: '+territoryD.numSoldier);
+
+            }else{
+                console.log('gana defensor');
+                console.log('Atacante: '+territoryD.numSoldier);
+                territoryA.numSoldier-=1;
+                console.log('Atacante: '+territoryD.numSoldier);
+            }            
+        }
+
+
+
+
     }
 
     this.nextStage = function(){

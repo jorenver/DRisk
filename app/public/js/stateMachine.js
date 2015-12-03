@@ -86,8 +86,18 @@ var reforceTerritory = function(){
 
 	this.nextStage = function(){
 		//return the next stage
+		return new atackTerritory();
 
 	}
+}
+
+var isneighbors=function(graph,territory1,territory2){
+	list=graph.neighbors(territory1);
+	for (var i = 0; i < list.length; i++) {
+		if(list[i]==territory2)
+			return true;
+	}
+	return false;
 }
 
 var atackTerritory = function(){
@@ -96,6 +106,17 @@ var atackTerritory = function(){
 	this.stageName = "Atack"; 
 
 	this.validateMove = function(args){
+		var nick=args.nick;
+		var idTerritory1=args.idTerritory1;
+		var idTerritory2=args.idTerritory2;
+
+		var territory1 = args.graph.node(idTerritory1);
+		console.log('222222222222222222 '+territory1)
+		var territory2 = args.graph.node(idTerritory2);
+		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner != nick ){
+			return true;
+		}else
+			return false;
 
 	}
 

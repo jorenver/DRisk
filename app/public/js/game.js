@@ -33,8 +33,10 @@ function changeCards(){
 }
 
 
-function clickTwoTerritorys(idTerritory){
+function clickTwoTerritorys(territoryPath){
 	//valido con el grafo la jugada de acuerdo a los datos
+	console.log('***************** 2 territorios')
+	var idTerritory = territoryPath.name;
 	if(!territorysSelected[0] ){
 		territorysSelected[0]=idTerritory;
 	}else{
@@ -48,6 +50,7 @@ function clickTwoTerritorys(idTerritory){
 
 		if(value){
 			socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
+			$("#soldierNum").html(player.numSoldier);
 		}
 		else{
 			console.log("error");
