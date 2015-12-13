@@ -57,7 +57,6 @@ function clickTwoTerritorys(territoryPath){
 		}
 		territorysSelected[0]=null;
 		territorysSelected[1]=null;
-		console.log("grafo actualizado", match.map.graph);
 	}
 	
 }
@@ -213,6 +212,7 @@ function loadSVGMap(file){
 function setClick(action){
 	var groupTerritory = mapGroup.children;// array de territorios, cada elemento es un objeto de tipo Group
 	for(var i = 0 ; i < groupTerritory.length ; i++){
+		groupTerritory[i].off('click');
 		groupTerritory[i].on('click',function(event){
 			if(isMyTurn()){
 				var territoryPath = this;

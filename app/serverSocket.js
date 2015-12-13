@@ -33,7 +33,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     for (i in sockets){
                         if(sockets[i].id == player.id){
                             console.log("se borro conexion")
-                            delete sockets[c];
+                            delete sockets[i];
                         }
                     }
                 }
