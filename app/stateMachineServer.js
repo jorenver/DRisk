@@ -284,7 +284,7 @@ var move = function(){
 
 }
 
-var changeCarts = function(){
+var changeCards = function(){
 
     //recibe an object {nick, idTerritory, graph }
     this.stageName = "Carts";
@@ -363,6 +363,6 @@ exports.selectTerritory = selectTerritory;
 exports.reforceTerritory = reforceTerritory;
 exports.atackTerritory = atackTerritory;
 exports.move = move;
-exports.changeCarts = changeCarts;
-exports.receiveCarts = receiveCarts;
+exports.changeCards = changeCards;
+exports.sendCard = sendCard;
 

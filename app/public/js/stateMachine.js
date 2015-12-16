@@ -11,7 +11,7 @@ var selectTerritory = function(){
 
 	//recibe an object {nick, idTerritory, graph }
 	this.stageName = "Select"; 
-	this.drawAction = "reDrawMap";
+	this.drawAction = "redrawMap";
 
 	this.validateMove = function(args){
 		
@@ -57,7 +57,7 @@ var reforceTerritory = function(){
 
 	//recibe an object {nick, idTerritory, graph }
 	this.stageName = "Reforce"; 
-	this.drawAction = "reDrawMap";
+	this.drawAction = "redrawMap";
 
 	this.validateMove = function(args){
 		var idTerritory = args.idTerritory;
@@ -122,10 +122,6 @@ var atackTerritory = function(){
 		}else
 			return false;
 
-	}
-
-	this.getDrawParameter = function(){
-		return {action: "reDrawMap"};
 	}
 
 	this.doUpdateMap = function(args, match, graph){
@@ -201,7 +197,7 @@ var recieveCard = function(){
 
 	//recibe an object {nick, idTerritory, graph }
 	this.stageName = "recieveCards"; 
-
+	this.drawAction = "recieveCards";
 
 	this.validateMove = function(args){
 		

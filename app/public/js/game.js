@@ -133,7 +133,7 @@ function connectSocketGame(){
 
 
 
-function reDrawMap(args, drawAction){
+function redraw(args, drawAction){
 
 	if(drawAction == "redrawMap"){
 		var territory = graph.node(args.idTerritory);
