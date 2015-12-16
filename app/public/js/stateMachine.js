@@ -11,6 +11,7 @@ var selectTerritory = function(){
 
 	//recibe an object {nick, idTerritory, graph }
 	this.stageName = "Select"; 
+	this.drawAction = "reDrawMap";
 
 	this.validateMove = function(args){
 		
@@ -42,6 +43,7 @@ var selectTerritory = function(){
 		console.log("grafo actualizado Select", graph);
 	}
 
+
 	this.nextStage = function(){
 		//return the next stage
 		return new reforceTerritory();
@@ -55,6 +57,7 @@ var reforceTerritory = function(){
 
 	//recibe an object {nick, idTerritory, graph }
 	this.stageName = "Reforce"; 
+	this.drawAction = "reDrawMap";
 
 	this.validateMove = function(args){
 		var idTerritory = args.idTerritory;
@@ -83,6 +86,7 @@ var reforceTerritory = function(){
         console.log(player);
 		console.log("grafo actualizado Reforce", graph);
 	}
+
 
 	this.nextStage = function(){
 		//return the next stage
@@ -120,6 +124,10 @@ var atackTerritory = function(){
 
 	}
 
+	this.getDrawParameter = function(){
+		return {action: "reDrawMap"};
+	}
+
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
 		
@@ -148,10 +156,16 @@ var move = function(){
 		
 	}
 
+	this.getDrawParameter = function(){
+		return {action: "reDrawMap"};
+	}
+
 	this.nextStage = function(){
 		//return the next stage
 
 	}
+
+
 
 
 }
@@ -171,30 +185,44 @@ var changeCards = function(){
 		
 	}
 
+	this.getDrawParameter = function(){
+		return {action: "changeCards"};
+	}
+
 	this.nextStage = function(){
-		//return the next stage
+		return new reforceTerritory();
 
 	}
 
 
 }
 
-var recieveCards = function(){
+var recieveCard = function(){
 
 	//recibe an object {nick, idTerritory, graph }
 	this.stageName = "recieveCards"; 
 
-	this.validateMove = function(args){
 
+	this.validateMove = function(args){
+		
 	}
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
+		var card = args.card; 
+		var nick = args.nick;
+		var player = searchPlayer(match.listPlayer,nick);
+		player.cards.push(card); //add the new card
 		
+	}
+
+	this.getDrawParameter = function(){
+		return {action: "recieveCard", };
 	}
 
 	this.nextStage = function(){
 		//return the next stage
+		return new changeCards();
 
 	}
 
