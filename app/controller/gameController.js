@@ -20,6 +20,8 @@ exports.getNumSoldier= function(request,response){ //get nunSoilder
 	response.json({numSoldier:player.numSoldier,nick:nick})
 }
 
+
+
 function searchPlayer(list,nick){
     for(i in list) {
         if(list[i].nick==nick)

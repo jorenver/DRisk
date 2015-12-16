@@ -316,7 +316,7 @@ var move = function(){
 
 }
 
-var changeCarts = function(){
+var changeCards = function(){
 
     //recibe an object {nick, idTerritory, graph }
     this.stageName = "Carts";
@@ -349,10 +349,12 @@ var changeCarts = function(){
 
 }
 
-var receiveCarts = function(){
+var sendCard = function(){
 
     //recibe an object {nick, idTerritory, graph }
-    this.stageName = "receiveCarts";
+    this.stageName = "sendCard";
+    this.newCard = null;
+
     this.initStage= function(match){
         console.log('init receive Carts');
     }
@@ -362,8 +364,14 @@ var receiveCarts = function(){
     } 
 
     this.doMove = function(args, match){
-        //update the graph
-        console.log("********actualizando grafo Carts******");
+        //get the new card
+        console.log("********obtener New Card******");
+        var nick = args.nick;
+        console.log ("cartas", match.cards);
+        this.newCard = match.cards.shift(); //get the new card
+        var player = searchPlayer(match.listPlayer, nick);  //search the player
+        player.cards.push(this.newCard); //add the new card to the player's cards
+
     }
 
     this.nextStage = function(){
@@ -371,7 +379,9 @@ var receiveCarts = function(){
     }
 
     this.buildData= function(args, playerTurn, stage){
-        console.log('bild data receive Carts');
+        console.log('build data receive Cards');
+        return {nick: args.nick, card: this.newCard };
+
         
     }
 
@@ -385,6 +395,6 @@ exports.selectTerritory = selectTerritory;
 exports.reforceTerritory = reforceTerritory;
 exports.atackTerritory = atackTerritory;
 exports.move = move;
-exports.changeCarts = changeCarts;
-exports.receiveCarts = receiveCarts;
+exports.changeCards = changeCards;
+exports.sendCard = sendCard;
 

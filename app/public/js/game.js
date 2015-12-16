@@ -23,15 +23,6 @@ function isMyTurn(){
 	}
 }
 
-function changeCards(){
-
-	/*var players = match.listPlayer;
-	for (var i = 0; i< ; i++){
-
-	}*/
-
-}
-
 
 function clickTwoTerritorys(territoryPath){
 	//valido con el grafo la jugada de acuerdo a los datos
@@ -96,12 +87,10 @@ function connectSocketGame(){
 
 	socket.on("updateMap", function(args){
 		match.turn = args.nickTurn;
-		stage.doUpdateMap(args, match, graph); //actualiza grafo
+		stage.doUpdateMap(args, match, graph); //actualiza juego, grafo
 		//redraw map
-		var territory = graph.node(args.idTerritory);
-		var territoryPath = searchTerritory(mapGroup.children,args.idTerritory);
-		var lastPlayer = searchPlayer(match.listPlayer,territory.owner);
-		updateTerritory(territoryPath,lastPlayer.color.code);
+		redraw(args, stage.drawAction);
+
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
 			alert('Estado: '+args.stage);
@@ -116,11 +105,53 @@ function connectSocketGame(){
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
 			}
+			if(args.state == 'changeCards'){
+
+					//check whether to exchange cards
+					if(player.cards.length >= 3){
+
+						//mostrar pop-up para escoger las cartas a intercambiar
+						//dentro del pop-up hacer emit(do-move())
+
+					}
+					else{
+						stage = stage.next(); //not exchange cards, next stage "Reforce"
+					}
+
+
+			}
+			if(args.state == 'receiveCard'){
+				if(wonBattle){
+					socket.emit("doMove", {nick: nick} );
+				}
+			}
+
 		}
 		if(isMyTurn()){
 			loadTurnItem();
 		}
 	});
+}
+
+
+
+function redraw(args, drawAction){
+
+	if(drawAction == "redrawMap"){
+		var territory = graph.node(args.idTerritory);
+		var territoryPath = searchTerritory(mapGroup.children,args.idTerritory);
+		var lastPlayer = searchPlayer(match.listPlayer,territory.owner);
+		updateTerritory(territoryPath,lastPlayer.color.code);
+	}
+	if(drawAction == "receiveCard"){
+		console.log("Dibujo un pop up con la carta recivida");
+		//draw a pop-up
+	}
+	if(drawAction == "changeCard"){
+		console.log("Dibujo un pop up con las cartas a intercambiar");
+		//draw a pop-up
+	}
+
 }
 
 function loadPlayersInfo(listPlayer){
