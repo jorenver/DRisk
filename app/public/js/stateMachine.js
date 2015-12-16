@@ -122,6 +122,24 @@ var atackTerritory = function(){
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
+        dice1=args.dice1;
+        console.log('########Dados Atacante####### '+ dice1);
+        dice2=args.dice2;
+        console.log('########Dados Defensor#######'+ dice2);
+        numAttacker=args.numAttacker;
+        console.log('$$$$$$$$$$$Perdidos Atacante$$$$$$$$$$$ '+ numAttacker);
+        numDefender=args.numDefender;
+        console.log('$$$$$$$$$$$Perdidos Defensor$$$$$$$$$$$ '+ numDefender);
+        var territory1 = graph.node(args.idTerritory1);
+        var territory2 = graph.node(args.idTerritory2);
+       	territory1.numSoldier -= numAttacker;
+       	territory2.numSoldier -= numDefender;
+       	if(territory2.numSoldier==0){
+       		territory2.owner=territory1.owner;
+       		territory2.numSoldier=1;
+       		territory1.numSoldier-=1;
+       		 console.log('$$$$$$$$$$$Cambio de owner$$$$$$$$$$$ ');
+       	}
 		
 	}
 

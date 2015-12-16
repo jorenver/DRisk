@@ -1,3 +1,8 @@
+function minimo(a,b){
+    if(a<b)
+        return a;
+    return b;
+}
 function searchPlayer(list,nick){
     for(i in list) {
         if(list[i].nick==nick)
@@ -7,31 +12,26 @@ function searchPlayer(list,nick){
 }
 
 function getNumDices(list,num){
-    do{
+    var newList=[];
+    while(num>0){
         var index=0;
-        var min=list[index];
+        var max=list[index];
         for (var i = 0; i < list.length; i++) {
-            if (list[i]<min) {
-                min=list[i];
+            if (list[i]>max) {
+                max=list[i];
                 index=i;
             }
         }
+        newList.push(list[index]);
+        console.log('lista '+list);
+        console.log('nueva lista '+newList)
+        console.log('num '+num)
         delete list[index];
-    }while(list.length>num);
-    return list;
-}
-function removeMaxDice(list){
-    var max=0;
-    var max=list[index];
-    for (var i = 0; i < list.length; i++) {
-        if (list[i]>max) {
-            max=list[i];
-            index=i;
-        }
+        num--;
     }
-    delete list[index];
-    return max;
+    return newList;
 }
+
 
 function generateDices(n){
     var list=[];
@@ -161,9 +161,9 @@ var reforceTerritory = function(){
         player= searchPlayer(listPlayer,match.turn);
         console.log('77777777777777 validando cambio '+player.numSoldier)
         if(player.numSoldier==0)
-            return 'Atack';
+            return "Atack";
         else
-            return 'Reforce';
+            return "Reforce";
     }
 
 }
@@ -172,6 +172,11 @@ var atackTerritory = function(){
 
     //recibe an object {nick, idTerritory, graph }
     this.stageName = "Atack";
+    this.atacker=0;
+    this.defender=0;
+    this.listDiceDefender=null;
+    this.listDiceAttacker=null;
+
     this.initStage= function(match){
         console.log('init Atack');
     }
@@ -190,64 +195,91 @@ var atackTerritory = function(){
         var graph,nickAttacker,nickDefender,numSoldierA,numSoldierD,territoryA,territoryD,nDeadA,nDedD;
         graph=match.map.graph;
         territoryA=graph.node(args.idTerritory1);
-        territoryB=graph.node(args.idTerritory2);
+        territoryD=graph.node(args.idTerritory2);
         nickAttacker=territoryA.owner;
         nickDefender=territoryD.owner;
         numSoldierA=territoryA.numSoldier;
-        numSoldierD=territoryB.numSoldier;
+        numSoldierD=territoryD.numSoldier;
         if(numSoldierA>=4){
             numAttacker=3;
+
         }
         else{
             numAttacker=numSoldierA-1;
         }
-
+        console.log("########## numero Dados Atacante" + numAttacker);
         if(numSoldierD>=2){
             numDefender=2;
         }
         else{
-            numDefender=numSoldierD-1;
+            numDefender=1;
         }
+        console.log("########## numero Dados Defensor" + numDefender);
         //round
-        nDedD=0;
-        nDeadA=0;
         listDiceDefender=generateDices(numDefender);
+        this.listDiceDefender=listDiceDefender;
+        listDiceDefender.sort();
+        listDiceDefender.reverse();
+
         listDiceAttacker=generateDices(numAttacker);
-        numSoldierA=territoryA.numSoldier;
-        numSoldierD=territoryB.numSoldier;
-        auxA=getNumDices(listDiceAttacker,Math.min(listDiceAttacker.length, listDiceDefender.length));
-        auxD=getNumDices(listDiceDefender,Math.min(listDiceAttacker.length, listDiceDefender.length));
-        while(auxA!=[] && auxD!=[]){
-            if(removeMaxDice(auxA)>removeMaxDice(auxD)){
+        this.listDiceAttacker=listDiceAttacker;
+        listDiceAttacker.sort();
+        listDiceAttacker.reverse();
+
+        this.atacker=0;
+        this.defender=0;
+        console.log("########## Dados Atacante "+listDiceAttacker);
+        console.log("########## Dados Defensor "+listDiceDefender);
+
+        while (listDiceAttacker.length!=0 && listDiceDefender.length!=0){
+            console.log("########## while");
+            diceAttacker=listDiceAttacker.shift();
+            diceDefender=listDiceDefender.shift();;
+            if(diceAttacker>diceDefender){
                 console.log('gana atacante');
                 console.log('Defensor: '+territoryD.numSoldier);
                 territoryD.numSoldier-=1;
                 console.log('Defensor: '+territoryD.numSoldier);
-
+                this.defender+=1;
+                if(territoryD.numSoldier=0){
+                    territoryD.owner=territoryA.owner;
+                    territoryA.numSoldier-=1;
+                    territoryD.numSoldier+=1;
+                }
             }else{
                 console.log('gana defensor');
-                console.log('Atacante: '+territoryD.numSoldier);
+                console.log('Atacante: '+territoryA.numSoldier);
                 territoryA.numSoldier-=1;
-                console.log('Atacante: '+territoryD.numSoldier);
-            }            
+                this.atacker+=1;
+                console.log('Atacante: '+territoryA.numSoldier);
+            }  
+
         }
-
-
-
-
     }
 
     this.nextStage = function(){
         //return the next stage
+        return "Atack";
     }
 
     this.buildData= function(args, playerTurn, stage){
         console.log('bild data Atack');
+        var data = { 
+            idTerritory1: args.idTerritory1,
+            idTerritory2: args.idTerritory2,
+            nickTurn: playerTurn.nick,
+            dice1:this.listDiceAttacker,
+            dice2:this.listDiceDefender,
+            numAttacker:this.atacker,
+            numDefender:this.defender,
+            stage: stage
+        };
+        return data;
         
     }
 
     this.validateChangeStage=function(match){
-      
+      return "Atack";
     }
 
 }

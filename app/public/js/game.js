@@ -54,6 +54,7 @@ function clickTwoTerritorys(territoryPath){
 		}
 		else{
 			console.log("error");
+			alert('movimiento invalido, escoja otro par de territorios');
 		}
 		territorysSelected[0]=null;
 		territorysSelected[1]=null;
@@ -103,6 +104,7 @@ function connectSocketGame(){
 		updateTerritory(territoryPath,lastPlayer.color.code);
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
+			alert('Estado: '+args.stage);
 			if(args.stage=='Reforce'){
 				var url = "/getNumSoldier?nick="+match.turn;
 		        var request = new XMLHttpRequest();
