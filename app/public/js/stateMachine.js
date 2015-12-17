@@ -237,7 +237,28 @@ var changeCards = function(){
 		}
 		player.cards = aux;
 		player.numSoldier += args.numSoldier;
-	
+		player.numSoldier += args.extraSoldiers;
+
+		//update the pop-up of change Cards
+
+		//remove the cards
+		var listCards = document.getElmentByClassName("card");
+		for(var i =0; i< listCards.length; i++){
+			for(var j = 0; j < cardsTraced.length; i++){
+
+				var idTerritory = listCards[i].getAttribute('data-idterritory');
+				if(idTerritory == cardsTraced[j].idTerritory){
+					listCards[i].style.display="none";
+				}
+
+			}
+
+		}
+		if(player.cards.length < 5){
+			bt_cancelTrace.disabled = false;
+		}
+
+
 	}
 
 
@@ -250,11 +271,11 @@ var changeCards = function(){
 
 }
 
-var recieveCard = function(){
+var receiveCard = function(){
 
 	//recibe an object {nick, idTerritory, graph }
-	this.stageName = "recieveCards"; 
-	this.drawAction = "recieveCards";
+	this.stageName = "receiveCards"; 
+	this.drawAction = "receiveCards";
 
 	this.validateMove = function(args){
 		
@@ -266,6 +287,21 @@ var recieveCard = function(){
 		var nick = args.nick;
 		var player = searchPlayer(match.listPlayer,nick);
 		player.cards.push(card); //add the new card
+
+		//show a pop-up with the information
+		var p = document.createElement("p");
+		p.innerHTML = "You receive this card:"
+		var div = document.createElement("div");
+		div.innerHTML = args.card.typeSoldier + " " + args.card.idTerritory;
+		content_receiveCard.appendChild(p);
+		content_receiveCard.appendChild(div);
+		bt_closeReceiveCard.addEventListener('click', function(event){
+			content_receiveCard.innerHTML = "";
+    		receiveCard_PopUp.style.display="none";
+		});
+
+		receiveCard_PopUp.style.display = "flex";
+
 		
 	}
 
