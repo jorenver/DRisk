@@ -325,17 +325,34 @@ var changeCards = function(){
     }
 
     this.isChangeTurn= function(){
-        return true;
+        return false;
     } 
 
     this.doMove = function(args, match){
+        //args = {nick, cardsTraced, cards}
+        //cards: the rest of the cards of the player
+
         //update the graph
-        console.log("********actualizando grafo Carts******");
-        //lastTerritorysConquers
+        console.log("********Change Cards******");
+        //recibir cartas, removerlas del jugador
+        //calcular numero de soldados
+        
+        var nick = args.nick;
+        match.cards.concat(args.cardsTraced); //add the cards to the heap
+
+        var player = searchPlayer(match.listPlayer, nick);  //search the player
+        player.cards = args.cards; //set the rest of the cards
+
+        player.timesCardTrace+= 1; //incremenct the times that a player traces a card
+
+        player.numSoldier+= calculateSoldiersByCards(player.timesCardTrace);  
+
+
     }
 
     this.nextStage = function(){
         //return the next stage
+        return new reforceTerritory();
     }
 
     this.buildData= function(args, playerTurn, stage){
@@ -344,7 +361,7 @@ var changeCards = function(){
     }
 
     this.validateChangeStage=function(match){
-      
+        
     }
 
 }
@@ -360,7 +377,7 @@ var sendCard = function(){
     }
 
     this.isChangeTurn= function(){
-        return false;
+        return true;
     } 
 
     this.doMove = function(args, match){
@@ -376,6 +393,7 @@ var sendCard = function(){
 
     this.nextStage = function(){
         //return the next stage
+        return new changeCards();
     }
 
     this.buildData= function(args, playerTurn, stage){
@@ -386,7 +404,7 @@ var sendCard = function(){
     }
 
     this.validateChangeStage=function(match){
-      
+        return "changeCards";
     }
 
 }
