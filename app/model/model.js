@@ -188,6 +188,7 @@ exports.joinPlayer = function(idMatch, nickPlayer,sockets){
 		idTerritory: null,
 		cards: [],
 		numSoldier: 0,
+		timesCardTrace: 0, //*********HHDDdkhdshdhdPILASSSSSSS*********%$$##$$%ˆˆ&&**
 		color:colors[currentIndex]
 	};
 	Matches[idMatch].listPlayer.push(player);
@@ -268,6 +269,7 @@ exports.emitPublicMatch = function(idMatch,nick,io){
 		cards: [],
 		numSoldier: 0,
 		lastTerritorysConquers:0,
+		timesCardTrace: 0,
 		color:colors[0]
 	};
 	Matches[idMatch].listPlayer.push(player);

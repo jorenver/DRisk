@@ -105,6 +105,8 @@ function connectSocketGame(){
 			}
 			if(args.state == 'changeCards'){
 
+				if(isMyTurn()){
+
 					//check whether to exchange cards
 					if(player.cards.length >= 3){
 
@@ -115,6 +117,7 @@ function connectSocketGame(){
 					else{
 						stage = stage.next(); //not exchange cards, next stage "Reforce"
 					}
+				}
 
 
 			}

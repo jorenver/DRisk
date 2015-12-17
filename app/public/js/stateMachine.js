@@ -171,19 +171,51 @@ var changeCards = function(){
 
 	//recieve an object {nick, idTerritory, graph }
 	this.stageName = "changeCards"; 
+	this.drawAction = "changeCards";
 
 	this.validateMove = function(args){
 
+		//validate whether the set of cards are tradeable
+		var listCards = args.listCards;
+
+		//validate that the three cards are equals (typeSoldier equal)
+		if(areCardsEqual(listCards)){
+			return true;
+		}//validate that the trhee cards are differents (type soldier different)
+		else if (areCardsDifferent(listCards)){ 
+			return true;
+		}
+		else{
+			return false; //not valid set of cards
+		}
+
+
 	}
+
+
 
 	this.doUpdateMap = function(args, match, graph){
-		//update the graph
-		
+		//reciece the num of soldiers
+		//and quit the cards traded
+
+		var cardsTraced = args.cardsTraced; //cards traced
+		var nick = args.nick;
+		var player = searchPlayer(match.listPlayer,nick);
+		var cards = player.cards;
+		var aux = [];
+
+		//quit the cards traded of the cards of the player
+		for (var i =0; i< cards.length; i++){			
+			if (!existCard(cardsTraced ,cards[i])){
+				aux.push(cards[i]);
+			}
+		}
+		player.cards = aux;
+		player.numSoldier += args.numSoldier;
+	
 	}
 
-	this.getDrawParameter = function(){
-		return {action: "changeCards"};
-	}
+
 
 	this.nextStage = function(){
 		return new reforceTerritory();
@@ -212,10 +244,6 @@ var recieveCard = function(){
 		
 	}
 
-	this.getDrawParameter = function(){
-		return {action: "recieveCard", };
-	}
-
 	this.nextStage = function(){
 		//return the next stage
 		return new changeCards();
@@ -226,5 +254,43 @@ var recieveCard = function(){
 }
 
 
+function areCardsEqual(listCards ){
+	var type1 = listCards[0].soldierType;
+	var type2 = listCards[1].soldierType;
+	var type3 = listCards[2].soldierType;
 
+	if (type1 == type2 && type2== type3){
+		return true;
+	}
+	else{
+		return false;
+	}
+
+
+}
+
+function areCardsDifferent(listCards ){
+	var type1 = listCards[0].soldierType;
+	var type2 = listCards[1].soldierType;
+	var type3 = listCards[2].soldierType;
+
+	if (type1 != type2 && type2!= type3 && type1!=type3){
+		return true;
+	}
+	else{
+		return false;
+	}
+
+
+}
+
+function existCard(listCards, card){
+	for(var i = 0; i< listCards.length; i++){
+		if(listCards[i].idTerritory == card.idTerritory){
+			return true;
+		}
+	}
+	return false;
+
+}
 
