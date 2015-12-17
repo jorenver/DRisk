@@ -151,6 +151,19 @@ function redraw(args, drawAction){
 		console.log("Dibujo un pop up con las cartas a intercambiar");
 		//draw a pop-up
 	}
+	if(drawAction == "Atack"){
+		console.log("Actualico el mapa ");
+		var territory1 = graph.node(args.idTerritory1);
+		var territory2 = graph.node(args.idTerritory2);
+		//actualizo el primer territorio
+		var territoryPath = searchTerritory(mapGroup.children,args.idTerritory1);
+		var lastPlayer = searchPlayer(match.listPlayer,territory1.owner);
+		updateTerritory(territoryPath,lastPlayer.color.code);
+		//actualizo el 2 territorio
+		territoryPath = searchTerritory(mapGroup.children,args.idTerritory2);
+		lastPlayer = searchPlayer(match.listPlayer,territory2.owner);
+		updateTerritory(territoryPath,lastPlayer.color.code);
+	}
 
 }
 
@@ -214,6 +227,9 @@ function initialize(event){
 		territory12:null
 	}
 	initLibPaper('../svg/MapaRisk.svg');//dentro se llama a setClick
+	Mostrar.addEventListener('click',openBattle);
+	Ocultar.addEventListener('click',closeBattle);
+
 }
 
 function initLibPaper(url){

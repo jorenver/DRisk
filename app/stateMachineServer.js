@@ -217,12 +217,12 @@ var atackTerritory = function(){
         console.log("########## numero Dados Defensor" + numDefender);
         //round
         listDiceDefender=generateDices(numDefender);
-        this.listDiceDefender=listDiceDefender;
+        this.listDiceDefender=listDiceDefender.slice();//copy
         listDiceDefender.sort();
         listDiceDefender.reverse();
 
         listDiceAttacker=generateDices(numAttacker);
-        this.listDiceAttacker=listDiceAttacker;
+        this.listDiceAttacker=listDiceAttacker.slice();//copy
         listDiceAttacker.sort();
         listDiceAttacker.reverse();
 

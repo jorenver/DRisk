@@ -107,7 +107,8 @@ var isneighbors=function(graph,territory1,territory2){
 var atackTerritory = function(){
 
 	//recibe an object {nick, idTerritory, graph }
-	this.stageName = "Atack"; 
+	this.stageName = "Atack";
+	this.drawAction = "Atack"; 
 
 	this.validateMove = function(args){
 		var nick=args.nick;
@@ -131,20 +132,26 @@ var atackTerritory = function(){
         dice2=args.dice2;
         console.log('########Dados Defensor#######'+ dice2);
         numAttacker=args.numAttacker;
-        console.log('$$$$$$$$$$$Perdidos Atacante$$$$$$$$$$$ '+ numAttacker);
         numDefender=args.numDefender;
-        console.log('$$$$$$$$$$$Perdidos Defensor$$$$$$$$$$$ '+ numDefender);
         var territory1 = graph.node(args.idTerritory1);
         var territory2 = graph.node(args.idTerritory2);
        	territory1.numSoldier -= numAttacker;
        	territory2.numSoldier -= numDefender;
+       	console.log('Atacante '+territory1.numSoldier );
+       	console.log('Defensor '+territory2.numSoldier );
+       	content_battle.innerHTML='Attacker: '+territory1.owner+'\n';
+       	content_battle.innerHTML+='Territory: '+args.idTerritory1+' Dices: '+dice1+' Dead: '+numAttacker+'\n';
+       	content_battle.innerHTML+='Defender: '+territory1.owner+'\n';
+       	content_battle.innerHTML+='Territory: '+args.idTerritory2+' Dices: '+dice2+' Dead: '+numDefender+'\n';
        	if(territory2.numSoldier==0){
        		territory2.owner=territory1.owner;
        		territory2.numSoldier=1;
        		territory1.numSoldier-=1;
-       		 console.log('$$$$$$$$$$$Cambio de owner$$$$$$$$$$$ ');
+       		 content_battle.innerHTML+='Conquered Territory';
+       	}else{
+       		content_battle.innerHTML+='Not Conquered Territory';
        	}
-		
+       	openBattle();
 	}
 
 	this.nextStage = function(){

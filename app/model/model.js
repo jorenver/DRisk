@@ -188,7 +188,9 @@ exports.joinPlayer = function(idMatch, nickPlayer,sockets){
 		idTerritory: null,
 		cards: [],
 		numSoldier: 0,
+		lastTerritorysConquers:0,
 		color:colors[currentIndex]
+
 	};
 	Matches[idMatch].listPlayer.push(player);
 	for(var i=0;i<sockets.length;i++){//broadcast to all the players 
