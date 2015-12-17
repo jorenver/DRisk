@@ -1,0 +1,27 @@
+@import 'fonts.css';
+
+*{
+	margin: 0px;
+	padding: 0px;
+	font-size: 20px;
+}
+/**/
+html,body{
+	background-image: url("../img/background2.jpg");
+  	background-size: cover;
+    overflow: hidden;
+    height: 100%;
+}
+
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+}
+
+.continentsMaps{
+	height: 100%;
+	width: 20%;
+}
+.customWrapper{
+	height: 100%;
+}

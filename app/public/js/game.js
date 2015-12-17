@@ -200,6 +200,7 @@ function loadSVGMap(file){
 		success: function(xml){
 			mapGroup = paper.project.importSVG(xml.getElementsByTagName("svg")[0]);
 			mapGroup.scale(0.70);
+			mapGroup.position = new paper.Point(paper.view.size.width/2, paper.view.size.height/2);
 			setClick(clickTerritory);
 			loadTurnItem();
 			paper.view.on('frame',animationOn);
@@ -221,7 +222,6 @@ function setClick(action){
 
 function updateTerritory(territoryPath,color){
 	territoryPath.fillColor = color;
-	
 	var soldier = soldierItem.clone();
 	soldier.position = territoryPath.position;
 	soldier.scale(0.10);
@@ -236,7 +236,7 @@ function updateTerritory(territoryPath,color){
 	    	fontSize: 15
 		});
 	}
-	numSoldierPath.point.x = territoryPath.position.x + 25;
+	numSoldierPath.point.x = territoryPath.position.x -25;
 	numSoldierPath.point.y = territoryPath.position.y;
 	numSoldierPath.content = numSoldier;
 }
@@ -279,7 +279,7 @@ function loadSoldierItem(){
 function loadTurnItem(){
 	//load a textitem with information about turn
 	var x,y;
-	x = paper.view.size.width/2 - 50;
+	x = paper.view.size.width/2 -100;
 	y = paper.view.size.height/2;
 	turnItem = new paper.PointText({
     	point: [x,y],

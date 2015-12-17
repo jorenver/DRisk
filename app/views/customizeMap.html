@@ -4,10 +4,22 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Customize Map</title>
-	<script type="text/javascript" src="/js/customizeMap.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/match.css">
+	<link rel="stylesheet" type="text/css" href="css/customizeMap.css">
 	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/lib/paperjs/dist/paper-full.js"></script>
+	<script type="text/javascript" src="/js/customizeMap.js"></script>
 </head>
 <body>
-	<h1>Personalizar Mapa</h1>
+	<div class="customWrapper u-flex-row u-align-center">
+		<div id="continents" class="continentsMaps u-flex-column u-align-center u-justify-center">
+			<canvas id="america" draggable="true" width="450" height="400">america</canvas>
+			<canvas id="africa"  draggable="true" width="450" height="400">africa</canvas>
+			<canvas id="europa"  draggable="true" width="450" height="400" >europa</canvas>
+		</div>
+		<div>
+			<canvas id="myCanvas" width="900" height="500"></canvas>
+		</div>
+	</div>
 </body>
 </html>

@@ -40,8 +40,8 @@ exports.createServerSocket = function(io,sessionMiddleware){
             });
 
             player.on("chooseGame", function(data){
-                player.emit("getWaitRoom",{idMatch:idMatch});//player goes to the wait room
-                var sockets = clients[idMatch];
+                player.emit("getWaitRoom",{idMatch:data.idMatch});//player goes to the wait room
+                var sockets = clients[data.idMatch];
                 model.joinPlayer(data.idMatch, session.nick,sockets);//notify to all players about the new player
         	});
 
