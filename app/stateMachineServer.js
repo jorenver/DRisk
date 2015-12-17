@@ -244,7 +244,7 @@ var atackTerritory = function(){
                 if(territoryD.numSoldier=0){
                     territoryD.owner=territoryA.owner;
                     territoryA.numSoldier-=1;
-                    territoryD.numSoldier+=1;
+                    territoryD.numSoldier=1;
                 }
             }else{
                 console.log('gana defensor');
