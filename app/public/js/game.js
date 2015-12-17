@@ -26,10 +26,11 @@ function isMyTurn(){
 
 function clickTwoTerritorys(territoryPath){
 	//valido con el grafo la jugada de acuerdo a los datos
-	console.log('***************** 2 territorios')
+	console.log('***************** 2 territorios');
 	var idTerritory = territoryPath.name;
 	if(!territorysSelected[0] ){
 		territorysSelected[0]=idTerritory;
+		alert('Escoja el territorio ha actacar');
 	}else{
 		territorysSelected[1]=idTerritory;
 		var value = stage.validateMove({
@@ -41,14 +42,15 @@ function clickTwoTerritorys(territoryPath){
 
 		if(value){
 			socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
-			$("#soldierNum").html(player.numSoldier);
+			//$("#soldierNum").html(player.numSoldier);
 		}
 		else{
+			territorysSelected[0]=null;
+			territorysSelected[1]=null;
 			console.log("error");
 			alert('movimiento invalido, escoja otro par de territorios');
 		}
-		territorysSelected[0]=null;
-		territorysSelected[1]=null;
+		
 	}
 	
 }
@@ -161,13 +163,13 @@ function redraw(args, drawAction){
 		var territory1 = graph.node(args.idTerritory1);
 		var territory2 = graph.node(args.idTerritory2);
 		//actualizo el primer territorio
-		var territoryPath = searchTerritory(mapGroup.children,args.idTerritory1);
-		var lastPlayer = searchPlayer(match.listPlayer,territory1.owner);
-		updateTerritory(territoryPath,lastPlayer.color.code);
+		var territoryPath1 = searchTerritory(mapGroup.children,args.idTerritory1);
+		var lastPlayer1 = searchPlayer(match.listPlayer1,territory1.owner);
+		updateTerritory(territoryPath1,lastPlayer1.color.code);
 		//actualizo el 2 territorio
-		territoryPath = searchTerritory(mapGroup.children,args.idTerritory2);
-		lastPlayer = searchPlayer(match.listPlayer,territory2.owner);
-		updateTerritory(territoryPath,lastPlayer.color.code);
+		var territoryPath2 = searchTerritory(mapGroup.children,args.idTerritory2);
+		var lastPlayer2 = searchPlayer(match.listPlayer2,territory2.owner);
+		updateTerritory(territoryPath2,lastPlayer2.color.code);
 	}
 
 }

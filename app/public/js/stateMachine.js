@@ -139,10 +139,10 @@ var atackTerritory = function(){
        	territory2.numSoldier -= numDefender;
        	console.log('Atacante '+territory1.numSoldier );
        	console.log('Defensor '+territory2.numSoldier );
-       	content_battle.innerHTML='Attacker: '+territory1.owner+'\n';
-       	content_battle.innerHTML+='Territory: '+args.idTerritory1+' Dices: '+dice1+' Dead: '+numAttacker+'\n';
-       	content_battle.innerHTML+='Defender: '+territory1.owner+'\n';
-       	content_battle.innerHTML+='Territory: '+args.idTerritory2+' Dices: '+dice2+' Dead: '+numDefender+'\n';
+       	content_battle.innerHTML='Attacker: '+territory1.owner+'<br>';
+       	content_battle.innerHTML+='Territory: '+args.idTerritory1+' Dices: '+dice1+' Dead: '+numAttacker+'<br>';
+       	content_battle.innerHTML+='Defender: '+territory1.owner+'<br>';
+       	content_battle.innerHTML+='Territory: '+args.idTerritory2+' Dices: '+dice2+' Dead: '+numDefender+'<br>';
        	if(territory2.numSoldier==0){
        		territory2.owner=territory1.owner;
        		territory2.numSoldier=1;
