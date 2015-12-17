@@ -43,6 +43,45 @@ function generateDices(n){
 }
 
 
+function calculateSoldiersByCards(timesCardTrace){
+    var soldiers = 0;
+
+    if(timesCardTrace>=1 && timesCardTrace<=5 ){
+        // 1 time --> 4 soldiers
+        // 2 time --> 6 soldiers
+        // 3 time --> 8 soldiers
+        // 4 time --> 10 soldiers
+        // 5 time --> 12 soldiers
+        soldiers = 2*timesCardTrace + 2; 
+    }
+    else if( timesCardTrace == 6){
+        soldiers = 15;
+    }
+    else{
+        // 5 mores in every trace
+        soldiers = 15 + 5*(timesCardTrace - 6);
+    }
+    return soldiers;
+}
+
+function calculateExtraSoldiersCards(nick, graph, cardsTraced){
+    //calculate extra soldiers
+    //if a territory of a card is equal to an territory of a player
+    //add 2 territorys 
+    for (var i =0; i< cardsTraced.length; i++){
+        var idTerritoryCard = cardsTraced[i].idTerritory;
+        var band = graph.hasNode(idTerritoryCard);
+        if(band){
+            var Territory = graph.node(idTerritoryCard);
+            if(Territory.owner == nick){
+                return 2; //extra soldier
+            }
+        }
+
+    }
+    return 0; //no extra soldier
+}
+
 var selectTerritory = function(){
     //recibe an object {nick, idTerritory, graph }
     this.stageName = "Select";
@@ -86,7 +125,7 @@ var selectTerritory = function(){
         return data;
     }
 
-    this.validateChangeStage=function(match){
+    this.validateChangeStage=function(match, args){
         var cont=0;
         console.log('$$$$$$$$$$consultar cambio Select$$$$$$$$$$$$');
         listPlayer=match.listPlayer;
@@ -156,7 +195,7 @@ var reforceTerritory = function(){
         return data;
     }
 
-    this.validateChangeStage=function(match){ 
+    this.validateChangeStage=function(match, args){ 
         var listPlayer=match.listPlayer;
         player= searchPlayer(listPlayer,match.turn);
         console.log('77777777777777 validando cambio '+player.numSoldier)
@@ -278,7 +317,7 @@ var atackTerritory = function(){
         
     }
 
-    this.validateChangeStage=function(match){
+    this.validateChangeStage=function(match, args){
       return "Atack";
     }
 
@@ -310,7 +349,7 @@ var move = function(){
         
     }
 
-    this.validateChangeStage=function(match){
+    this.validateChangeStage=function(match, args){
       
     }
 
@@ -319,7 +358,10 @@ var move = function(){
 var changeCards = function(){
 
     //recibe an object {nick, idTerritory, graph }
-    this.stageName = "Carts";
+    this.stageName = "changeCards";
+    this.numSoldier = 0;
+    this.extraSoldiers = 0;
+
     this.initStage= function(match){
         console.log('init Carts');
     }
@@ -345,7 +387,14 @@ var changeCards = function(){
 
         player.timesCardTrace+= 1; //incremenct the times that a player traces a card
 
-        player.numSoldier+= calculateSoldiersByCards(player.timesCardTrace);  
+        //calculate the number of soldiers by cards
+        this.numSoldier = calculateSoldiersByCards(player.timesCardTrace);
+
+        //calculate the extra soldiers
+        this.extraSoldiers = calculateExtraSoldiersCards(args.nick, 
+            match.map.graph, args.cardsTraced);  
+
+        player.numSoldier = this.soldiers + this.extraSoldiers;
 
 
     }
@@ -356,12 +405,20 @@ var changeCards = function(){
     }
 
     this.buildData= function(args, playerTurn, stage){
-        console.log('bild data Carts');
+        console.log('bild data Cards');
+        return {nick: args.nick, }
+
         
     }
 
-    this.validateChangeStage=function(match){
+    this.validateChangeStage=function(match, args){
         
+        if(args.cardsTraced.length >= 3){
+            return "changeCards";
+        }
+        else{
+            return "Reforce";
+        }
     }
 
 }
@@ -403,7 +460,7 @@ var sendCard = function(){
         
     }
 
-    this.validateChangeStage=function(match){
+    this.validateChangeStage=function(match, args){
         return "changeCards";
     }
 
