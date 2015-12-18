@@ -147,6 +147,8 @@ var atackTerritory = function(){
        		territory2.numSoldier=1;
        		territory1.numSoldier=territory1.numSoldier-1;
        		content_battle.innerHTML+='Conquered Territory';
+       		auxPlayer=searchPlayer(match.listPlayer,match.turn);
+       		auxPlayer.lastTerritorysConquers+=1;
        	}else{
        		content_battle.innerHTML+='Not Conquered Territory';
        	}

@@ -111,6 +111,8 @@ function connectSocketGame(){
 			}	
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
+				auxPlayer=searchPlayer(match.listPlayer,match.turn);
+       			auxPlayer.lastTerritorysConquers=0;
 			}
 			if(args.state == 'changeCards'){
 
