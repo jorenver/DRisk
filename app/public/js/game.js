@@ -112,7 +112,7 @@ function connectSocketGame(){
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
 			}
-			if(args.state == 'changeCards'){
+			if(args.stage == 'changeCards'){
 
 				if(isMyTurn()){
 
@@ -131,7 +131,7 @@ function connectSocketGame(){
 
 
 			}
-			if(args.state == 'receiveCard'){
+			if(args.stage == 'receiveCard'){ 
 				//if the player has conquer al least one territory
 				if(player.lastTerritorysConquers>0){ 
 					alert("nick "+ nick);

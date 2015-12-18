@@ -280,8 +280,8 @@ var changeCards = function(){
 var receiveCard = function(){
 
 	//recibe an object {nick, idTerritory, graph }
-	this.stageName = "receiveCards"; 
-	this.drawAction = "receiveCards";
+	this.stageName = "receiveCard"; 
+	this.drawAction = "receiveCard";
 
 	this.validateMove = function(args){
 		

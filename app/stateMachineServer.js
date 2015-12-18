@@ -330,7 +330,7 @@ var atackTerritory = function(){
 
     this.validateChangeStage=function(match, args){
         if(this.change)
-            return "sendCard";
+            return "receiveCard";
         var graphPtr = match.map.graph;
 
         return "Atack";
