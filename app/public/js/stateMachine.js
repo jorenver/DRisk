@@ -287,8 +287,8 @@ var receiveCard = function(){
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
 		var card = args.card; 
-		var nick = args.nick;
-		var player = searchPlayer(match.listPlayer,nick);
+		console.log("NICKNAME:", args.nick);
+		var player = searchPlayer(match.listPlayer, args.nick);
 		player.cards.push(card); //add the new card
 
 		//show a pop-up with the information
