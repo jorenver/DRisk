@@ -19,6 +19,7 @@ function nextRound(){
 }
 
 function changeBattle(){
-	socket.emit("doMove", {stop:true});
+	socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: null,idTerritory2: null };
+	stage = stage.next();
 	battle.style.display="none";
 }

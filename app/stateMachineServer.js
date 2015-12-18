@@ -215,6 +215,7 @@ var atackTerritory = function(){
     this.defender=0;
     this.listDiceDefender=null;
     this.listDiceAttacker=null;
+    this.change=false;
 
     this.initStage= function(match){
         console.log('init Atack');
@@ -226,6 +227,10 @@ var atackTerritory = function(){
 
     this.doMove = function(args, match){
         //update the graph
+        if(args.idTerritory1==null && args.idTerritory2==null){
+            this.change=true;
+            return;
+        }
         console.log("********actualizando grafo Atack******");
         //calculate dice
         //attacker: 2 soldiers 1 dice, 3 soldiers 2 dice, 4 o more soldier 3 dice
@@ -300,7 +305,7 @@ var atackTerritory = function(){
 
     this.nextStage = function(){
         //return the next stage
-        return "Atack";
+        return new changeCards();
     }
 
     this.buildData= function(args, playerTurn, stage){
@@ -320,7 +325,9 @@ var atackTerritory = function(){
     }
 
     this.validateChangeStage=function(match, args){
-      return "Atack";
+        if(this.change)
+            return "changeCards";
+        return "Atack";
     }
 
 }
