@@ -411,7 +411,11 @@ var changeCards = function(){
         console.log("********Change Cards******");
         //recibir cartas, removerlas del jugador
         //calcular numero de soldados
-        
+        if(!args.flag){
+            return;
+        }
+
+
         var nick = args.nick;
         match.cards.concat(args.cardsTraced); //add the cards to the heap
 
@@ -442,14 +446,26 @@ var changeCards = function(){
 
     this.buildData= function(args, playerTurn, stage){
         console.log('bild data Cards');
+        
+
+        if(!args.flag){
+            return {nick: args.nick, cardsTraced: args.cardsTraced,
+            numSoldier: 0, extraSoldiers: 0, flag: args.flag, stage: "Reforce" };
+        }
+
         return {nick: args.nick, cardsTraced: args.cardsTraced,
-            numSoldier: this.numSoldier, extraSoldiers: this.extraSoldiers }
+            numSoldier: this.numSoldier, extraSoldiers: this.extraSoldiers, flag: args.flag, stage: "Reforce" };
 
         
     }
 
     this.validateChangeStage=function(match, args){
         
+
+        if(!args.flag){
+            return "Reforce";
+        }
+
         if(args.cardsTraced.length >= 3){
             return "changeCards";
         }
@@ -476,6 +492,9 @@ var sendCard = function(){
 
     this.doMove = function(args, match){
         //get the new card
+        if(!args.flag){
+            return;
+        }
         console.log("********obtener New Card******");
         var nick = args.nick;
         console.log ("cartas", match.cards);
@@ -492,7 +511,7 @@ var sendCard = function(){
 
     this.buildData= function(args, playerTurn, stage){
         console.log('build data receive Cards');
-        return {nick: args.nick, card: this.newCard, stage: "changeCards" };
+        return {nick: args.nick, card: this.newCard, stage: "changeCards", flag: args.flag };
 
         
     }

@@ -294,6 +294,11 @@ var receiveCard = function(){
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
+		if(!args.flag){
+			alert("No recibe cartas");
+			return;
+		}
+
 		var card = args.card; 
 		console.log("NICKNAME:", args.nick);
 		var player = searchPlayer(match.listPlayer, args.nick);

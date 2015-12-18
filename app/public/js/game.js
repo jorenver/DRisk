@@ -142,7 +142,10 @@ function connectSocketGame(){
 			if(args.stage == 'receiveCard'){ 
 				//if the player has conquer al least one territory
 				if(player.lastTerritorysConquers>0){ 
-					socket.emit("doMove", {nick: nick, idMatch: idMatch} );
+					socket.emit("doMove", {nick: nick, idMatch: idMatch, flag: true} );
+				}
+				else{
+					socket.emit("doMove", {nick: nick, idMatch: idMatch, flag:false} );
 				}
 			}
 
