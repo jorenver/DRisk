@@ -229,19 +229,25 @@ var changeCards = function(){
 		var cards = player.cards;
 		var aux = [];
 
+
+		player.cards = aux;
+		player.numSoldier += args.numSoldier;
+		player.numSoldier += args.extraSoldiers;
+
+		if(match.turn != args.nick){
+			return;
+		}
+
 		//quit the cards traded of the cards of the player
+		//remove the cards
 		for (var i =0; i< cards.length; i++){			
 			if (!existCard(cardsTraced ,cards[i])){
 				aux.push(cards[i]);
 			}
 		}
-		player.cards = aux;
-		player.numSoldier += args.numSoldier;
-		player.numSoldier += args.extraSoldiers;
 
 		//update the pop-up of change Cards
 
-		//remove the cards
 		var listCards = document.getElmentByClassName("card");
 		for(var i =0; i< listCards.length; i++){
 			for(var j = 0; j < cardsTraced.length; i++){
