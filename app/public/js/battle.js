@@ -2,16 +2,14 @@
 function closeBattle(event){
     battle.style.display="none";
     //chat.style.opacity=1;
-    territorysSelected[0]=null;
-	territorysSelected[1]=null;
 }
 
 
 function openBattle(){
 	battle.style.display="flex";
 	Ocultar.addEventListener('click',closeBattle);
-	Ocultar.addEventListener('click',nextRound);
-	Ocultar.addEventListener('click',changeBattle);
+	next.addEventListener('click',nextRound);
+	Stop.addEventListener('click',changeBattle);
 }
 
 
@@ -21,6 +19,7 @@ function nextRound(){
 }
 
 function changeBattle(){
-	socket.emit("doMove", {stop:true});
+	socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: null,idTerritory2: null });
 	battle.style.display="none";
+	stage = stage.nextStage();
 }

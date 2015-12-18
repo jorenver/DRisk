@@ -215,6 +215,7 @@ var atackTerritory = function(){
     this.defender=0;
     this.listDiceDefender=null;
     this.listDiceAttacker=null;
+    this.change=false;
 
     this.initStage= function(match){
         console.log('init Atack');
@@ -226,10 +227,15 @@ var atackTerritory = function(){
 
     this.doMove = function(args, match){
         //update the graph
+        if(args.idTerritory1==null && args.idTerritory2==null){
+            this.change=true;
+            return;
+        }
         console.log("********actualizando grafo Atack******");
         //calculate dice
         //attacker: 2 soldiers 1 dice, 3 soldiers 2 dice, 4 o more soldier 3 dice
         //defender: 1 soldier 1 dice, 2 o more soldiers 2 dice
+
         var listDiceAttacker=[],listDiceDefender=[],numDefender, numAttacker;
         var graph,nickAttacker,nickDefender,numSoldierA,numSoldierD,territoryA,territoryD,nDeadA,nDedD;
         graph=match.map.graph;
@@ -239,6 +245,7 @@ var atackTerritory = function(){
         nickDefender=territoryD.owner;
         numSoldierA=territoryA.numSoldier;
         numSoldierD=territoryD.numSoldier;
+        debugger;
         if(numSoldierA>=4){
             numAttacker=3;
 
@@ -277,18 +284,18 @@ var atackTerritory = function(){
             if(diceAttacker>diceDefender){
                 console.log('gana atacante');
                 console.log('Defensor: '+territoryD.numSoldier);
-                territoryD.numSoldier-=1;
+                territoryD.numSoldier=territoryD.numSoldier-1;
                 console.log('Defensor: '+territoryD.numSoldier);
                 this.defender+=1;
                 if(territoryD.numSoldier=0){
                     territoryD.owner=territoryA.owner;
-                    territoryA.numSoldier-=1;
+                    territoryA.numSoldier=territoryA.numSoldier-1;
                     territoryD.numSoldier=1;
                 }
             }else{
                 console.log('gana defensor');
                 console.log('Atacante: '+territoryA.numSoldier);
-                territoryA.numSoldier-=1;
+                territoryA.numSoldier=territoryA.numSoldier-1;
                 this.atacker+=1;
                 console.log('Atacante: '+territoryA.numSoldier);
             }  
@@ -298,7 +305,7 @@ var atackTerritory = function(){
 
     this.nextStage = function(){
         //return the next stage
-        return "Atack";
+        return new sendCard();
     }
 
     this.buildData= function(args, playerTurn, stage){
@@ -318,7 +325,9 @@ var atackTerritory = function(){
     }
 
     this.validateChangeStage=function(match, args){
-      return "Atack";
+        if(this.change)
+            return "sendCard";
+        return "Atack";
     }
 
 }
