@@ -164,6 +164,10 @@ function redraw(args, drawAction){
 		//draw a pop-up
 	}
 	if(drawAction == "Atack"){
+		if(args.idTerritory1==null && args.idTerritory2==null){
+            this.change=true;
+            return;
+        }
 		console.log("Actualico el mapa ");
 		var territory1 = graph.node(args.idTerritory1);
 		var territory2 = graph.node(args.idTerritory2);
