@@ -28,6 +28,11 @@ function clickTwoTerritorys(territoryPath){
 	//valido con el grafo la jugada de acuerdo a los datos
 	console.log('***************** 2 territorios');
 	var idTerritory = territoryPath.name;
+	if(territorysSelected[0] && territorysSelected[1] ){
+		territorysSelected[0]=null;
+		territorysSelected[1]=null;
+
+	}
 	if(!territorysSelected[0] ){
 		territorysSelected[0]=idTerritory;
 		alert('Escoja el territorio ha actacar');
@@ -120,7 +125,7 @@ function connectSocketGame(){
 
 					}
 					else{
-						stage = stage.next(); //not exchange cards, next stage "Reforce"
+						stage = stage.nextStage(); //not exchange cards, next stage "Reforce"
 					}
 				}
 
@@ -164,12 +169,14 @@ function redraw(args, drawAction){
 		var territory2 = graph.node(args.idTerritory2);
 		//actualizo el primer territorio
 		var territoryPath1 = searchTerritory(mapGroup.children,args.idTerritory1);
-		var lastPlayer1 = searchPlayer(match.listPlayer1,territory1.owner);
-		updateTerritory(territoryPath1,lastPlayer1.color.code);
+		territoryPath1.data.numSoldier=territory1.numSoldier;
+		var lastPlayer1 = searchPlayer(match.listPlayer,territory1.owner);
+		updateTerritoryAttack(territoryPath1,lastPlayer1.color.code);
 		//actualizo el 2 territorio
 		var territoryPath2 = searchTerritory(mapGroup.children,args.idTerritory2);
-		var lastPlayer2 = searchPlayer(match.listPlayer2,territory2.owner);
-		updateTerritory(territoryPath2,lastPlayer2.color.code);
+		territoryPath2.data.numSoldier=territory2.numSoldier;
+		var lastPlayer2 = searchPlayer(match.listPlayer,territory2.owner);
+		updateTerritoryAttack(territoryPath2,lastPlayer2.color.code);
 	}
 
 }
@@ -296,8 +303,8 @@ function initialize(event){
 		territory12:null
 	}
 	initLibPaper('../svg/MapaRisk.svg');//dentro se llama a setClick
-	Mostrar.addEventListener('click',openBattle);
-	Ocultar.addEventListener('click',closeBattle);
+	//Mostrar.addEventListener('click',openBattle);
+	//Ocultar.addEventListener('click',closeBattle);
 
 }
 
@@ -340,6 +347,28 @@ function setClick(action){
 	}
 }
 
+function updateTerritoryAttack(territoryPath,color){
+	territoryPath.fillColor = color;
+	
+	var soldier = soldierItem.clone();
+	soldier.position = territoryPath.position;
+	soldier.scale(0.10);
+	paper.project.activeLayer.addChild(soldier);
+	//updateNumSoldier(territoryPath);
+	var numSoldier = territoryPath.data.numSoldier;
+	var numSoldierPath = paper.project.activeLayer.getItem({ name : territoryPath.name + "-soldier" });
+	if(!numSoldierPath){
+		var numSoldierPath = new paper.PointText({
+			name : territoryPath.name + "-soldier",
+			fillColor : 'white',
+	    	fontSize: 15
+		});
+	}
+	numSoldierPath.point.x = territoryPath.position.x + 25;
+	numSoldierPath.point.y = territoryPath.position.y;
+	numSoldierPath.content = numSoldier;
+}
+
 function updateTerritory(territoryPath,color){
 	territoryPath.fillColor = color;
 	
@@ -369,6 +398,7 @@ function updateNumSoldier(territoryPath){
 		territoryPath.data.numSoldier = territoryPath.data.numSoldier + 1; 
 	}
 }
+
 
 function clickTerritory(territoryPath){
 	var idTerritory = territoryPath.name;

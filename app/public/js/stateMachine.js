@@ -114,11 +114,9 @@ var atackTerritory = function(){
 		var nick=args.nick;
 		var idTerritory1=args.idTerritory1;
 		var idTerritory2=args.idTerritory2;
-
 		var territory1 = args.graph.node(idTerritory1);
-		console.log('222222222222222222 '+territory1)
 		var territory2 = args.graph.node(idTerritory2);
-		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner != nick ){
+		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner != nick && isneighbors(args.graph,idTerritory1,idTerritory2 )){
 			return true;
 		}else
 			return false;
@@ -135,19 +133,17 @@ var atackTerritory = function(){
         numDefender=args.numDefender;
         var territory1 = graph.node(args.idTerritory1);
         var territory2 = graph.node(args.idTerritory2);
-       	territory1.numSoldier -= numAttacker;
-       	territory2.numSoldier -= numDefender;
-       	console.log('Atacante '+territory1.numSoldier );
-       	console.log('Defensor '+territory2.numSoldier );
+       	territory1.numSoldier =territory1.numSoldier- numAttacker;
+       	territory2.numSoldier =territory2.numSoldier- numDefender;
        	content_battle.innerHTML='Attacker: '+territory1.owner+'<br>';
        	content_battle.innerHTML+='Territory: '+args.idTerritory1+' Dices: '+dice1+' Dead: '+numAttacker+'<br>';
-       	content_battle.innerHTML+='Defender: '+territory1.owner+'<br>';
+       	content_battle.innerHTML+='Defender: '+territory2.owner+'<br>';
        	content_battle.innerHTML+='Territory: '+args.idTerritory2+' Dices: '+dice2+' Dead: '+numDefender+'<br>';
        	if(territory2.numSoldier==0){
        		territory2.owner=territory1.owner;
        		territory2.numSoldier=1;
-       		territory1.numSoldier-=1;
-       		 content_battle.innerHTML+='Conquered Territory';
+       		territory1.numSoldier=territory1.numSoldier-1;
+       		content_battle.innerHTML+='Conquered Territory';
        	}else{
        		content_battle.innerHTML+='Not Conquered Territory';
        	}
@@ -156,6 +152,7 @@ var atackTerritory = function(){
 
 	this.nextStage = function(){
 		//return the next stage
+		return new receiveCard();
 
 	}
 
@@ -229,19 +226,25 @@ var changeCards = function(){
 		var cards = player.cards;
 		var aux = [];
 
+
+		player.cards = aux;
+		player.numSoldier += args.numSoldier;
+		player.numSoldier += args.extraSoldiers;
+
+		if(match.turn != args.nick){
+			return;
+		}
+
 		//quit the cards traded of the cards of the player
+		//remove the cards
 		for (var i =0; i< cards.length; i++){			
 			if (!existCard(cardsTraced ,cards[i])){
 				aux.push(cards[i]);
 			}
 		}
-		player.cards = aux;
-		player.numSoldier += args.numSoldier;
-		player.numSoldier += args.extraSoldiers;
 
 		//update the pop-up of change Cards
 
-		//remove the cards
 		var listCards = document.getElmentByClassName("card");
 		for(var i =0; i< listCards.length; i++){
 			for(var j = 0; j < cardsTraced.length; i++){
