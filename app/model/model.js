@@ -215,6 +215,7 @@ exports.getMatch = function(idMatch, nick){
 			nick: player.nick,
 			color: player.color,
 			numSoldier: player.numSoldier,
+			lastTerritorysConquers:0
 		};
 		listPlayerTemp.push(playerTemp);
 
