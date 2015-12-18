@@ -215,9 +215,12 @@ var atackTerritory = function(){
     this.defender=0;
     this.listDiceDefender=null;
     this.listDiceAttacker=null;
+    this.change=false;
 
     this.initStage= function(match){
         console.log('init Atack');
+        auxPlayer=searchPlayer(match.listPlayer,match.turn);
+        auxPlayer.lastTerritorysConquers=0;
     }
 
     this.isChangeTurn= function(){
@@ -226,10 +229,15 @@ var atackTerritory = function(){
 
     this.doMove = function(args, match){
         //update the graph
+        if(args.idTerritory1==null && args.idTerritory2==null){
+            this.change=true;
+            return;
+        }
         console.log("********actualizando grafo Atack******");
         //calculate dice
         //attacker: 2 soldiers 1 dice, 3 soldiers 2 dice, 4 o more soldier 3 dice
         //defender: 1 soldier 1 dice, 2 o more soldiers 2 dice
+
         var listDiceAttacker=[],listDiceDefender=[],numDefender, numAttacker;
         var graph,nickAttacker,nickDefender,numSoldierA,numSoldierD,territoryA,territoryD,nDeadA,nDedD;
         graph=match.map.graph;
@@ -239,6 +247,7 @@ var atackTerritory = function(){
         nickDefender=territoryD.owner;
         numSoldierA=territoryA.numSoldier;
         numSoldierD=territoryD.numSoldier;
+        debugger;
         if(numSoldierA>=4){
             numAttacker=3;
 
@@ -277,18 +286,20 @@ var atackTerritory = function(){
             if(diceAttacker>diceDefender){
                 console.log('gana atacante');
                 console.log('Defensor: '+territoryD.numSoldier);
-                territoryD.numSoldier-=1;
+                territoryD.numSoldier=territoryD.numSoldier-1;
                 console.log('Defensor: '+territoryD.numSoldier);
                 this.defender+=1;
                 if(territoryD.numSoldier=0){
                     territoryD.owner=territoryA.owner;
-                    territoryA.numSoldier-=1;
-                    territoryD.numSoldier+=1;
+                    territoryA.numSoldier=territoryA.numSoldier-1;
+                    territoryD.numSoldier=1;
+                    auxPlayer=searchPlayer(match.listPlayer,territoryA.owner);
+                    auxPlayer.lastTerritorysConquers+=1;
                 }
             }else{
                 console.log('gana defensor');
                 console.log('Atacante: '+territoryA.numSoldier);
-                territoryA.numSoldier-=1;
+                territoryA.numSoldier=territoryA.numSoldier-1;
                 this.atacker+=1;
                 console.log('Atacante: '+territoryA.numSoldier);
             }  
@@ -298,7 +309,7 @@ var atackTerritory = function(){
 
     this.nextStage = function(){
         //return the next stage
-        return "Atack";
+        return new sendCard();
     }
 
     this.buildData= function(args, playerTurn, stage){
@@ -318,7 +329,11 @@ var atackTerritory = function(){
     }
 
     this.validateChangeStage=function(match, args){
-      return "Atack";
+        if(this.change)
+            return "receiveCard";
+        var graphPtr = match.map.graph;
+
+        return "Atack";
     }
 
 }
@@ -355,6 +370,25 @@ var move = function(){
 
 }
 
+
+function getRestOfTheCards(cards, cardsTraced){
+    var aux = []
+    for (var i =0; i< cards.length; i++){           
+        if (!existCard(cardsTraced ,cards[i])){
+            aux.push(cards[i]);
+        }
+    }
+}
+function existCard(listCards, card){
+    for(var i = 0; i< listCards.length; i++){
+        if(listCards[i].idTerritory == card.idTerritory){
+            return true;
+        }
+    }
+    return false;
+
+}
+
 var changeCards = function(){
 
     //recibe an object {nick, idTerritory, graph }
@@ -371,8 +405,7 @@ var changeCards = function(){
     } 
 
     this.doMove = function(args, match){
-        //args = {nick, cardsTraced, cards}
-        //cards: the rest of the cards of the player
+        //args = {nick, cardsTraced }
 
         //update the graph
         console.log("********Change Cards******");
@@ -383,7 +416,8 @@ var changeCards = function(){
         match.cards.concat(args.cardsTraced); //add the cards to the heap
 
         var player = searchPlayer(match.listPlayer, nick);  //search the player
-        player.cards = args.cards; //set the rest of the cards
+
+        player.cards = getRestOfTheCards(player.card, args.cardsTraced); //set the rest of the cards
 
         player.timesCardTrace+= 1; //incremenct the times that a player traces a card
 
@@ -399,6 +433,8 @@ var changeCards = function(){
 
     }
 
+
+
     this.nextStage = function(){
         //return the next stage
         return new reforceTerritory();
@@ -406,7 +442,8 @@ var changeCards = function(){
 
     this.buildData= function(args, playerTurn, stage){
         console.log('bild data Cards');
-        return {nick: args.nick, }
+        return {nick: args.nick, cardsTraced: args.cardsTraced,
+            numSoldier: this.numSoldier, extraSoldiers: this.extraSoldiers }
 
         
     }
@@ -455,7 +492,7 @@ var sendCard = function(){
 
     this.buildData= function(args, playerTurn, stage){
         console.log('build data receive Cards');
-        return {nick: args.nick, card: this.newCard };
+        return {nick: args.nick, card: this.newCard, stage: "changeCards" };
 
         
     }

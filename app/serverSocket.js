@@ -78,7 +78,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     5 players= 25 soldier
                     6 players= 20 soldier
                 */
-                //numSoldier=50-5*listPlayer.length;
+                numSoldier=50-5*listPlayer.length;
                 numSoldier = 2;
                 console.log('++++++++++++++++++number of soilder for each player:', numSoldier)
                 for(p in listPlayer){
@@ -92,7 +92,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
 
             player.on("doMove", function(args){
                 var currentMatch = model.Matches[args.idMatch];
-                console.log("doMove", currentMatch);
+                console.log("doMove****", currentMatch);
                 currentMatch.stage.doMove(args, currentMatch);
                 var playersSocket = clients[args.idMatch];
                 var listPlayer = currentMatch.listPlayer;

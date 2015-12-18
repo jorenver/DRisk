@@ -4,6 +4,8 @@
 	<link rel="stylesheet" type="text/css" href="css/match.css">
 	<link rel="stylesheet" type="text/css" href="css/game.css">
 	<link rel="stylesheet" type="text/css" href="css/battle.css">
+	<link rel="stylesheet" type="text/css" href="css/traceCard.css">
+	<link rel="stylesheet" type="text/css" href="css/receiveCard.css">
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 	<script type="text/javascript" src="js/graphlib.min.js" ></script>
 	<script type="text/javascript" src="js/lib/paperjs/dist/paper-full.js"></script>
@@ -20,6 +22,8 @@
 <body style="background-image: url('../img/background_earth.png');
 			 background-repeat: repeat;">
 	{% include './battle.html' %}
+	{% include './traceCards.html' %}
+	{% include './receiveCards.html' %}
 	<div id = "canvas">
 	</div>
 	<div class="gameWrapper u-flex-column u-align-center">
