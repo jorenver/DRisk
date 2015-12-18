@@ -129,8 +129,12 @@ function connectSocketGame(){
 
 					}
 					else{
-						stage = stage.nextStage(); //not exchange cards, next stage "Reforce"
+						 socket.emit("doMove", {nick:nick, idMatch: idMatch,
+						  cardsTraced: [], flag: false });//not exchange cards, next stage "Reforce"
 					}
+				}else{
+					socket.emit("doMove", {nick:nick, idMatch: idMatch, 
+						cardsTraced: [], flag: false });
 				}
 
 
@@ -138,11 +142,7 @@ function connectSocketGame(){
 			if(args.stage == 'receiveCard'){ 
 				//if the player has conquer al least one territory
 				if(player.lastTerritorysConquers>0){ 
-					alert("nick "+ nick);
 					socket.emit("doMove", {nick: nick, idMatch: idMatch} );
-				}
-				else{
-					alert("no recibes cartas");
 				}
 			}
 
@@ -230,7 +230,8 @@ function openChangeCard_PopUp( ){
     	var value = state.validateMove({listCards: temporalCards});
     	if(value){
     		//emit the cards to the server
-    		socket.emit("doMove", {nick: nick, cardsTraced: temporalCards } );
+    		socket.emit("doMove", {nick: nick,idMatch: idMatch ,
+    			cardsTraced: temporalCards, flag: true } );
     		temporalCards = [];
     	}
     	else{

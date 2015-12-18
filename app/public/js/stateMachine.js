@@ -224,6 +224,9 @@ var changeCards = function(){
 	this.doUpdateMap = function(args, match, graph){
 		//reciece the num of soldiers
 		//and quit the cards traded
+		if(!args.flag){
+			return;
+		}
 
 		var cardsTraced = args.cardsTraced; //cards traced
 		var nick = args.nick;
@@ -295,7 +298,7 @@ var receiveCard = function(){
 		console.log("NICKNAME:", args.nick);
 		var player = searchPlayer(match.listPlayer, args.nick);
 		player.cards.push(card); //add the new card
-
+		console.log("cards", player.cards);
 		//show a pop-up with the information
 		var p = document.createElement("p");
 		p.innerHTML = "You receive this card:"
@@ -309,6 +312,7 @@ var receiveCard = function(){
 		});
 
 		receiveCard_PopUp.style.display = "flex";
+		
 
 		
 	}
