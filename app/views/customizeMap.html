@@ -11,14 +11,43 @@
 	<script type="text/javascript" src="/js/customizeMap.js"></script>
 </head>
 <body>
-	<div class="customWrapper u-flex-row u-align-center">
-		<div id="continents" class="continentsMaps u-flex-column u-align-center u-justify-center">
-			<canvas id="america" draggable="true" width="450" height="400">america</canvas>
-			<canvas id="africa"  draggable="true" width="450" height="400">africa</canvas>
-			<canvas id="europa"  draggable="true" width="450" height="400" >europa</canvas>
+	<div class="configurationMapWrapper u-flex-row u-align-center">
+		<div id="continents" class="configurationMapContinents u-flex-column u-align-center u-justify-center">
+			<label>Select Continents</label>
+			<img id="europe" class="map" draggable="true" ondragstart="handleDragStart(event);" src="../svg/Europe.svg">
+			<img id="northAmerica" class="map" draggable="true" ondragstart="handleDragStart(event);" src="../svg/NorthAmerica.svg">
+			<img id="southAmerica" class="map" draggable="true" ondragstart="handleDragStart(event);" src="../svg/SouthAmerica.svg">
+			<img id="asia" class="map" draggable="true" ondragstart="handleDragStart(event);" src="../svg/Asia.svg">
+			<img id="africa" class="map" draggable="true" ondragstart="handleDragStart(event);" src="../svg/Africa.svg">
 		</div>
-		<div>
-			<canvas id="myCanvas" width="900" height="500"></canvas>
+		<div id="drawerMapParent" class="configurationMapCanvas u-flex-column u-align-center u-justify-center">
+			<div class="titleWrapper">
+				<label>Configure Map</label>
+			</div>
+			<canvas id="drawerMap" class="configurationMapDrawer"></canvas>
+			<div><input type="button" class="button" value="Accept" onclick="changeParameters(this);"></div>
+			<div id = "drawerMapConfiguration" class="drawerMapConfiguration u-flex-column u-align-center u-justify-center">
+				<label>Parameters</label>
+				<table class="u-flex-column">
+					<tr class="row-table"> 
+						<td><label>Color</label></td>
+						<td><input id="colorInput" type=color pattern="#[a-f0-9]{6}" title="hexadecimal color" placeholder="#000000"></td>
+					</tr>
+					<tr class="row-table "> 
+						<td><label>Size</label></td>
+						<td><input id="sizeInput" type="range" min="0.1" max="1" value="0.6" step="0.1" id="fader" oninput="outputUpdate(value)"></td>
+						<td><output for="fader" id="volume">60%</output></td>
+					</tr>
+					<!--<tr class="row-table u-flex-row"> 
+						<td><label>Rotate</label></td>
+						<td>90 grados</td>
+					</tr>-->
+				</table>
+				<div class="u-flex-row u-align-center u-justify-center">
+					<input type="button" class="button" value="Accept" onclick="changeParameters(this);">
+					<input type="button" class="button" value="Cancel" onclick="closeParameters(this);">
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

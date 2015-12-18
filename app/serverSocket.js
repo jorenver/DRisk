@@ -33,7 +33,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     for (i in sockets){
                         if(sockets[i].id == player.id){
                             console.log("se borro conexion")
-                            delete sockets[c];
+                            delete sockets[i];
                         }
                     }
                 }
@@ -105,7 +105,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     var playerTurn = listPlayer[listPlayer.length-1];
                     console.log(playerTurn)
                 }
-                nextState=currentMatch.stage.validateChangeStage(currentMatch);//get name of next stage
+                nextState=currentMatch.stage.validateChangeStage(currentMatch, args);//get name of next stage
                 var data=currentMatch.stage.buildData(args,playerTurn,nextState);
                 if(currentMatch.stage.stageName!=nextState){ // only if is neceray change stage
                     currentMatch.stage=currentMatch.stage.nextStage();

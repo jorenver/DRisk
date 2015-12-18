@@ -18,10 +18,69 @@ canvas[resize] {
     height: 100%;
 }
 
-.continentsMaps{
+.configurationMapWrapper{
+	height: 100%;
+}
+
+.configurationMapContinents{
 	height: 100%;
 	width: 20%;
+	background-color: rgba(226,228,230, 0.5);
+	padding: 10px 10px 10px 10px;
 }
-.customWrapper{
+
+.configurationMapCanvas{
+	width: 100%;
 	height: 100%;
+}
+
+.configurationMapDrawer{
+	width: 85%;
+	height: 80%;
+	background-color: rgba(226,228,230, 0.9);
+	padding: 10px 10px 10px 10px;
+	border-radius: 10px;
+}
+
+.drawerMapConfiguration{
+	background-color: rgba(0,0,200,0.6);
+	border-radius: 10px;
+	display: none;
+	left:45%;
+	right:40%;
+	top:30%;
+    z-index: 100;
+    position: fixed;
+    width: 25%;
+}
+
+.titleWrapper{
+	margin: 5px;
+	background-color: rgba(226,228,230, 0.9);
+	border-radius: 5px;
+	padding: 10px 10px 10px 10px;
+}
+
+.map{
+	width: 150px;
+	height: 100px;
+	margin: 10px 10px;
+}
+
+label {
+	margin: 10px;
+}
+
+tr {
+	height: 40px;
+}
+
+td{
+	margin: 15px;
+	text-align: center;
+	padding: 5px;
+}
+
+.button{
+
 }

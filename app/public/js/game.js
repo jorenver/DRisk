@@ -23,18 +23,11 @@ function isMyTurn(){
 	}
 }
 
-function changeCards(){
 
-	/*var players = match.listPlayer;
-	for (var i = 0; i< ; i++){
-
-	}*/
-
-}
-
-
-function clickTwoTerritorys(idTerritory){
+function clickTwoTerritorys(territoryPath){
 	//valido con el grafo la jugada de acuerdo a los datos
+	console.log('***************** 2 territorios')
+	var idTerritory = territoryPath.name;
 	if(!territorysSelected[0] ){
 		territorysSelected[0]=idTerritory;
 	}else{
@@ -48,13 +41,14 @@ function clickTwoTerritorys(idTerritory){
 
 		if(value){
 			socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
+			$("#soldierNum").html(player.numSoldier);
 		}
 		else{
 			console.log("error");
+			alert('movimiento invalido, escoja otro par de territorios');
 		}
 		territorysSelected[0]=null;
 		territorysSelected[1]=null;
-		console.log("grafo actualizado", match.map.graph);
 	}
 	
 }
@@ -93,14 +87,13 @@ function connectSocketGame(){
 
 	socket.on("updateMap", function(args){
 		match.turn = args.nickTurn;
-		stage.doUpdateMap(args, match, graph); //actualiza grafo
+		stage.doUpdateMap(args, match, graph); //actualiza juego, grafo
 		//redraw map
-		var territory = graph.node(args.idTerritory);
-		var territoryPath = searchTerritory(mapGroup.children,args.idTerritory);
-		var lastPlayer = searchPlayer(match.listPlayer,territory.owner);
-		updateTerritory(territoryPath,lastPlayer.color.code);
+		redraw(args, stage.drawAction);
+
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
+			alert('Estado: '+args.stage);
 			if(args.stage=='Reforce'){
 				var url = "/getNumSoldier?nick="+match.turn;
 		        var request = new XMLHttpRequest();
@@ -112,11 +105,69 @@ function connectSocketGame(){
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
 			}
+			if(args.state == 'changeCards'){
+
+				if(isMyTurn()){
+
+					//check whether to exchange cards
+					if(player.cards.length >= 3){
+
+						//mostrar pop-up para escoger las cartas a intercambiar
+						//dentro del pop-up hacer emit(do-move())
+
+					}
+					else{
+						stage = stage.next(); //not exchange cards, next stage "Reforce"
+					}
+				}
+
+
+			}
+			if(args.state == 'receiveCard'){
+				if(wonBattle){
+					socket.emit("doMove", {nick: nick} );
+				}
+			}
+
 		}
 		if(isMyTurn()){
 			loadTurnItem();
 		}
 	});
+}
+
+
+
+function redraw(args, drawAction){
+
+	if(drawAction == "redrawMap"){
+		var territory = graph.node(args.idTerritory);
+		var territoryPath = searchTerritory(mapGroup.children,args.idTerritory);
+		var lastPlayer = searchPlayer(match.listPlayer,territory.owner);
+		updateTerritory(territoryPath,lastPlayer.color.code);
+	}
+	if(drawAction == "receiveCard"){
+		console.log("Dibujo un pop up con la carta recivida");
+		//draw a pop-up
+	}
+	if(drawAction == "changeCard"){
+		console.log("Dibujo un pop up con las cartas a intercambiar");
+		//draw a pop-up
+	}
+	if(drawAction == "Atack"){
+		console.log("Actualico el mapa ");
+		var territory1 = graph.node(args.idTerritory1);
+		var territory2 = graph.node(args.idTerritory2);
+		//actualizo el primer territorio
+		var territoryPath = searchTerritory(mapGroup.children,args.idTerritory1);
+		var lastPlayer = searchPlayer(match.listPlayer,territory1.owner);
+		updateTerritory(territoryPath,lastPlayer.color.code);
+		//actualizo el 2 territorio
+		territoryPath = searchTerritory(mapGroup.children,args.idTerritory2);
+		lastPlayer = searchPlayer(match.listPlayer,territory2.owner);
+		updateTerritory(territoryPath,lastPlayer.color.code);
+	}
+
 }
 
 function loadPlayersInfo(listPlayer){
@@ -179,6 +230,9 @@ function initialize(event){
 		territory12:null
 	}
 	initLibPaper('../svg/MapaRisk.svg');//dentro se llama a setClick
+	Mostrar.addEventListener('click',openBattle);
+	Ocultar.addEventListener('click',closeBattle);
+
 }
 
 function initLibPaper(url){
@@ -211,6 +265,7 @@ function loadSVGMap(file){
 function setClick(action){
 	var groupTerritory = mapGroup.children;// array de territorios, cada elemento es un objeto de tipo Group
 	for(var i = 0 ; i < groupTerritory.length ; i++){
+		groupTerritory[i].off('click');
 		groupTerritory[i].on('click',function(event){
 			if(isMyTurn()){
 				var territoryPath = this;

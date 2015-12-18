@@ -1,0 +1,29 @@
+#battle {
+  background-color: rgba(226,228,230, 0.5);
+  border-radius: 6px;
+  color: white;
+  display: none;
+  flex-direction: column;
+  justify-content: start;
+  height: 60%;
+  width: 40%;
+  position: fixed;
+  top: 20%;
+  left: 30%;
+  right: 30%;
+  z-index: 100;
+  border: 3px solid white;
+}
+
+
+#content_battle{
+  background: #e2e4e6;
+  width: 95%;
+  height: 70%;
+  margin: 2.5%;
+  color: black;
+  font-family: opcionUno;
+  overflow-y: auto;
+}
+
+
