@@ -11,7 +11,7 @@ function openBattle(){
 	Ocultar.addEventListener('click',closeBattle);
 	next.addEventListener('click',nextRound);
 	Stop.addEventListener('click',changeBattle);
-	if(isMyTurn()){
+	if(!isMyTurn()){
 		next.style.display="none";
 		Stop.style.display="none";
 	}else{
