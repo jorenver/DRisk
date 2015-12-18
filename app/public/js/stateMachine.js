@@ -116,7 +116,7 @@ var atackTerritory = function(){
 		var idTerritory2=args.idTerritory2;
 		var territory1 = args.graph.node(idTerritory1);
 		var territory2 = args.graph.node(idTerritory2);
-		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner != nick && isneighbors(args.graph,territory1,territory2 )){
+		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner != nick && isneighbors(args.graph,idTerritory1,idTerritory2 )){
 			return true;
 		}else
 			return false;
@@ -152,6 +152,7 @@ var atackTerritory = function(){
 
 	this.nextStage = function(){
 		//return the next stage
+		return new receiveCard();
 
 	}
 

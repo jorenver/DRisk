@@ -125,7 +125,7 @@ function connectSocketGame(){
 
 					}
 					else{
-						stage = stage.next(); //not exchange cards, next stage "Reforce"
+						stage = stage.nextStage(); //not exchange cards, next stage "Reforce"
 					}
 				}
 

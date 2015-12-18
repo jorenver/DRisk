@@ -305,7 +305,7 @@ var atackTerritory = function(){
 
     this.nextStage = function(){
         //return the next stage
-        return new changeCards();
+        return new sendCard();
     }
 
     this.buildData= function(args, playerTurn, stage){
@@ -326,7 +326,7 @@ var atackTerritory = function(){
 
     this.validateChangeStage=function(match, args){
         if(this.change)
-            return "changeCards";
+            return "sendCard";
         return "Atack";
     }
 
