@@ -124,6 +124,9 @@ var atackTerritory = function(){
 	}
 
 	this.doUpdateMap = function(args, match, graph){
+		if(args.idTerritory1==null && args.idTerritory2==null){//cambio de estado
+			return;
+		}
 		//update the graph
         dice1=args.dice1;
         console.log('########Dados Atacante####### '+ dice1);
