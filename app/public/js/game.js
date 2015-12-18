@@ -3,7 +3,7 @@ var stage;
 var match;
 var graph;
 var player;
-
+var temporalCards = [] //list to add select cards
 //sockets
 var socket;
 var territorysSelected;
@@ -121,6 +121,7 @@ function connectSocketGame(){
 
 						//mostrar pop-up para escoger las cartas a intercambiar
 						//dentro del pop-up hacer emit(do-move())
+						openChangeCard_PopUp();
 
 					}
 					else{
@@ -131,7 +132,8 @@ function connectSocketGame(){
 
 			}
 			if(args.state == 'receiveCard'){
-				if(wonBattle){
+				//if the player has conquer al least one territory
+				if(player.lastTerritorysConquers>0){ 
 					socket.emit("doMove", {nick: nick} );
 				}
 			}
@@ -157,7 +159,7 @@ function redraw(args, drawAction){
 		console.log("Dibujo un pop up con la carta recivida");
 		//draw a pop-up
 	}
-	if(drawAction == "changeCard"){
+	if(drawAction == "changeCards"){
 		console.log("Dibujo un pop up con las cartas a intercambiar");
 		//draw a pop-up
 	}
@@ -178,6 +180,68 @@ function redraw(args, drawAction){
 	}
 
 }
+
+function openChangeCard_PopUp( ){
+	
+    if(player.cards.length >= 5){
+    	bt_cancelTrace.disabled = true; //the player must change cards,
+    	//do not close the pop-up
+    }
+    var table = document.createElement("table");
+    var cards = player.cards;
+    //add the cards in the pop-up
+    for(var i=0; i< cards.length; i++){
+    	var row = document.createElement("tr");
+    	row.innerHTML = cards[i].soldierType + " " + cards[i].idTerritory;
+    	row.setAttribute("class","card");
+    	row.setAttribute('data-idterritory',cards[i].idTerritory );
+    	row.setAttribute('data-soldiertype',cards[i].soldierType );
+    	table.appendChild(row);
+    	
+    	row.addEventListener('click', function(event){
+
+    		if(temporalCards.length >3){
+    			alert("Ya escogiste las tres cartas");
+    		}
+
+    		this.style.backgroundColor = "yellow";
+    		//add in a temporal cards list
+			temporalCards.push({soldierType: this.getAttribute('data-soldiertype'),
+			 idTerritory: this.getAttribute('data-idterritory')});    		
+
+    	});
+    }
+
+    content_traceCard.appendChild(table);
+
+    bt_traceCard.addEventListener('click', function(event){
+    	var value = state.validateMove({listCards: temporalCards});
+    	if(value){
+    		//emit the cards to the server
+    		socket.emit("doMove", {nick: nick, cardsTraced: temporalCards } );
+    		temporalCards = [];
+    	}
+    	else{
+    		alert("error, las cartas deben ser todas iguales o todas diferentes");
+    		temporalCards = [];
+    		var listCards = document.getElmentByClassName("card");
+    		for (var i =0; i< listCards.length; i++ ){
+    			listCards[i].style.backgroundColor = "";
+    		}
+    	}
+    });
+
+    bt_cancelTrace.addEventListener('click', function(event){
+    	content_traceCard.innerHTML = "";
+    	traceCard_PopUp.style.display="none";
+    });
+
+
+    traceCard_PopUp.style.display="flex";
+    
+}
+
+
 
 function loadPlayersInfo(listPlayer){
 	var wrapper = document.getElementById('listPlayer');

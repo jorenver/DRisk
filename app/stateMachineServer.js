@@ -357,6 +357,25 @@ var move = function(){
 
 }
 
+
+function getRestOfTheCards(cards, cardsTraced){
+    var aux = []
+    for (var i =0; i< cards.length; i++){           
+        if (!existCard(cardsTraced ,cards[i])){
+            aux.push(cards[i]);
+        }
+    }
+}
+function existCard(listCards, card){
+    for(var i = 0; i< listCards.length; i++){
+        if(listCards[i].idTerritory == card.idTerritory){
+            return true;
+        }
+    }
+    return false;
+
+}
+
 var changeCards = function(){
 
     //recibe an object {nick, idTerritory, graph }
@@ -373,8 +392,7 @@ var changeCards = function(){
     } 
 
     this.doMove = function(args, match){
-        //args = {nick, cardsTraced, cards}
-        //cards: the rest of the cards of the player
+        //args = {nick, cardsTraced }
 
         //update the graph
         console.log("********Change Cards******");
@@ -385,7 +403,8 @@ var changeCards = function(){
         match.cards.concat(args.cardsTraced); //add the cards to the heap
 
         var player = searchPlayer(match.listPlayer, nick);  //search the player
-        player.cards = args.cards; //set the rest of the cards
+
+        player.cards = getRestOfTheCards(player.card, args.cardsTraced); //set the rest of the cards
 
         player.timesCardTrace+= 1; //incremenct the times that a player traces a card
 
@@ -401,6 +420,8 @@ var changeCards = function(){
 
     }
 
+
+
     this.nextStage = function(){
         //return the next stage
         return new reforceTerritory();
@@ -408,7 +429,8 @@ var changeCards = function(){
 
     this.buildData= function(args, playerTurn, stage){
         console.log('bild data Cards');
-        return {nick: args.nick, }
+        return {nick: args.nick, cardsTraced: args.cardsTraced,
+            numSoldier: this.numSoldier, extraSoldiers: this.extraSoldiers }
 
         
     }
