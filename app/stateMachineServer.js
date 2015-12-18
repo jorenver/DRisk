@@ -230,6 +230,7 @@ var atackTerritory = function(){
         //calculate dice
         //attacker: 2 soldiers 1 dice, 3 soldiers 2 dice, 4 o more soldier 3 dice
         //defender: 1 soldier 1 dice, 2 o more soldiers 2 dice
+
         var listDiceAttacker=[],listDiceDefender=[],numDefender, numAttacker;
         var graph,nickAttacker,nickDefender,numSoldierA,numSoldierD,territoryA,territoryD,nDeadA,nDedD;
         graph=match.map.graph;
@@ -239,6 +240,7 @@ var atackTerritory = function(){
         nickDefender=territoryD.owner;
         numSoldierA=territoryA.numSoldier;
         numSoldierD=territoryD.numSoldier;
+        debugger;
         if(numSoldierA>=4){
             numAttacker=3;
 
@@ -277,18 +279,18 @@ var atackTerritory = function(){
             if(diceAttacker>diceDefender){
                 console.log('gana atacante');
                 console.log('Defensor: '+territoryD.numSoldier);
-                territoryD.numSoldier-=1;
+                territoryD.numSoldier=territoryD.numSoldier-1;
                 console.log('Defensor: '+territoryD.numSoldier);
                 this.defender+=1;
                 if(territoryD.numSoldier=0){
                     territoryD.owner=territoryA.owner;
-                    territoryA.numSoldier-=1;
+                    territoryA.numSoldier=territoryA.numSoldier-1;
                     territoryD.numSoldier=1;
                 }
             }else{
                 console.log('gana defensor');
                 console.log('Atacante: '+territoryA.numSoldier);
-                territoryA.numSoldier-=1;
+                territoryA.numSoldier=territoryA.numSoldier-1;
                 this.atacker+=1;
                 console.log('Atacante: '+territoryA.numSoldier);
             }  
