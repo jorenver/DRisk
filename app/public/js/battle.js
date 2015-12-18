@@ -6,10 +6,18 @@ function closeBattle(event){
 
 
 function openBattle(){
+
 	battle.style.display="flex";
 	Ocultar.addEventListener('click',closeBattle);
 	next.addEventListener('click',nextRound);
 	Stop.addEventListener('click',changeBattle);
+	if(!isMyTurn()){
+		next.style.display="none";
+		Stop.style.display="none";
+	}else{
+		next.style.display="flex";
+		Stop.style.display="flex";
+	}
 }
 
 
@@ -21,5 +29,5 @@ function nextRound(){
 function changeBattle(){
 	socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: null,idTerritory2: null });
 	battle.style.display="none";
-	stage = stage.nextStage();
+	//stage = stage.nextStage();
 }

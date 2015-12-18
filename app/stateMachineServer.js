@@ -219,6 +219,8 @@ var atackTerritory = function(){
 
     this.initStage= function(match){
         console.log('init Atack');
+        auxPlayer=searchPlayer(match.listPlayer,match.turn);
+        auxPlayer.lastTerritorysConquers=0;
     }
 
     this.isChangeTurn= function(){
@@ -291,6 +293,8 @@ var atackTerritory = function(){
                     territoryD.owner=territoryA.owner;
                     territoryA.numSoldier=territoryA.numSoldier-1;
                     territoryD.numSoldier=1;
+                    auxPlayer=searchPlayer(match.listPlayer,territoryA.owner);
+                    auxPlayer.lastTerritorysConquers+=1;
                 }
             }else{
                 console.log('gana defensor');
@@ -326,7 +330,9 @@ var atackTerritory = function(){
 
     this.validateChangeStage=function(match, args){
         if(this.change)
-            return "sendCard";
+            return "receiveCard";
+        var graphPtr = match.map.graph;
+
         return "Atack";
     }
 
@@ -486,7 +492,7 @@ var sendCard = function(){
 
     this.buildData= function(args, playerTurn, stage){
         console.log('build data receive Cards');
-        return {nick: args.nick, card: this.newCard };
+        return {nick: args.nick, card: this.newCard, stage: "changeCards" };
 
         
     }

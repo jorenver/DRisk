@@ -124,6 +124,9 @@ var atackTerritory = function(){
 	}
 
 	this.doUpdateMap = function(args, match, graph){
+		if(args.idTerritory1==null && args.idTerritory2==null){//cambio de estado
+			return;
+		}
 		//update the graph
         dice1=args.dice1;
         console.log('########Dados Atacante####### '+ dice1);
@@ -144,6 +147,8 @@ var atackTerritory = function(){
        		territory2.numSoldier=1;
        		territory1.numSoldier=territory1.numSoldier-1;
        		content_battle.innerHTML+='Conquered Territory';
+       		auxPlayer=searchPlayer(match.listPlayer,match.turn);
+       		auxPlayer.lastTerritorysConquers+=1;
        	}else{
        		content_battle.innerHTML+='Not Conquered Territory';
        	}
@@ -277,8 +282,8 @@ var changeCards = function(){
 var receiveCard = function(){
 
 	//recibe an object {nick, idTerritory, graph }
-	this.stageName = "receiveCards"; 
-	this.drawAction = "receiveCards";
+	this.stageName = "receiveCard"; 
+	this.drawAction = "receiveCard";
 
 	this.validateMove = function(args){
 		
@@ -287,15 +292,15 @@ var receiveCard = function(){
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
 		var card = args.card; 
-		var nick = args.nick;
-		var player = searchPlayer(match.listPlayer,nick);
+		console.log("NICKNAME:", args.nick);
+		var player = searchPlayer(match.listPlayer, args.nick);
 		player.cards.push(card); //add the new card
 
 		//show a pop-up with the information
 		var p = document.createElement("p");
 		p.innerHTML = "You receive this card:"
 		var div = document.createElement("div");
-		div.innerHTML = args.card.typeSoldier + " " + args.card.idTerritory;
+		div.innerHTML = args.card.soldierType + " " + args.card.idTerritory;
 		content_receiveCard.appendChild(p);
 		content_receiveCard.appendChild(div);
 		bt_closeReceiveCard.addEventListener('click', function(event){

@@ -111,8 +111,12 @@ function connectSocketGame(){
 			}	
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
+				if(args.stage=='Atack' ){
+					auxPlayer=searchPlayer(match.listPlayer,match.turn);
+	       			auxPlayer.lastTerritorysConquers=0;
+	       		}
 			}
-			if(args.state == 'changeCards'){
+			if(args.stage == 'changeCards'){
 
 				if(isMyTurn()){
 
@@ -131,10 +135,14 @@ function connectSocketGame(){
 
 
 			}
-			if(args.state == 'receiveCard'){
+			if(args.stage == 'receiveCard'){ 
 				//if the player has conquer al least one territory
 				if(player.lastTerritorysConquers>0){ 
-					socket.emit("doMove", {nick: nick} );
+					alert("nick "+ nick);
+					socket.emit("doMove", {nick: nick, idMatch: idMatch} );
+				}
+				else{
+					alert("no recibes cartas");
 				}
 			}
 
@@ -164,6 +172,10 @@ function redraw(args, drawAction){
 		//draw a pop-up
 	}
 	if(drawAction == "Atack"){
+		if(args.idTerritory1==null && args.idTerritory2==null){
+            this.change=true;
+            return;
+        }
 		console.log("Actualico el mapa ");
 		var territory1 = graph.node(args.idTerritory1);
 		var territory2 = graph.node(args.idTerritory2);
