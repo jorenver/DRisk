@@ -492,7 +492,7 @@ var sendCard = function(){
 
     this.buildData= function(args, playerTurn, stage){
         console.log('build data receive Cards');
-        return {nick: args.nick, card: this.newCard };
+        return {nick: args.nick, card: this.newCard, stage: "changeCards" };
 
         
     }

@@ -300,7 +300,7 @@ var receiveCard = function(){
 		var p = document.createElement("p");
 		p.innerHTML = "You receive this card:"
 		var div = document.createElement("div");
-		div.innerHTML = args.card.typeSoldier + " " + args.card.idTerritory;
+		div.innerHTML = args.card.soldierType + " " + args.card.idTerritory;
 		content_receiveCard.appendChild(p);
 		content_receiveCard.appendChild(div);
 		bt_closeReceiveCard.addEventListener('click', function(event){

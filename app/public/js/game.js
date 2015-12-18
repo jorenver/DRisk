@@ -137,7 +137,7 @@ function connectSocketGame(){
 				//if the player has conquer al least one territory
 				if(player.lastTerritorysConquers>0){ 
 					alert("nick "+ nick);
-					socket.emit("doMove", {nick: nick} );
+					socket.emit("doMove", {nick: nick, idMatch: idMatch} );
 				}
 				else{
 					alert("no recibes cartas");

@@ -92,7 +92,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
 
             player.on("doMove", function(args){
                 var currentMatch = model.Matches[args.idMatch];
-                console.log("doMove", currentMatch);
+                console.log("doMove****", currentMatch);
                 currentMatch.stage.doMove(args, currentMatch);
                 var playersSocket = clients[args.idMatch];
                 var listPlayer = currentMatch.listPlayer;
