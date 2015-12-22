@@ -23,9 +23,9 @@ function getNumDices(list,num){
             }
         }
         newList.push(list[index]);
-        console.log('lista '+list);
-        console.log('nueva lista '+newList)
-        console.log('num '+num)
+        //console.log('lista '+list);
+        //console.log('nueva lista '+newList)
+        //console.log('num '+num)
         delete list[index];
         num--;
     }
@@ -99,15 +99,15 @@ var selectTerritory = function(){
         console.log("********actualizando grafo Select******");
         var nick = args.nick;
         var idTerritory = args.idTerritory;
-        console.log(nick, idTerritory);
+        //console.log(nick, idTerritory);
         var graphPtr = match.map.graph;
         var player;
         graphPtr.node(idTerritory).owner = nick;
         graphPtr.node(idTerritory).numSoldier += 1;
         player= searchPlayer(match.listPlayer,nick);
-        console.log(player)
+        //console.log(player)
         player.numSoldier-=1;
-        console.log(player);
+        //console.log(player);
     }
 
     this.nextStage = function(){
@@ -165,6 +165,7 @@ var reforceTerritory = function(){
     this.doMove = function(args, match){
         //update the graph
         console.log("********actualizando grafo Reforce******");
+        console.log(args);
         var nick = args.nick;
         var idTerritory = args.idTerritory;
         console.log(nick, idTerritory);
@@ -173,9 +174,9 @@ var reforceTerritory = function(){
         graphPtr.node(idTerritory).owner = nick;
         graphPtr.node(idTerritory).numSoldier += 1;
         player= searchPlayer(match.listPlayer,nick);
-        console.log(player)
+        //console.log(player)
         player.numSoldier-=1;
-        console.log(player);
+        //console.log(player);
     }
 
     this.nextStage = function(){
@@ -198,7 +199,7 @@ var reforceTerritory = function(){
     this.validateChangeStage=function(match, args){ 
         var listPlayer=match.listPlayer;
         player= searchPlayer(listPlayer,match.turn);
-        console.log('77777777777777 validando cambio '+player.numSoldier)
+        //console.log('77777777777777 validando cambio '+player.numSoldier)
         if(player.numSoldier==0)
             return "Atack";
         else
@@ -255,14 +256,14 @@ var atackTerritory = function(){
         else{
             numAttacker=numSoldierA-1;
         }
-        console.log("########## numero Dados Atacante" + numAttacker);
+        //console.log("########## numero Dados Atacante" + numAttacker);
         if(numSoldierD>=2){
             numDefender=2;
         }
         else{
             numDefender=1;
         }
-        console.log("########## numero Dados Defensor" + numDefender);
+        //console.log("########## numero Dados Defensor" + numDefender);
         //round
         listDiceDefender=generateDices(numDefender);
         this.listDiceDefender=listDiceDefender.slice();//copy
@@ -276,18 +277,18 @@ var atackTerritory = function(){
 
         this.atacker=0;
         this.defender=0;
-        console.log("########## Dados Atacante "+listDiceAttacker);
-        console.log("########## Dados Defensor "+listDiceDefender);
+        //console.log("########## Dados Atacante "+listDiceAttacker);
+        //console.log("########## Dados Defensor "+listDiceDefender);
 
         while (listDiceAttacker.length!=0 && listDiceDefender.length!=0){
-            console.log("########## while");
+            //console.log("########## while");
             diceAttacker=listDiceAttacker.shift();
             diceDefender=listDiceDefender.shift();;
             if(diceAttacker>diceDefender){
-                console.log('gana atacante');
-                console.log('Defensor: '+territoryD.numSoldier);
+                //console.log('gana atacante');
+                //console.log('Defensor: '+territoryD.numSoldier);
                 territoryD.numSoldier=territoryD.numSoldier-1;
-                console.log('Defensor: '+territoryD.numSoldier);
+                //console.log('Defensor: '+territoryD.numSoldier);
                 this.defender+=1;
                 if(territoryD.numSoldier=0){
                     territoryD.owner=territoryA.owner;
@@ -297,11 +298,11 @@ var atackTerritory = function(){
                     auxPlayer.lastTerritorysConquers+=1;
                 }
             }else{
-                console.log('gana defensor');
-                console.log('Atacante: '+territoryA.numSoldier);
+                //console.log('gana defensor');
+                //console.log('Atacante: '+territoryA.numSoldier);
                 territoryA.numSoldier=territoryA.numSoldier-1;
                 this.atacker+=1;
-                console.log('Atacante: '+territoryA.numSoldier);
+                //console.log('Atacante: '+territoryA.numSoldier);
             }  
 
         }
@@ -425,7 +426,7 @@ var changeCards = function(){
 
         player.timesCardTrace+= 1; //incremenct the times that a player traces a card
 
-        //calculate the number of soldiers by cards
+        //calculate the  of soldiers by cards
         this.numSoldier = calculateSoldiersByCards(player.timesCardTrace);
 
         //calculate the extra soldiers

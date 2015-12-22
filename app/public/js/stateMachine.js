@@ -203,6 +203,11 @@ var changeCards = function(){
 	this.validateMove = function(args){
 
 		//validate whether the set of cards are tradeable
+		console.log("cahngeCards recieve:", args);
+		if(!args.flag){
+			return;
+		}
+
 		var listCards = args.listCards;
 
 		//validate that the three cards are equals (typeSoldier equal)

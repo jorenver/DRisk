@@ -81,8 +81,11 @@ function procesarNumSolidier(event){
 	var respond = JSON.parse(event.target.responseText);
 	var numSoldier = respond.numSoldier; 
 	var user = respond.nick; 
+	console.log("Recibiste "+ numSoldier + " soldados, chucha");
     player.numSoldier = numSoldier;
     $("#soldierNum").html(player.numSoldier);
+
+    setClick(clickTerritory);
 }
 
 function connectSocketGame(){
@@ -100,7 +103,7 @@ function connectSocketGame(){
 
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
-			alert('Estado: '+args.stage);
+			//alert('Estado: '+args.stage);
 			if(args.stage=='Reforce'){
 				var url = "/getNumSoldier?nick="+match.turn;
 		        var request = new XMLHttpRequest();
@@ -427,6 +430,7 @@ function clickTerritory(territoryPath){
 	if(value){
 		//colocate a soldier into territory, change color and update num soldiers
 		//updateTerritory(territoryPath,player.color.code);
+		console.log("Esto estoy enviando: ", nick, idMatch, idTerritory );
 		socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory: idTerritory } );
 		$("#soldierNum").html(player.numSoldier);
 	}else{
