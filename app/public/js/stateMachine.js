@@ -300,7 +300,7 @@ var receiveCard = function(){
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
 		if(!args.flag){
-			alert("No recibe cartas");
+			console.log("*****No recibe cartas*****");
 			return;
 		}
 

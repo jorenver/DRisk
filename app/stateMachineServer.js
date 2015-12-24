@@ -410,6 +410,7 @@ var changeCards = function(){
 
         //update the graph
         console.log("********Change Cards******");
+        console.log(args);
         //recibir cartas, removerlas del jugador
         //calcular numero de soldados
         if(!args.flag){
@@ -451,11 +452,13 @@ var changeCards = function(){
 
         if(!args.flag){
             return {nick: args.nick, cardsTraced: args.cardsTraced,
-            numSoldier: 0, extraSoldiers: 0, flag: args.flag, stage: "Reforce" };
+            numSoldier: 0, extraSoldiers: 0, 
+            nickTurn: playerTurn.nick, flag: args.flag, stage: "Reforce" };
         }
 
         return {nick: args.nick, cardsTraced: args.cardsTraced,
-            numSoldier: this.numSoldier, extraSoldiers: this.extraSoldiers, flag: args.flag, stage: "Reforce" };
+            numSoldier: this.numSoldier, extraSoldiers: this.extraSoldiers, 
+            nickTurn: playerTurn.nick, flag: args.flag, stage: "Reforce" };
 
         
     }
@@ -498,7 +501,6 @@ var sendCard = function(){
         }
         console.log("********obtener New Card******");
         var nick = args.nick;
-        console.log ("cartas", match.cards);
         this.newCard = match.cards.shift(); //get the new card
         var player = searchPlayer(match.listPlayer, nick);  //search the player
         player.cards.push(this.newCard); //add the new card to the player's cards
@@ -512,7 +514,8 @@ var sendCard = function(){
 
     this.buildData= function(args, playerTurn, stage){
         console.log('build data receive Cards');
-        return {nick: args.nick, card: this.newCard, stage: "changeCards", flag: args.flag };
+        return {nick: args.nick, card: this.newCard, stage: "changeCards",
+         flag: args.flag, nickTurn: playerTurn.nick };
 
         
     }

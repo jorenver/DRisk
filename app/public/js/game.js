@@ -103,7 +103,7 @@ function connectSocketGame(){
 
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
-			//alert('Estado: '+args.stage);
+			// alert('Estado: '+args.stage);
 			if(args.stage=='Reforce'){
 				var url = "/getNumSoldier?nick="+match.turn;
 		        var request = new XMLHttpRequest();
@@ -120,6 +120,7 @@ function connectSocketGame(){
 	       		}
 			}
 			if(args.stage == 'changeCards'){
+				console.log("turno:",args.nickTurn );
 
 				if(isMyTurn()){
 
@@ -132,23 +133,27 @@ function connectSocketGame(){
 
 					}
 					else{
+						 console.log("envio esto en changeCard", {nick:nick, idMatch: idMatch,
+						  cardsTraced: [], flag: false } );
+
 						 socket.emit("doMove", {nick:nick, idMatch: idMatch,
 						  cardsTraced: [], flag: false });//not exchange cards, next stage "Reforce"
 					}
-				}else{
-					socket.emit("doMove", {nick:nick, idMatch: idMatch, 
-						cardsTraced: [], flag: false });
 				}
 
 
 			}
 			if(args.stage == 'receiveCard'){ 
 				//if the player has conquer al least one territory
-				if(player.lastTerritorysConquers>0){ 
-					socket.emit("doMove", {nick: nick, idMatch: idMatch, flag: true} );
-				}
-				else{
-					socket.emit("doMove", {nick: nick, idMatch: idMatch, flag:false} );
+				if(isMyTurn()){
+					if(player.lastTerritorysConquers>0){ 
+						 console.log("envio esto en receiveCard", {nick: nick, idMatch: idMatch, flag: true} );
+
+						socket.emit("doMove", {nick: nick, idMatch: idMatch, flag: true} );
+					}
+					else{
+						socket.emit("doMove", {nick: nick, idMatch: idMatch, flag:false} );
+					}
 				}
 			}
 
@@ -233,7 +238,7 @@ function openChangeCard_PopUp( ){
     content_traceCard.appendChild(table);
 
     bt_traceCard.addEventListener('click', function(event){
-    	var value = state.validateMove({listCards: temporalCards});
+    	var value = stage.validateMove({listCards: temporalCards});
     	if(value){
     		//emit the cards to the server
     		socket.emit("doMove", {nick: nick,idMatch: idMatch ,
