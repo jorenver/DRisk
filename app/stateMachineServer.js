@@ -423,7 +423,7 @@ var changeCards = function(){
 
         var player = searchPlayer(match.listPlayer, nick);  //search the player
 
-        player.cards = getRestOfTheCards(player.card, args.cardsTraced); //set the rest of the cards
+        player.cards = getRestOfTheCards(player.cards, args.cardsTraced); //set the rest of the cards
 
         player.timesCardTrace+= 1; //incremenct the times that a player traces a card
 

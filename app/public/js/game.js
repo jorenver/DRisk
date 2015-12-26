@@ -237,6 +237,7 @@ function openChangeCard_PopUp( ){
 
     content_traceCard.appendChild(table);
 
+    //event to the button trace cards
     bt_traceCard.addEventListener('click', function(event){
     	var value = stage.validateMove({listCards: temporalCards});
     	if(value){
@@ -248,7 +249,7 @@ function openChangeCard_PopUp( ){
     	else{
     		alert("error, las cartas deben ser todas iguales o todas diferentes");
     		temporalCards = [];
-    		var listCards = document.getElmentByClassName("card");
+    		var listCards = document.getElementsByClassName("card");
     		for (var i =0; i< listCards.length; i++ ){
     			listCards[i].style.backgroundColor = "";
     		}
@@ -258,6 +259,8 @@ function openChangeCard_PopUp( ){
     bt_cancelTrace.addEventListener('click', function(event){
     	content_traceCard.innerHTML = "";
     	traceCard_PopUp.style.display="none";
+    	socket.emit("doMove", {nick:nick, idMatch: idMatch,
+						  cardsTraced: [], flag: false }); //emit to change the state
     });
 
 
