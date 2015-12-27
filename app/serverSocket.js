@@ -94,7 +94,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
 
             player.on("doMove", function(args){
                 var currentMatch = model.Matches[args.idMatch];
-                console.log("doMove****", currentMatch);
+                console.log("*****Importante serverSocket: doMove****");
                 currentMatch.stage.doMove(args, currentMatch);
                 var playersSocket = clients[args.idMatch];
                 var listPlayer = currentMatch.listPlayer;
@@ -105,11 +105,10 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 }else{
                     console.log('se mantiene el turno')
                     var playerTurn = listPlayer[listPlayer.length-1];
-                    console.log(playerTurn)
+                    //console.log(playerTurn)
                 }
                 nextState=currentMatch.stage.validateChangeStage(currentMatch, args);//get name of next stage
                 var data=currentMatch.stage.buildData(args,playerTurn,nextState);
-                data.nickTurn = currentMatch.turn;
                 if(currentMatch.stage.stageName!=nextState){ // only if is neceray change stage
                     currentMatch.stage=currentMatch.stage.nextStage();
                     currentMatch.stage.initStage(currentMatch);

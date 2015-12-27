@@ -204,11 +204,9 @@ var changeCards = function(){
 
 		//validate whether the set of cards are tradeable
 		console.log("cahngeCards recieve:", args);
-		if(!args.flag){
-			return;
-		}
 
 		var listCards = args.listCards;
+		console.log("lista de cartas",listCards);
 
 		//validate that the three cards are equals (typeSoldier equal)
 		if(areCardsEqual(listCards)){
@@ -258,7 +256,7 @@ var changeCards = function(){
 
 		//update the pop-up of change Cards
 
-		var listCards = document.getElmentByClassName("card");
+		var listCards = document.getElementsByClassName("card");
 		for(var i =0; i< listCards.length; i++){
 			for(var j = 0; j < cardsTraced.length; i++){
 
@@ -300,9 +298,10 @@ var receiveCard = function(){
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
 		if(!args.flag){
-			alert("No recibe cartas");
+			console.log("*****No recibe cartas*****");
 			return;
 		}
+
 
 		var card = args.card; 
 		console.log("NICKNAME:", args.nick);
@@ -342,10 +341,12 @@ function areCardsEqual(listCards ){
 	var type2 = listCards[1].soldierType;
 	var type3 = listCards[2].soldierType;
 
-	if (type1 == type2 && type2== type3){
+	console.log(type1, type2, type3);
+	if ( (type1 == type2) && (type2 == type3) ){
 		return true;
 	}
 	else{
+		console.log("Retorno falso");
 		return false;
 	}
 
@@ -356,8 +357,10 @@ function areCardsDifferent(listCards ){
 	var type1 = listCards[0].soldierType;
 	var type2 = listCards[1].soldierType;
 	var type3 = listCards[2].soldierType;
+	console.log(type1, type2, type3);
 
-	if (type1 != type2 && type2!= type3 && type1!=type3){
+	if ( (type1 != type2) && (type2!= type3) && (type1!=type3) ){
+		console.log("retorno verdadero");
 		return true;
 	}
 	else{
