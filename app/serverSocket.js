@@ -79,11 +79,13 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     6 players= 20 soldier
                 */
                 numSoldier=50-5*listPlayer.length;
-                numSoldier = 2;
+                //numSoldier = 2;
                 console.log('++++++++++++++++++number of soilder for each player:', numSoldier)
+                
                 for(p in listPlayer){
                     listPlayer[p].numSoldier=numSoldier;
                 }
+                
                 var playersSocket = clients[session.idMatch];
                 for(p in playersSocket){
                     playersSocket[p].emit('playerStart');
