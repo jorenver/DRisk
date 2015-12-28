@@ -310,7 +310,7 @@ var atackTerritory = function(){
 
     this.nextStage = function(){
         //return the next stage
-        return new sendCard();
+        return new move();
     }
 
     this.buildData= function(args, playerTurn, stage){
@@ -331,7 +331,7 @@ var atackTerritory = function(){
 
     this.validateChangeStage=function(match, args){
         if(this.change)
-            return "receiveCard";
+            return "Move";
         var graphPtr = match.map.graph;
 
         return "Atack";
@@ -354,19 +354,34 @@ var move = function(){
     this.doMove = function(args, match){
         //update the graph
         console.log("********actualizando grafo Move******");
+        var nick = args.nick;
+        var idTerritory1 = args.idTerritory1;
+         var idTerritory2 = args.idTerritory2;
+        var graphPtr = match.map.graph;
+        graphPtr.node(idTerritory1).numSoldier -= args.num;
+        graphPtr.node(idTerritory2).numSoldier += args.num;
     }
 
     this.nextStage = function(){
         //return the next stage
+        return new sendCard();
     }
 
     this.buildData= function(args, playerTurn, stage){
         console.log('bild data Move');
+        var data = { 
+            idTerritory1: args.idTerritory1,
+            idTerritory2: args.idTerritory2,
+            nickTurn: playerTurn.nick,
+            num:args.num,
+            stage: stage
+        };
+        return data;
         
     }
 
     this.validateChangeStage=function(match, args){
-      
+      return "sendCard";
     }
 
 }
@@ -410,6 +425,7 @@ var changeCards = function(){
 
         //update the graph
         console.log("********Change Cards******");
+        console.log(args);
         //recibir cartas, removerlas del jugador
         //calcular numero de soldados
         if(!args.flag){
@@ -451,11 +467,13 @@ var changeCards = function(){
 
         if(!args.flag){
             return {nick: args.nick, cardsTraced: args.cardsTraced,
-            numSoldier: 0, extraSoldiers: 0, flag: args.flag, stage: "Reforce" };
+            numSoldier: 0, extraSoldiers: 0, 
+            nickTurn: playerTurn.nick, flag: args.flag, stage: "Reforce" };
         }
 
         return {nick: args.nick, cardsTraced: args.cardsTraced,
-            numSoldier: this.numSoldier, extraSoldiers: this.extraSoldiers, flag: args.flag, stage: "Reforce" };
+            numSoldier: this.numSoldier, extraSoldiers: this.extraSoldiers, 
+            nickTurn: playerTurn.nick, flag: args.flag, stage: "Reforce" };
 
         
     }
@@ -498,7 +516,6 @@ var sendCard = function(){
         }
         console.log("********obtener New Card******");
         var nick = args.nick;
-        console.log ("cartas", match.cards);
         this.newCard = match.cards.shift(); //get the new card
         var player = searchPlayer(match.listPlayer, nick);  //search the player
         player.cards.push(this.newCard); //add the new card to the player's cards
@@ -512,7 +529,8 @@ var sendCard = function(){
 
     this.buildData= function(args, playerTurn, stage){
         console.log('build data receive Cards');
-        return {nick: args.nick, card: this.newCard, stage: "changeCards", flag: args.flag };
+        return {nick: args.nick, card: this.newCard, stage: "changeCards",
+         flag: args.flag, nickTurn: playerTurn.nick };
 
         
     }
