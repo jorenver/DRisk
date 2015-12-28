@@ -131,7 +131,7 @@ exports.setDataMatch = function(request,response){
 }
 
 exports.setMap = function(request,response){
-	console.log(request.body.mapChosen);
+
 	mapChosen=request.body.mapChosen;
 	var Map={
 		name:mapChosen,
@@ -278,7 +278,6 @@ exports.emitPublicMatch = function(idMatch,nick,io){
 		color:colors[0]
 	};
 	Matches[idMatch].listPlayer.push(player);
-	console.log(Matches[idMatch]);
 	io.emit('goWaitRoomCreator');
 }
 
