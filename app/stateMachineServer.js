@@ -424,6 +424,7 @@ function getRestOfTheCards(cards, cardsTraced){
             aux.push(cards[i]);
         }
     }
+    return aux;
 }
 function existCard(listCards, card){
     for(var i = 0; i< listCards.length; i++){
@@ -441,6 +442,7 @@ var changeCards = function(){
     this.stageName = "changeCards";
     this.numSoldier = 0;
     this.extraSoldiers = 0;
+    this.playerCards = [];
 
     this.initStage= function(match){
         console.log('init Carts');
@@ -469,6 +471,7 @@ var changeCards = function(){
         var player = searchPlayer(match.listPlayer, nick);  //search the player
 
         player.cards = getRestOfTheCards(player.cards, args.cardsTraced); //set the rest of the cards
+        this.playerCards = player.cards; //this is to test whether the stage change
 
         player.timesCardTrace+= 1; //incremenct the times that a player traces a card
 
@@ -510,17 +513,17 @@ var changeCards = function(){
 
     this.validateChangeStage=function(match, args){
         
-
         if(!args.flag){
             return "Reforce";
         }
 
-        if(args.cardsTraced.length >= 3){
+        if(this.playerCards >= 3){
             return "changeCards";
         }
         else{
             return "Reforce";
         }
+    
     }
 
 }

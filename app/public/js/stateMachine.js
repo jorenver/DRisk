@@ -273,8 +273,10 @@ var changeCards = function(){
 		//update the pop-up of change Cards
 
 		var listCards = document.getElementsByClassName("card");
+		console.log("listCard pop-up", listCards);
+
 		for(var i =0; i< listCards.length; i++){
-			for(var j = 0; j < cardsTraced.length; i++){
+			for(var j = 0; j < cardsTraced.length; j++){
 
 				var idTerritory = listCards[i].getAttribute('data-idterritory');
 				if(idTerritory == cardsTraced[j].idTerritory){
@@ -331,10 +333,12 @@ var receiveCard = function(){
 		div.innerHTML = args.card.soldierType + " " + args.card.idTerritory;
 		content_receiveCard.appendChild(p);
 		content_receiveCard.appendChild(div);
-		bt_closeReceiveCard.addEventListener('click', function(event){
+		bt_closeReceiveCard.onclick = function(event){
+			console.log("cierro pop up receive card");
 			content_receiveCard.innerHTML = "";
     		receiveCard_PopUp.style.display="none";
-		});
+
+		};
 
 		receiveCard_PopUp.style.display = "flex";
 		
