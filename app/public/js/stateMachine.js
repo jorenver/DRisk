@@ -157,7 +157,7 @@ var atackTerritory = function(){
 
 	this.nextStage = function(){
 		//return the next stage
-		return new receiveCard();
+		return new move();
 
 	}
 
@@ -168,14 +168,29 @@ var atackTerritory = function(){
 var move = function(){
 
 	//recibe an object {nick, idTerritory, graph }
-	this.stageName = "Atack"; 
+	this.stageName = "Move";
+	this.drawAction = "Atack";
 
 	this.validateMove = function(args){
+		var nick=args.nick;
+		var idTerritory1=args.idTerritory1;
+		var idTerritory2=args.idTerritory2;
+		var territory1 = args.graph.node(idTerritory1);
+		var territory2 = args.graph.node(idTerritory2);
+		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner == nick && isneighbors(args.graph,idTerritory1,idTerritory2 )){
+			return true;
+		}else
+			return false;
+
 
 	}
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
+		var territory1 = graph.node(args.idTerritory1);
+        var territory2 = graph.node(args.idTerritory2);
+       	territory1.numSoldier =territory1.numSoldier- num;
+       	territory2.numSoldier =territory2.numSoldier+ num;
 		
 	}
 
@@ -185,6 +200,7 @@ var move = function(){
 
 	this.nextStage = function(){
 		//return the next stage
+		return receiveCard();
 
 	}
 

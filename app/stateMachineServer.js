@@ -310,7 +310,7 @@ var atackTerritory = function(){
 
     this.nextStage = function(){
         //return the next stage
-        return new sendCard();
+        return new move();
     }
 
     this.buildData= function(args, playerTurn, stage){
@@ -331,7 +331,7 @@ var atackTerritory = function(){
 
     this.validateChangeStage=function(match, args){
         if(this.change)
-            return "receiveCard";
+            return "Move";
         var graphPtr = match.map.graph;
 
         return "Atack";
@@ -354,19 +354,34 @@ var move = function(){
     this.doMove = function(args, match){
         //update the graph
         console.log("********actualizando grafo Move******");
+        var nick = args.nick;
+        var idTerritory1 = args.idTerritory1;
+         var idTerritory2 = args.idTerritory2;
+        var graphPtr = match.map.graph;
+        graphPtr.node(idTerritory1).numSoldier -= args.num;
+        graphPtr.node(idTerritory2).numSoldier += args.num;
     }
 
     this.nextStage = function(){
         //return the next stage
+        return new sendCard();
     }
 
     this.buildData= function(args, playerTurn, stage){
         console.log('bild data Move');
+        var data = { 
+            idTerritory1: args.idTerritory1,
+            idTerritory2: args.idTerritory2,
+            nickTurn: playerTurn.nick,
+            num:args.num,
+            stage: stage
+        };
+        return data;
         
     }
 
     this.validateChangeStage=function(match, args){
-      
+      return "sendCard";
     }
 
 }

@@ -45,8 +45,11 @@ function clickTwoTerritorys(territoryPath){
 		});
 
 		if(value){
-			socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
-			//$("#soldierNum").html(player.numSoldier);
+			if(stage.stageName!='Move'){
+				socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
+			}else{
+				openMove();
+			}
 		}
 		else{
 			territorysSelected[0]=null;
@@ -82,6 +85,7 @@ function procesarNumSolidier(event){
 	var user = respond.nick; 
 	console.log("Recibiste "+ numSoldier + " soldados, chucha");
     player.numSoldier = numSoldier;
+    console.log("Recibiste "+ player.numSoldier);
     $("#soldierNum").html(player.numSoldier);
 
     setClick(clickTerritory);

@@ -43,7 +43,7 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/app/views');
 app.use('/',router);
 
-http.listen(app.get('port'),app.get('ipAddress'),function(){
+http.listen(app.get('port'),function(){
     console.log("DRisk Aplication running in a port " + app.get('port'));
 });
 
