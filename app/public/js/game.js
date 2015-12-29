@@ -115,6 +115,7 @@ function connectSocketGame(){
 		        request.open("GET",url, true);
 		        request.send(null);
 		        $("#reforceAction").css('background-color','#43888e');
+		        setClick(clickTerritory);
 			}	
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
