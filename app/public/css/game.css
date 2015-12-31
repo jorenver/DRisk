@@ -102,3 +102,20 @@ body{
 .turn{
 	opacity: 0;
 }
+
+.popUpButton {
+    background-color: #000096;
+    border-radius: 8px;
+    color: #FFF;
+    font-family: opcionUno;
+    font-size: 16px;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.6s ease 0s;
+}
+
+.popUpButton:hover{
+	background-color: rgb(44,247,244);
+	color: black;
+}

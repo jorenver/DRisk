@@ -8,15 +8,19 @@ function closeBattle(event){
 function openBattle(){
 
 	battle.style.display="flex";
+	$('#Ocultar').off('click');
+	$('#next').off('click');
+	$('#Stop').off('click');
 	Ocultar.addEventListener('click',closeBattle);
-	next.addEventListener('click',nextRound);
-	Stop.addEventListener('click',changeBattle);
+	
 	if(!isMyTurn()){
 		next.style.display="none";
 		Stop.style.display="none";
 	}else{
 		next.style.display="flex";
 		Stop.style.display="flex";
+		next.addEventListener('click',nextRound);
+		Stop.addEventListener('click',changeBattle);
 	}
 }
 

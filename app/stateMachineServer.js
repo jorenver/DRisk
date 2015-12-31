@@ -144,6 +144,35 @@ var selectTerritory = function(){
 
 }
 
+function calculateNumReforces(match){
+    /*
+        number territorys -- numSoldiers
+        1  a  8 -- 3
+        9  a 11 -- 3
+        12 a 14 -- 4
+        15 a 17 -- 5
+        18 a 20 -- 6
+        21 a 23 -- 7
+        24 a 26 -- 8
+        27 a 29 -- 9
+        30 a 32 -- 10
+        33 a 35 -- 11
+        36 a 38 -- 12
+        37 a 39 -- 13
+
+        per continet
+        
+        Africa 3
+        oceania 2
+        Asia 7
+        Eruropa 5
+        America Norte 5
+        America del Sur 2
+
+    */
+    return 13;
+}
+
 var reforceTerritory = function(){
     //recibe an object {nick, idTerritory, graph }
     this.stageName = "Reforce";
@@ -153,7 +182,8 @@ var reforceTerritory = function(){
         var listPlayer=match.listPlayer;
         player= searchPlayer(listPlayer,match.turn);
         //calcular el numero de soldados
-        player.numSoldier=5;
+
+        player.numSoldier=calculateNumReforces();
     }
 
     this.isChangeTurn= function(){
@@ -310,7 +340,7 @@ var atackTerritory = function(){
 
     this.nextStage = function(){
         //return the next stage
-        return new sendCard();
+        return new move();
     }
 
     this.buildData= function(args, playerTurn, stage){
@@ -331,7 +361,7 @@ var atackTerritory = function(){
 
     this.validateChangeStage=function(match, args){
         if(this.change)
-            return "receiveCard";
+            return "Move";
         var graphPtr = match.map.graph;
 
         return "Atack";
@@ -354,19 +384,34 @@ var move = function(){
     this.doMove = function(args, match){
         //update the graph
         console.log("********actualizando grafo Move******");
+        var nick = args.nick;
+        var idTerritory1 = args.idTerritory1;
+         var idTerritory2 = args.idTerritory2;
+        var graphPtr = match.map.graph;
+        graphPtr.node(idTerritory1).numSoldier -= args.num;
+        graphPtr.node(idTerritory2).numSoldier += args.num;
     }
 
     this.nextStage = function(){
         //return the next stage
+        return new sendCard();
     }
 
     this.buildData= function(args, playerTurn, stage){
         console.log('bild data Move');
+        var data = { 
+            idTerritory1: args.idTerritory1,
+            idTerritory2: args.idTerritory2,
+            nickTurn: playerTurn.nick,
+            num:args.num,
+            stage: stage
+        };
+        return data;
         
     }
 
     this.validateChangeStage=function(match, args){
-      
+      return "sendCard";
     }
 
 }
@@ -379,6 +424,7 @@ function getRestOfTheCards(cards, cardsTraced){
             aux.push(cards[i]);
         }
     }
+    return aux;
 }
 function existCard(listCards, card){
     for(var i = 0; i< listCards.length; i++){
@@ -396,6 +442,7 @@ var changeCards = function(){
     this.stageName = "changeCards";
     this.numSoldier = 0;
     this.extraSoldiers = 0;
+    this.playerCards = [];
 
     this.initStage= function(match){
         console.log('init Carts');
@@ -424,6 +471,7 @@ var changeCards = function(){
         var player = searchPlayer(match.listPlayer, nick);  //search the player
 
         player.cards = getRestOfTheCards(player.cards, args.cardsTraced); //set the rest of the cards
+        this.playerCards = player.cards; //this is to test whether the stage change
 
         player.timesCardTrace+= 1; //incremenct the times that a player traces a card
 
@@ -465,17 +513,17 @@ var changeCards = function(){
 
     this.validateChangeStage=function(match, args){
         
-
         if(!args.flag){
             return "Reforce";
         }
 
-        if(args.cardsTraced.length >= 3){
+        if(this.playerCards >= 3){
             return "changeCards";
         }
         else{
             return "Reforce";
         }
+    
     }
 
 }

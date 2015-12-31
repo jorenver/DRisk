@@ -157,7 +157,7 @@ var atackTerritory = function(){
 
 	this.nextStage = function(){
 		//return the next stage
-		return new receiveCard();
+		return new move();
 
 	}
 
@@ -168,14 +168,29 @@ var atackTerritory = function(){
 var move = function(){
 
 	//recibe an object {nick, idTerritory, graph }
-	this.stageName = "Atack"; 
+	this.stageName = "Move";
+	this.drawAction = "Atack";
 
 	this.validateMove = function(args){
+		var nick=args.nick;
+		var idTerritory1=args.idTerritory1;
+		var idTerritory2=args.idTerritory2;
+		var territory1 = args.graph.node(idTerritory1);
+		var territory2 = args.graph.node(idTerritory2);
+		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner == nick && isneighbors(args.graph,idTerritory1,idTerritory2 )){
+			return true;
+		}else
+			return false;
+
 
 	}
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
+		var territory1 = graph.node(args.idTerritory1);
+        var territory2 = graph.node(args.idTerritory2);
+       	territory1.numSoldier =territory1.numSoldier- num;
+       	territory2.numSoldier =territory2.numSoldier+ num;
 		
 	}
 
@@ -185,6 +200,7 @@ var move = function(){
 
 	this.nextStage = function(){
 		//return the next stage
+		return receiveCard();
 
 	}
 
@@ -257,8 +273,10 @@ var changeCards = function(){
 		//update the pop-up of change Cards
 
 		var listCards = document.getElementsByClassName("card");
+		console.log("listCard pop-up", listCards);
+
 		for(var i =0; i< listCards.length; i++){
-			for(var j = 0; j < cardsTraced.length; i++){
+			for(var j = 0; j < cardsTraced.length; j++){
 
 				var idTerritory = listCards[i].getAttribute('data-idterritory');
 				if(idTerritory == cardsTraced[j].idTerritory){
@@ -315,10 +333,12 @@ var receiveCard = function(){
 		div.innerHTML = args.card.soldierType + " " + args.card.idTerritory;
 		content_receiveCard.appendChild(p);
 		content_receiveCard.appendChild(div);
-		bt_closeReceiveCard.addEventListener('click', function(event){
+		bt_closeReceiveCard.onclick = function(event){
+			console.log("cierro pop up receive card");
 			content_receiveCard.innerHTML = "";
     		receiveCard_PopUp.style.display="none";
-		});
+
+		};
 
 		receiveCard_PopUp.style.display = "flex";
 		

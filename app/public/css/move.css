@@ -1,4 +1,4 @@
-#battle {
+#popMove {
   background-color: rgba(226,228,230, 0.5);
   border-radius: 6px;
   color: white;
@@ -16,7 +16,7 @@
 }
 
 
-#content_battle{
+#content_move{
   background: #e2e4e6;
   width: 95%;
   height: 70%;
@@ -26,11 +26,21 @@
   overflow-y: auto;
 }
 
-#buttons_battle{
+#buttons_move{
   display: flex;
   flex-direction: row;
   justify-content: center;
 
 }
 
-
+.buttonBattle {
+    background-color: #000096;
+    border-radius: 8px;
+    color: #FFF;
+    font-family: opcionUno;
+    font-size: 16px;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.6s ease 0s;
+}

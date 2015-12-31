@@ -8,7 +8,6 @@ var temporalCards = [] //list to add select cards
 var socket;
 var territorysSelected;
 
-//raphael variables
 //paper variables
 var mapGroup;
 var soldierItem;
@@ -46,8 +45,11 @@ function clickTwoTerritorys(territoryPath){
 		});
 
 		if(value){
-			socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
-			//$("#soldierNum").html(player.numSoldier);
+			if(stage.stageName!='Move'){
+				socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
+			}else{
+				openMove();
+			}
 		}
 		else{
 			territorysSelected[0]=null;
@@ -83,6 +85,7 @@ function procesarNumSolidier(event){
 	var user = respond.nick; 
 	console.log("Recibiste "+ numSoldier + " soldados, chucha");
     player.numSoldier = numSoldier;
+    console.log("Recibiste "+ player.numSoldier);
     $("#soldierNum").html(player.numSoldier);
 
     setClick(clickTerritory);
@@ -99,6 +102,8 @@ function connectSocketGame(){
 		match.turn = args.nickTurn;
 		stage.doUpdateMap(args, match, graph); //actualiza juego, grafo
 		//redraw map
+		console.log("Recibo esto", args);
+
 		redraw(args, stage.drawAction);
 
 		if(args.stage != stage.stageName){ //si cambia el estado
@@ -107,10 +112,12 @@ function connectSocketGame(){
 			if(args.stage=='Reforce'){
 				var url = "/getNumSoldier?nick="+match.turn;
 		        var request = new XMLHttpRequest();
+		        console.log("***** Estoy en reforce cliente");
 		        request.addEventListener('load',procesarNumSolidier, false);
 		        request.open("GET",url, true);
 		        request.send(null);
 		        $("#reforceAction").css('background-color','#43888e');
+		        setClick(clickTerritory);
 			}	
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
@@ -120,7 +127,7 @@ function connectSocketGame(){
 	       		}
 			}
 			if(args.stage == 'changeCards'){
-				console.log("turno:",args.nickTurn );
+				console.log("**** estoy en change cards turno:",args.nickTurn );
 
 				if(isMyTurn()){
 
@@ -238,12 +245,21 @@ function openChangeCard_PopUp( ){
     content_traceCard.appendChild(table);
 
     //event to the button trace cards
-    bt_traceCard.addEventListener('click', function(event){
+    bt_traceCard.onclick =  function(event){
+
     	var value = stage.validateMove({listCards: temporalCards});
     	if(value){
     		//emit the cards to the server
     		socket.emit("doMove", {nick: nick,idMatch: idMatch ,
     			cardsTraced: temporalCards, flag: true } );
+
+    		//
+    		var difference = player.cards.length - temporalCards.length;
+    		if(difference<3){
+    			content_traceCard.innerHTML = "";
+    			traceCard_PopUp.style.display="none";
+    		}
+
     		temporalCards = [];
     	}
     	else{
@@ -254,14 +270,17 @@ function openChangeCard_PopUp( ){
     			listCards[i].style.backgroundColor = "";
     		}
     	}
-    });
+    };
 
-    bt_cancelTrace.addEventListener('click', function(event){
+    bt_cancelTrace.onclick = function(event){
     	content_traceCard.innerHTML = "";
     	traceCard_PopUp.style.display="none";
+
+    	console.log("Click en cerra change Cards");
     	socket.emit("doMove", {nick:nick, idMatch: idMatch,
 						  cardsTraced: [], flag: false }); //emit to change the state
-    });
+
+    };
 
 
     traceCard_PopUp.style.display="flex";
