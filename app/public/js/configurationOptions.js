@@ -15,6 +15,12 @@ var DragAndDropOption = function(paper,id){
 		var continent = event.target;
 	    continent.position = new paper.Point(continent.position.x + event.delta.x, continent.position.y + event.delta.y);
 	}
+
+	this.disable = function(){
+		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
+		if(this.target)
+			this.target.off('mousedrag');
+	}
 }
 
 /*Remove Continent from a canvas*/
@@ -27,6 +33,24 @@ var RemoveOption = function(paper,id){
 		console.log("remove a continent!");
 		this.target = args.event.target;
 		this.target.remove();
+		var id = this.target.data.id;
+		/*Reset */
+		var img = document.createElement('img');
+		$(img).attr('id',id);
+		$(img).attr('src',"../svg/" + id + ".svg");
+		$(img).attr('class','map');
+		$(img).attr('draggable',true);
+
+		var dragStart = new HandleDragStart();
+		var dragEnd = new HandleDragEnd();
+		img.addEventListener(dragStart.name, dragStart.action , false);
+		img.addEventListener(dragEnd.name, dragEnd.action , false);
+		continents.appendChild(img);
+		/**/
+	}
+
+	this.disable = function(){
+		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
 	}
 
 }
@@ -64,16 +88,45 @@ var ParametersOption = function(paper,id){
 			self.target.rotate(degrees);
 		}
 	}
+
+	this.disable = function(){
+		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
+	}
 }
 
 /*Divide territories into continent*/
 var DivideTerritoriesOption = function(paper,id){
-	
+	var self = this;
+	this.paper = paper;
+	this.id = id;
+
+	this.configure = function(args){
+		console.log("divide territories of continents");
+		this.target = args.event.target;
+	}
+
+	this.disable = function(){
+		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
+	}
+
 }
 
 
 /*Link a territories*/
 var LinkTerritoriesOption = function(paper,id){
+	var self = this;
+	this.paper = paper;
+	this.id = id;
+
+	this.configure = function(args){
+		console.log("links continents");
+		this.target = args.event.target;
+		
+	}
+
+	this.disable = function(){
+		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
+	}
 
 }
 
