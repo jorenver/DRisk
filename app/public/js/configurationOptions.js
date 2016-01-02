@@ -99,14 +99,167 @@ var DivideTerritoriesOption = function(paper,id){
 	var self = this;
 	this.paper = paper;
 	this.id = id;
+	this.circles = []
+	this.target = null
+	this.startPoint = null;
+	this.endPoint = null;
+	this.edge = null;
 
 	this.configure = function(args){
 		console.log("divide territories of continents");
 		this.target = args.event.target;
+		
+		this.target.on('mousemove',this.mouseMove);
+		this.target.on('click',this.mouseClick);
+		this.target.on('mousedrag',this.mouseDrag);
+		
+		this.pointerReference = new paper.Path.Circle({ center: paper.view.center, radius: 3, fillColor: 'red' });
+		buttonAccept.addEventListener('click',this.dividePaths,false);
 	}
 
 	this.disable = function(){
 		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
+	}
+
+	this.generateColor = function(){
+		var red,green,blue;
+		var max = 255;
+		red = Math.floor(Math.random()*255 + 1);
+		green = Math.floor(Math.random()*255 + 1);
+		blue = Math.floor(Math.random()*255 + 1);
+		return new paper.Color(red/max, green/max, blue/max);
+	}
+
+	this.mouseMove = function(event){
+		if(!self.edge){
+			console.log("mouse move");
+			var point = self.getNearestPoint(event.target,event.point);
+			if(point){
+				self.pointerReference.position = point;
+			}
+		}
+	}
+
+	this.mouseClick = function(event){
+		if(!self.startPoint){
+			self.startPoint = self.getNearestPoint(event.target,event.point);
+			self.circles.push(new paper.Path.Circle({ center: self.startPoint, radius: 5, fillColor: 'blue' }));
+			self.edge = new paper.Path();
+			self.edge.strokeColor = 'black';
+			self.edge.add(self.startPoint);
+			//console.log(self.target);
+			//self.target.removeOnMove();
+		}else{
+			self.endPoint = self.getNearestPoint(event.target,event.point);
+			self.circles.push(new paper.Path.Circle({ center: self.endPoint, radius: 5, fillColor: 'blue' }));
+			self.edge.add(self.endPoint);
+			self.edge.smooth();
+			self.edge.scale(1.1);
+			var compoundPath = event.target;
+			var intersections = compoundPath.getIntersections(self.edge);
+			self.splitPaths(intersections);
+			self.closedPaths(compoundPath,intersections,self.edge);
+			/*var straightLine = new paper.Path.Line(this.startPoint, this.endPoint);
+			straightLine.strokeColor = 'black';
+			straightLine.scale(1.1);
+			var compoundPath = event.target;
+			var intersections = compoundPath.getIntersections(straightLine);
+			self.splitPaths(intersections);
+			self.closedPaths(compoundPath,intersections);
+			//straightLine.remove();*/
+			self.startPoint = null;
+			self.endPoint = null;
+			//self.edge = null;
+			self.pointerReference.remove();
+		}
+	}
+
+	this.mouseDrag = function(event){
+		console.log("mouse drag");
+		if(self.startPoint){
+			if(self.edge){
+				console.log("here");
+				self.edge.add(event.point);
+			}
+		}
+	}
+
+
+	this.splitPaths = function(intersections){
+		var parentPath;
+		intersections.forEach(function(intersection) {
+			var point = intersection.point;
+			parentPath = intersection.path;	
+			var location = parentPath.getLocationOf(point);
+			parentPath.split(location);
+		});
+	}
+
+	this.closedPaths = function(compoundPath,intersections,edge){
+		var children = compoundPath.children;
+		for(var j = 0 ; j < children.length ; j++){
+			var child = children[j];
+			for(var i = 0 ; i < intersections.length ; i++){
+				var location = children[j].getLocationOf(intersections[i].point);
+				if(location){
+					child.join(edge);
+					//child.selected = true;
+					child.closed = true;
+					break;
+				}
+			}
+		}
+	}
+
+	this.dividePaths = function(){
+		console.log("mouse double click");
+		var compoundPath = self.target;
+		var children = compoundPath.children;
+		var group = new self.paper.Group();
+		for(var j = 0 ; j < children.length ; j++){
+			var child = children[j].clone();
+			child.fillColor = self.generateColor();
+			group.addChild(child);
+		}
+		group.position = compoundPath.position;
+
+		while(self.circles.length){
+			var circle = self.circles.pop()
+			circle.remove();
+		}
+
+		compoundPath.remove();
+	}
+
+	this.getNearestPoint = function(compoundPath,point){
+		var delta_x,delta_y;
+		var nearestPoint;
+		var distance;
+		var results = [];
+		for(var j = 0 ; j < compoundPath.children.length ; j++){
+			var path = compoundPath.children[j];
+			nearestPoint = path.getNearestPoint(point);
+			delta_x =  Math.abs( point.x - nearestPoint.x );
+			delta_y =  Math.abs( point.y - nearestPoint.y );
+			distance = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
+			results.push( { nearestPoint : nearestPoint , distance : distance } );	
+		}
+		var sortedResults = results.sort(this.compareDistances);
+		var minPoint = sortedResults[0].nearestPoint;
+		return minPoint;
+	}
+
+	this.compareDistances = function(obj1,obj2){
+		var distOne, distTwo;
+		distOne = obj1.distance;
+		distTwo = obj2.distance;
+		if( distOne == distTwo ){
+			return 0;
+		}
+		if( distOne > distTwo ){
+			return 1;
+		}
+		return -1;
 	}
 
 }

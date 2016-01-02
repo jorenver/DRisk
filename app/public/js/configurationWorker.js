@@ -49,6 +49,7 @@ var ConfigurationWorker = function(){
 		var file = element.src;
 		var callback = function (xml){
 			var continentPath = paper.project.importSVG(xml.getElementsByTagName("svg")[0]);
+			console.log(continentPath);
 			var args = {};
 			args.factorScale = 0.8;
 			args.position = detail.position;
@@ -69,8 +70,7 @@ var ConfigurationWorker = function(){
 	}
 
 	this.configureContinent = function(continentPath,args){
-		console.log(args);
-		continentPath.scale(args.factorScale);
+		//continentPath.scale(args.factorScale);
 		var pos = util.calculateCoordinates(args.position);
 		continentPath.position = new paper.Point(pos.x,pos.y);
 	}
