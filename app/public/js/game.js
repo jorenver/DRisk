@@ -83,9 +83,8 @@ function procesarNumSolidier(event){
 	var respond = JSON.parse(event.target.responseText);
 	var numSoldier = respond.numSoldier; 
 	var user = respond.nick; 
+    player.numSoldier += numSoldier;   
 	console.log("Recibiste "+ numSoldier + " soldados, chucha");
-    player.numSoldier = numSoldier;
-    console.log("Recibiste "+ player.numSoldier);
     $("#soldierNum").html(player.numSoldier);
 
     setClick(clickTerritory);
