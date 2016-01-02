@@ -189,8 +189,9 @@ var move = function(){
 		//update the graph
 		var territory1 = graph.node(args.idTerritory1);
         var territory2 = graph.node(args.idTerritory2);
-       	territory1.numSoldier =territory1.numSoldier- args.num;
-       	territory2.numSoldier =territory2.numSoldier+ args.num;
+        var num = parseInt(args.num)
+       	territory1.numSoldier =territory1.numSoldier- num;
+       	territory2.numSoldier =territory2.numSoldier+ num;
 		
 	}
 
