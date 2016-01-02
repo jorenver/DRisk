@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,9 +12,9 @@
    height="414.08499"
    id="svg4248"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.46"
    version="1.0"
-   sodipodi:docname="SouthAmerica.svg"
+   sodipodi:docname="Cartography of South America.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs4250">
@@ -45,17 +44,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.6033302"
+     inkscape:zoom="1.3016651"
      inkscape:cx="175.00021"
      inkscape:cy="207.0425"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1301"
+     inkscape:window-width="1280"
      inkscape:window-height="744"
-     inkscape:window-x="65"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1">
+     inkscape:window-x="-4"
+     inkscape:window-y="-4">
     <inkscape:grid
        type="xygrid"
        id="grid4265"

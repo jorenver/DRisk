@@ -11,8 +11,9 @@ var ConfigurationTool = function(paper){
 	this.init = function(){
 		this.options[this.optionsID[0]] = new DragAndDropOption(this.paper,this.optionsID[0]);
 		this.options[this.optionsID[1]] = new RemoveOption(this.paper,this.optionsID[1]);
+		this.options[this.optionsID[2]] = new DivideTerritoriesOption(this.paper,this.optionsID[2]);
+		this.options[this.optionsID[3]] = new LinkTerritoriesOption(this.paper,this.optionsID[3]);
 		this.options[this.optionsID[4]] = new ParametersOption(this.paper,this.optionsID[4]);
-		
 		this.registerEvents();
 	}
 
@@ -22,12 +23,12 @@ var ConfigurationTool = function(paper){
 			if(element){
 				element.addEventListener('click',function(event){
 					if(self.currentOption){
-						$("#"+self.currentOption.id).css("background-color","rgba(226,228,230, 0.3)");
+						self.currentOption.disable();
 					}
 					var option = self.options[event.target.id];
 					if(option){
 						self.setOption(option);
-						$("#"+event.target.id).css('background-color','rgba(0,0,96,1)');
+						$("#"+event.target.id).css('background-color','rgba(200,0,0,1)');
 					}	
 				}, false);
 			}

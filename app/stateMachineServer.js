@@ -144,6 +144,35 @@ var selectTerritory = function(){
 
 }
 
+function calculateNumReforces(match){
+    /*
+        number territorys -- numSoldiers
+        1  a  8 -- 3
+        9  a 11 -- 3
+        12 a 14 -- 4
+        15 a 17 -- 5
+        18 a 20 -- 6
+        21 a 23 -- 7
+        24 a 26 -- 8
+        27 a 29 -- 9
+        30 a 32 -- 10
+        33 a 35 -- 11
+        36 a 38 -- 12
+        37 a 39 -- 13
+
+        per continet
+        
+        Africa 3
+        oceania 2
+        Asia 7
+        Eruropa 5
+        America Norte 5
+        America del Sur 2
+
+    */
+    return 13;
+}
+
 var reforceTerritory = function(){
     //recibe an object {nick, idTerritory, graph }
     this.stageName = "Reforce";
@@ -153,7 +182,8 @@ var reforceTerritory = function(){
         var listPlayer=match.listPlayer;
         player= searchPlayer(listPlayer,match.turn);
         //calcular el numero de soldados
-        player.numSoldier=5;
+
+        player.numSoldier=calculateNumReforces();
     }
 
     this.isChangeTurn= function(){
@@ -381,7 +411,7 @@ var move = function(){
     }
 
     this.validateChangeStage=function(match, args){
-      return "sendCard";
+      return "receiveCard";
     }
 
 }
