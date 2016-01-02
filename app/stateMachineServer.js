@@ -411,7 +411,7 @@ var move = function(){
     }
 
     this.validateChangeStage=function(match, args){
-      return "sendCard";
+      return "receiveCard";
     }
 
 }

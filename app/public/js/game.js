@@ -34,7 +34,12 @@ function clickTwoTerritorys(territoryPath){
 	}
 	if(!territorysSelected[0] ){
 		territorysSelected[0]=idTerritory;
-		alert('Escoja el territorio ha actacar');
+		if(stage.stageName!='Move'){
+			alert('Escoja el territorio ha actacar');
+		}
+		else{
+			alert('Escoja el territorio de Destino');
+		}
 	}else{
 		territorysSelected[1]=idTerritory;
 		var value = stage.validateMove({
