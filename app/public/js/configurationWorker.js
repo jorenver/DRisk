@@ -4,9 +4,10 @@ var ConfigurationWorker = function(){
 	var self = this;
 	this.configurationTool = null;
 	this.paper = null;
-	this.continentsID = ["northAmerica","southAmerica","africa","europe"]
+	this.continentsID = ["NorthAmerica","SouthAmerica","Africa","Europe"]
 	this.canvas = document.getElementById("drawerMap");
 	this.util = null;
+	this.mapsContinents = [];
 
 	this.getCanvasElement = function(){
 		return this.canvas;
@@ -53,12 +54,9 @@ var ConfigurationWorker = function(){
 			args.position = detail.position;
 			self.configureContinent(continentPath,args);
 			continentPath.on('click',function(event){
+				self.appendContinent(detail.id,continentPath);
 				self.configurationTool.doConfiguration({ event: event});
 			});
-			//appendContinent(id,continentPath);
-			//line = new paper.Path.Line([100, 100], [500, 500]);
-			//line.strokeColor = 'red';
-			//line.transformContent = false;
 		}
 
 		$.ajax({
@@ -75,6 +73,15 @@ var ConfigurationWorker = function(){
 		continentPath.scale(args.factorScale);
 		var pos = util.calculateCoordinates(args.position);
 		continentPath.position = new paper.Point(pos.x,pos.y);
+	}
+
+	this.appendContinent = function(id,continentPath){
+		var continent = {};
+		var compoundPath = continentPath.children[0].children[0].children[0];
+		continent.id = id ;
+		compoundPath.data.id = id;
+		continent.path = compoundPath;
+		this.mapsContinents.push(continent);
 	}
 }
 
