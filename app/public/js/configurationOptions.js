@@ -111,7 +111,6 @@ var DivideTerritoriesOption = function(paper,id){
 		
 		this.target.on('mousemove',this.mouseMove);
 		this.target.on('click',this.mouseClick);
-		this.target.on('mousedrag',this.mouseDrag);
 		
 		this.pointerReference = new paper.Path.Circle({ center: paper.view.center, radius: 3, fillColor: 'red' });
 		buttonAccept.addEventListener('click',this.dividePaths,false);
@@ -131,12 +130,10 @@ var DivideTerritoriesOption = function(paper,id){
 	}
 
 	this.mouseMove = function(event){
-		if(!self.edge){
-			console.log("mouse move");
-			var point = self.getNearestPoint(event.target,event.point);
-			if(point){
-				self.pointerReference.position = point;
-			}
+		console.log("mouse move");
+		var point = self.getNearestPoint(event.target,event.point);
+		if(point){
+			self.pointerReference.position = point;
 		}
 	}
 
@@ -144,22 +141,10 @@ var DivideTerritoriesOption = function(paper,id){
 		if(!self.startPoint){
 			self.startPoint = self.getNearestPoint(event.target,event.point);
 			self.circles.push(new paper.Path.Circle({ center: self.startPoint, radius: 5, fillColor: 'blue' }));
-			self.edge = new paper.Path();
-			self.edge.strokeColor = 'black';
-			self.edge.add(self.startPoint);
-			//console.log(self.target);
-			//self.target.removeOnMove();
 		}else{
 			self.endPoint = self.getNearestPoint(event.target,event.point);
 			self.circles.push(new paper.Path.Circle({ center: self.endPoint, radius: 5, fillColor: 'blue' }));
-			self.edge.add(self.endPoint);
-			self.edge.smooth();
-			self.edge.scale(1.1);
-			var compoundPath = event.target;
-			var intersections = compoundPath.getIntersections(self.edge);
-			self.splitPaths(intersections);
-			self.closedPaths(compoundPath,intersections,self.edge);
-			/*var straightLine = new paper.Path.Line(this.startPoint, this.endPoint);
+			var straightLine = new paper.Path.Line(self.startPoint, self.endPoint);
 			straightLine.strokeColor = 'black';
 			straightLine.scale(1.1);
 			var compoundPath = event.target;
@@ -169,18 +154,7 @@ var DivideTerritoriesOption = function(paper,id){
 			//straightLine.remove();*/
 			self.startPoint = null;
 			self.endPoint = null;
-			//self.edge = null;
 			self.pointerReference.remove();
-		}
-	}
-
-	this.mouseDrag = function(event){
-		console.log("mouse drag");
-		if(self.startPoint){
-			if(self.edge){
-				console.log("here");
-				self.edge.add(event.point);
-			}
 		}
 	}
 
