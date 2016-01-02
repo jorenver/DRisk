@@ -56,7 +56,7 @@ var ConfigurationWorker = function(){
 			self.configureContinent(continentPath,args);
 			continentPath.on('click',function(event){
 				self.appendContinent(detail.id,continentPath);
-				self.configurationTool.doConfiguration({ event: event});
+				self.configurationTool.doConfiguration({ event: event });
 			});
 		}
 

@@ -99,25 +99,20 @@ var DivideTerritoriesOption = function(paper,id){
 	var self = this;
 	this.paper = paper;
 	this.id = id;
-	this.circles = []
+	this.circles = [];
 	this.target = null
 	this.startPoint = null;
 	this.endPoint = null;
-	this.edge = null;
+	//this.edges = [];
 
 	this.configure = function(args){
 		console.log("divide territories of continents");
 		this.target = args.event.target;
-		
+		this.target.strokeColor = "black";
 		this.target.on('mousemove',this.mouseMove);
 		this.target.on('click',this.mouseClick);
-		
 		this.pointerReference = new paper.Path.Circle({ center: paper.view.center, radius: 3, fillColor: 'red' });
 		buttonAccept.addEventListener('click',this.dividePaths,false);
-	}
-
-	this.disable = function(){
-		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
 	}
 
 	this.generateColor = function(){
@@ -141,17 +136,19 @@ var DivideTerritoriesOption = function(paper,id){
 		if(!self.startPoint){
 			self.startPoint = self.getNearestPoint(event.target,event.point);
 			self.circles.push(new paper.Path.Circle({ center: self.startPoint, radius: 5, fillColor: 'blue' }));
+			self.pointerReference.remove();
 		}else{
 			self.endPoint = self.getNearestPoint(event.target,event.point);
 			self.circles.push(new paper.Path.Circle({ center: self.endPoint, radius: 5, fillColor: 'blue' }));
 			var straightLine = new paper.Path.Line(self.startPoint, self.endPoint);
 			straightLine.strokeColor = 'black';
 			straightLine.scale(1.1);
+			//self.edges.push(straightLine);
 			var compoundPath = event.target;
 			var intersections = compoundPath.getIntersections(straightLine);
 			self.splitPaths(intersections);
 			self.closedPaths(compoundPath,intersections);
-			//straightLine.remove();*/
+			straightLine.remove();
 			self.startPoint = null;
 			self.endPoint = null;
 			self.pointerReference.remove();
@@ -179,6 +176,7 @@ var DivideTerritoriesOption = function(paper,id){
 					child.join(edge);
 					//child.selected = true;
 					child.closed = true;
+					child.strokeColor = "black";
 					break;
 				}
 			}
@@ -193,19 +191,24 @@ var DivideTerritoriesOption = function(paper,id){
 		for(var j = 0 ; j < children.length ; j++){
 			var child = children[j].clone();
 			child.fillColor = self.generateColor();
+			child.strokeColor = "black";
 			group.addChild(child);
 		}
 		group.position = compoundPath.position;
+		compoundPath.remove();
+	}
 
+	this.removeCircles = function(){
 		while(self.circles.length){
 			var circle = self.circles.pop()
 			circle.remove();
 		}
-
-		compoundPath.remove();
 	}
 
 	this.getNearestPoint = function(compoundPath,point){
+		if(!compoundPath.children){
+			return null;
+		}
 		var delta_x,delta_y;
 		var nearestPoint;
 		var distance;
@@ -236,6 +239,15 @@ var DivideTerritoriesOption = function(paper,id){
 		return -1;
 	}
 
+	this.disable = function(){
+		if(this.target){
+			this.target.off('click');
+			this.target.off('mousemove');
+			this.pointerReference.remove();
+			this.removeCircles();
+			$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
+		}
+	}
 }
 
 

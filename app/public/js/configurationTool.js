@@ -6,7 +6,6 @@ var ConfigurationTool = function(paper){
 	this.optionsID = ["optDragAndDrop","optRemove","optDivide","optLinks","optParameters"]
 	this.options = {};
 	this.currentOption = null
-	this.target = null;
 
 	this.init = function(){
 		this.options[this.optionsID[0]] = new DragAndDropOption(this.paper,this.optionsID[0]);
@@ -41,10 +40,6 @@ var ConfigurationTool = function(paper){
 
 	this.doConfiguration = function(args){
 		this.currentOption.configure(args);
-	}
-	
-	this.setTarget = function(path){
-		this.target = path;
 	}
 
 }
