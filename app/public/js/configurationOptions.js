@@ -113,6 +113,7 @@ var DivideTerritoriesOption = function(paper,id){
 		this.target.on('click',this.mouseClick);
 		this.pointerReference = new paper.Path.Circle({ center: paper.view.center, radius: 3, fillColor: 'red' });
 		buttonAccept.addEventListener('click',this.dividePaths,false);
+		this.util = new Util();
 	}
 
 	this.generateColor = function(){
@@ -154,7 +155,6 @@ var DivideTerritoriesOption = function(paper,id){
 			self.pointerReference.remove();
 		}
 	}
-
 
 	this.splitPaths = function(intersections){
 		var parentPath;
@@ -221,22 +221,9 @@ var DivideTerritoriesOption = function(paper,id){
 			distance = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
 			results.push( { nearestPoint : nearestPoint , distance : distance } );	
 		}
-		var sortedResults = results.sort(this.compareDistances);
+		var sortedResults = results.sort(this.util.compareDistances);
 		var minPoint = sortedResults[0].nearestPoint;
 		return minPoint;
-	}
-
-	this.compareDistances = function(obj1,obj2){
-		var distOne, distTwo;
-		distOne = obj1.distance;
-		distTwo = obj2.distance;
-		if( distOne == distTwo ){
-			return 0;
-		}
-		if( distOne > distTwo ){
-			return 1;
-		}
-		return -1;
 	}
 
 	this.disable = function(){
@@ -245,11 +232,121 @@ var DivideTerritoriesOption = function(paper,id){
 			this.target.off('mousemove');
 			this.pointerReference.remove();
 			this.removeCircles();
-			$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
 		}
+		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
 	}
 }
 
+
+var RedrawEdgesOption = function(paper,id){
+	var self = this;
+	this.paper = paper;
+	this.id = id;
+	this.target = null
+	this.firstSegment = null;
+	this.secondSegment = null;
+	this.hitOptions = { segments: true, stroke: true, fill: true, tolerance: 5 }
+
+
+	this.configure = function(args){
+		console.log("redraw edges of territories");
+		var eventMouse = args.event;
+		this.target = eventMouse.target;
+		//this.target.selected = true;
+		this.target.on('mousedown',this.mouseDown);
+		this.target.on('mousedrag',this.mouseDrag);
+		this.target.on('mouseup',this.mouseUp);
+		this.target.on('mouseenter',this.mouseEnter);
+		this.target.on('mouseleave',this.mouseLeave);
+		this.util = new Util();
+	}
+
+	this.mouseDown = function(event){
+		var point = event.point;
+		var hitResult = self.target.hitTest(event.point, self.hitOptions);
+		var location , firstPath, secondPath;
+		if(!hitResult){
+			return;
+		}
+		console.log(hitResult);
+		if(hitResult.type == 'stroke'){
+			location = hitResult.location;//first path closer
+			firstPath = hitResult.item;
+			var array = self.getNearestPaths(self.target,point);//get second paht closer
+			if(array){
+				for(var i = 0 ; i < array.length ; i++){
+					if (array[i].path.id != firstPath.id){
+						secondPath = array[i].path;
+						break;
+					}
+				}
+				location = secondPath.getNearestLocation(point);
+				self.secondSegment = secondPath.insert(location.index + 1, point);
+				self.firstSegment = firstPath.insert(location.index + 1, point);
+			}
+		}else if(hitResult.type == 'segment') {
+            self.newSegment = hitResult.segment;
+		}
+	}
+
+	this.mouseDrag = function(event){
+		if(self.firstSegment){
+			self.firstSegment.point = new paper.Point(self.firstSegment.point.x + event.delta.x,self.firstSegment.point.y + event.delta.y);
+		}
+		if(self.secondSegment){
+			self.secondSegment.point = new paper.Point(self.secondSegment.point.x + event.delta.x,self.secondSegment.point.y + event.delta.y)
+		}
+	}
+
+	this.mouseUp = function(event){
+		self.firstSegment = null;
+		self.secondSegment = null;
+	}
+
+	this.mouseEnter = function(event){
+		var point = event.point;
+		var array = self.getNearestPaths(self.target,point);
+		var pathCloser = array[0].path;
+		pathCloser.selected = true;
+	}
+
+	this.mouseLeave = function(event){
+		var point = event.point;
+		var array = self.getNearestPaths(self.target,point);
+		var pathCloser = array[0].path;
+		pathCloser.selected = false;
+	}
+
+	this.getNearestPaths = function(compoundPath,point){
+		if(!compoundPath.children){
+			return null;
+		}
+		var delta_x,delta_y;
+		var nearestPoint;
+		var distance;
+		var results = [];
+		for(var j = 0 ; j < compoundPath.children.length ; j++){
+			var path = compoundPath.children[j];
+			nearestPoint = path.getNearestPoint(point);
+			delta_x =  Math.abs( point.x - nearestPoint.x );
+			delta_y =  Math.abs( point.y - nearestPoint.y );
+			distance = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
+			results.push( { path : path , distance : distance } );	
+		}
+		return results.sort(this.util.compareDistances);
+	}
+
+	this.disable = function(){
+		if(this.target){
+			for(var i = 0 ; i < this.target.children.length ; i++){
+				this.target.children[i].selected = false;
+			}
+			this.target.selected = false;
+		}
+		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
+	}
+
+}
 
 /*Link a territories*/
 var LinkTerritoriesOption = function(paper,id){
@@ -268,4 +365,6 @@ var LinkTerritoriesOption = function(paper,id){
 	}
 
 }
+
+
 

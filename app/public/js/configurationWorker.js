@@ -70,9 +70,10 @@ var ConfigurationWorker = function(){
 	}
 
 	this.configureContinent = function(continentPath,args){
-		//continentPath.scale(args.factorScale);
 		var pos = util.calculateCoordinates(args.position);
+		continentPath.scale(args.factorScale);
 		continentPath.position = new paper.Point(pos.x,pos.y);
+		continentPath.strokeColor = "black";
 	}
 
 	this.appendContinent = function(id,continentPath){
@@ -149,6 +150,19 @@ var Util = function(){
 			newPosition.y = position.y - y;
 		}
 		return newPosition;
+	}
+
+	this.compareDistances = function(obj1,obj2){
+		var distOne, distTwo;
+		distOne = obj1.distance;
+		distTwo = obj2.distance;
+		if( distOne == distTwo ){
+			return 0;
+		}
+		if( distOne > distTwo ){
+			return 1;
+		}
+		return -1;
 	}
 
 }
