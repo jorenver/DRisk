@@ -78,8 +78,10 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     5 players= 25 soldier
                     6 players= 20 soldier
                 */
-                numSoldier=50-5*listPlayer.length;
+                //numSoldier=50-5*listPlayer.length;
+
                 numSoldier = 3;
+
                 console.log('++++++++++++++++++number of soilder for each player:', numSoldier)
                 
                 for(p in listPlayer){
