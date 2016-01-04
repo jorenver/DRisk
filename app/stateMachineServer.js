@@ -159,18 +159,32 @@ function calculateNumReforces(match){
         33 a 35 -- 11
         36 a 38 -- 12
         37 a 39 -- 13
-
         per continet
-        
         Africa 3
         oceania 2
         Asia 7
         Eruropa 5
         America Norte 5
         America del Sur 2
-
     */
-    return 13;
+    var graphPtr = match.map.graph;
+    idTerritorys=graphPtr.nodes();
+    var cont=0;
+    for (var i = 0; i < idTerritorys.length; i++) {
+        idTerritory=idTerritorys[i];
+        if(graphPtr.node(idTerritory).owner==match.turn){
+            cont++;
+        }
+
+    }
+    if(cont <=11){
+        return 3;
+    }else{
+        cont=cont-12;
+        var num;
+        num=((cont-(cont%3))/3)+4;
+        return num;
+    }
 }
 
 var reforceTerritory = function(){
@@ -183,7 +197,7 @@ var reforceTerritory = function(){
         player= searchPlayer(listPlayer,match.turn);
         //calcular el numero de soldados
 
-        player.numSoldier=calculateNumReforces();
+        player.numSoldier=calculateNumReforces(match);
     }
 
     this.isChangeTurn= function(){

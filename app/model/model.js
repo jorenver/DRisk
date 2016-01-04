@@ -244,13 +244,14 @@ exports.getMatch = function(idMatch, nick){
 }
 
 function loadGraph(filename){
-	//file: json file of graph
+	//file: json file of graph 
 	var data = require(filename).Graph;
 	var graph = new Graph({ directed: false, compound: false, multigraph: false });
 
 	var nodes = data.Nodes;
 	for(var i =0; i< nodes.length; i++){
-		graph.setNode(nodes[i], {name: nodes[i], owner: null, numSoldier: 0 });
+		console.log('nodo '+ nodes[i].id +' ' +nodes[i].continent)
+		graph.setNode(nodes[i].id, {name: nodes[i].id,continent:nodes[i].continent ,owner: null, numSoldier: 0 });
 	}
 
 	var edges = data.Edges;
