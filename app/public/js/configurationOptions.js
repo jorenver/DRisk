@@ -99,18 +99,254 @@ var DivideTerritoriesOption = function(paper,id){
 	var self = this;
 	this.paper = paper;
 	this.id = id;
+	this.circles = [];
+	this.target = null
+	this.startPoint = null;
+	this.endPoint = null;
+	//this.edges = [];
 
 	this.configure = function(args){
 		console.log("divide territories of continents");
 		this.target = args.event.target;
+		this.target.strokeColor = "black";
+		this.target.on('mousemove',this.mouseMove);
+		this.target.on('click',this.mouseClick);
+		this.pointerReference = new paper.Path.Circle({ center: paper.view.center, radius: 3, fillColor: 'red' });
+		buttonAccept.addEventListener('click',this.dividePaths,false);
+		this.util = new Util();
+	}
+
+	this.generateColor = function(){
+		var red,green,blue;
+		var max = 255;
+		red = Math.floor(Math.random()*255 + 1);
+		green = Math.floor(Math.random()*255 + 1);
+		blue = Math.floor(Math.random()*255 + 1);
+		return new paper.Color(red/max, green/max, blue/max);
+	}
+
+	this.mouseMove = function(event){
+		console.log("mouse move");
+		var point = self.getNearestPoint(event.target,event.point);
+		if(point){
+			self.pointerReference.position = point;
+		}
+	}
+
+	this.mouseClick = function(event){
+		if(!self.startPoint){
+			self.startPoint = self.getNearestPoint(event.target,event.point);
+			self.circles.push(new paper.Path.Circle({ center: self.startPoint, radius: 5, fillColor: 'blue' }));
+			self.pointerReference.remove();
+		}else{
+			self.endPoint = self.getNearestPoint(event.target,event.point);
+			self.circles.push(new paper.Path.Circle({ center: self.endPoint, radius: 5, fillColor: 'blue' }));
+			var straightLine = new paper.Path.Line(self.startPoint, self.endPoint);
+			straightLine.strokeColor = 'black';
+			straightLine.scale(1.1);
+			//self.edges.push(straightLine);
+			var compoundPath = event.target;
+			var intersections = compoundPath.getIntersections(straightLine);
+			self.splitPaths(intersections);
+			self.closedPaths(compoundPath,intersections);
+			straightLine.remove();
+			self.startPoint = null;
+			self.endPoint = null;
+			self.pointerReference.remove();
+		}
+	}
+
+	this.splitPaths = function(intersections){
+		var parentPath;
+		intersections.forEach(function(intersection) {
+			var point = intersection.point;
+			parentPath = intersection.path;	
+			var location = parentPath.getLocationOf(point);
+			parentPath.split(location);
+		});
+	}
+
+	this.closedPaths = function(compoundPath,intersections,edge){
+		var children = compoundPath.children;
+		for(var j = 0 ; j < children.length ; j++){
+			var child = children[j];
+			for(var i = 0 ; i < intersections.length ; i++){
+				var location = children[j].getLocationOf(intersections[i].point);
+				if(location){
+					child.join(edge);
+					//child.selected = true;
+					child.closed = true;
+					child.strokeColor = "black";
+					break;
+				}
+			}
+		}
+	}
+
+	this.dividePaths = function(){
+		console.log("mouse double click");
+		var compoundPath = self.target;
+		var children = compoundPath.children;
+		var group = new self.paper.Group();
+		for(var j = 0 ; j < children.length ; j++){
+			var child = children[j].clone();
+			child.fillColor = self.generateColor();
+			child.strokeColor = "black";
+			group.addChild(child);
+		}
+		group.position = compoundPath.position;
+		compoundPath.remove();
+	}
+
+	this.removeCircles = function(){
+		while(self.circles.length){
+			var circle = self.circles.pop()
+			circle.remove();
+		}
+	}
+
+	this.getNearestPoint = function(compoundPath,point){
+		if(!compoundPath.children){
+			return null;
+		}
+		var delta_x,delta_y;
+		var nearestPoint;
+		var distance;
+		var results = [];
+		for(var j = 0 ; j < compoundPath.children.length ; j++){
+			var path = compoundPath.children[j];
+			nearestPoint = path.getNearestPoint(point);
+			delta_x =  Math.abs( point.x - nearestPoint.x );
+			delta_y =  Math.abs( point.y - nearestPoint.y );
+			distance = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
+			results.push( { nearestPoint : nearestPoint , distance : distance } );	
+		}
+		var sortedResults = results.sort(this.util.compareDistances);
+		var minPoint = sortedResults[0].nearestPoint;
+		return minPoint;
 	}
 
 	this.disable = function(){
+		if(this.target){
+			this.target.off('click');
+			this.target.off('mousemove');
+			this.pointerReference.remove();
+			this.removeCircles();
+		}
+		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
+	}
+}
+
+
+var RedrawEdgesOption = function(paper,id){
+	var self = this;
+	this.paper = paper;
+	this.id = id;
+	this.target = null
+	this.firstSegment = null;
+	this.secondSegment = null;
+	this.hitOptions = { segments: true, stroke: true, fill: true, tolerance: 5 }
+
+
+	this.configure = function(args){
+		console.log("redraw edges of territories");
+		var eventMouse = args.event;
+		this.target = eventMouse.target;
+		//this.target.selected = true;
+		this.target.on('mousedown',this.mouseDown);
+		this.target.on('mousedrag',this.mouseDrag);
+		this.target.on('mouseup',this.mouseUp);
+		this.target.on('mouseenter',this.mouseEnter);
+		this.target.on('mouseleave',this.mouseLeave);
+		this.util = new Util();
+	}
+
+	this.mouseDown = function(event){
+		var point = event.point;
+		var hitResult = self.target.hitTest(event.point, self.hitOptions);
+		var location , firstPath, secondPath;
+		if(!hitResult){
+			return;
+		}
+		console.log(hitResult);
+		if(hitResult.type == 'stroke'){
+			location = hitResult.location;//first path closer
+			firstPath = hitResult.item;
+			var array = self.getNearestPaths(self.target,point);//get second paht closer
+			if(array){
+				for(var i = 0 ; i < array.length ; i++){
+					if (array[i].path.id != firstPath.id){
+						secondPath = array[i].path;
+						break;
+					}
+				}
+				location = secondPath.getNearestLocation(point);
+				self.secondSegment = secondPath.insert(location.index + 1, point);
+				self.firstSegment = firstPath.insert(location.index + 1, point);
+			}
+		}else if(hitResult.type == 'segment') {
+            self.newSegment = hitResult.segment;
+		}
+	}
+
+	this.mouseDrag = function(event){
+		if(self.firstSegment){
+			self.firstSegment.point = new paper.Point(self.firstSegment.point.x + event.delta.x,self.firstSegment.point.y + event.delta.y);
+		}
+		if(self.secondSegment){
+			self.secondSegment.point = new paper.Point(self.secondSegment.point.x + event.delta.x,self.secondSegment.point.y + event.delta.y)
+		}
+	}
+
+	this.mouseUp = function(event){
+		self.firstSegment = null;
+		self.secondSegment = null;
+	}
+
+	this.mouseEnter = function(event){
+		var point = event.point;
+		var array = self.getNearestPaths(self.target,point);
+		var pathCloser = array[0].path;
+		pathCloser.selected = true;
+	}
+
+	this.mouseLeave = function(event){
+		var point = event.point;
+		var array = self.getNearestPaths(self.target,point);
+		var pathCloser = array[0].path;
+		pathCloser.selected = false;
+	}
+
+	this.getNearestPaths = function(compoundPath,point){
+		if(!compoundPath.children){
+			return null;
+		}
+		var delta_x,delta_y;
+		var nearestPoint;
+		var distance;
+		var results = [];
+		for(var j = 0 ; j < compoundPath.children.length ; j++){
+			var path = compoundPath.children[j];
+			nearestPoint = path.getNearestPoint(point);
+			delta_x =  Math.abs( point.x - nearestPoint.x );
+			delta_y =  Math.abs( point.y - nearestPoint.y );
+			distance = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
+			results.push( { path : path , distance : distance } );	
+		}
+		return results.sort(this.util.compareDistances);
+	}
+
+	this.disable = function(){
+		if(this.target){
+			for(var i = 0 ; i < this.target.children.length ; i++){
+				this.target.children[i].selected = false;
+			}
+			this.target.selected = false;
+		}
 		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
 	}
 
 }
-
 
 /*Link a territories*/
 var LinkTerritoriesOption = function(paper,id){
@@ -129,4 +365,6 @@ var LinkTerritoriesOption = function(paper,id){
 	}
 
 }
+
+
 

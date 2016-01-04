@@ -259,6 +259,8 @@ var changeCards = function(){
 		player.numSoldier += args.numSoldier;
 		player.numSoldier += args.extraSoldiers;
 
+		console.log("*****Total soldiers*****", player.numSoldier);
+
 		if(match.turn != args.nick){
 			return;
 		}

@@ -18,18 +18,18 @@
 	<div class="configurationMapWrapper u-flex-row u-align-center">
 		<div id="continents" class="configurationMapContinents u-flex-column u-align-center u-justify-center">
 			<label>Select Continents</label>
-			<img id="europe" class="map" draggable="true" src="../svg/Europe.svg">
-			<img id="northAmerica" class="map" draggable="true" src="../svg/NorthAmerica.svg">
-			<img id="southAmerica" class="map" draggable="true" src="../svg/SouthAmerica.svg">
+			<img id="Europe" class="map" draggable="true" src="../svg/Europe.svg">
+			<img id="NorthAmerica" class="map" draggable="true" src="../svg/NorthAmerica.svg">
+			<img id="SouthAmerica" class="map" draggable="true" src="../svg/SouthAmerica.svg">
 			<!--<img id="asia" class="map" draggable="true" ondragstart="handleDragStart(event);" src="../svg/DifferentCountryWorld.svg">-->
-			<img id="africa" class="map" draggable="true" src="../svg/Africa.svg">
+			<img id="Africa" class="map" draggable="true" src="../svg/Africa.svg">
 		</div>
 		<div id="drawerMapParent" class="configurationMapCanvas u-flex-column u-align-center u-justify-center">
 			<div class="titleWrapper">
 				<label>Configure Map</label>
 			</div>
 			<canvas id="drawerMap" class="configurationMapDrawer"></canvas>
-			<div><input type="button" class="button" value="Accept" onclick=""></div>
+			<div><input id="buttonAccept" type="button" class="button" value="Accept" onclick=""></div>
 			<div id = "drawerMapConfiguration" class="drawerMapConfiguration u-flex-column u-align-center u-justify-center">
 				<label>Parameters</label>
 				<table class="u-flex-column">
@@ -69,12 +69,15 @@
 				<div class="u-flex-column u-align-center">
 					<img id="optDivide" src="https://maxcdn.icons8.com/Color/PNG/48/Maps/world_map-48.png" title="Divide territories in continent" width="48">
 				</div>
-				<div class="u-flex-column u-align-center">
-					<!--<img src="https://maxcdn.icons8.com/Color/PNG/96/Maps/waypoint_map-96.png" title="Waypoint Map" width="96">-->
-					<img id="optLinks" src="https://maxcdn.icons8.com/Color/PNG/48/Maps/waypoint_map-48.png" title="Link continents" width="48">
+				<div>
+					<img id="optRedraw" src="https://maxcdn.icons8.com/Android_L/PNG/48/Maps/polyline-48.png" title="Configure Edges" width="48">
 				</div>
 				<div class="u-flex-column u-align-center">
-					<img id="optParameters" src="https://maxcdn.icons8.com/Color/PNG/48/User_Interface/settings_3-48.png" title="Configure continent" width="48">
+					<!--<img src="https://maxcdn.icons8.com/Color/PNG/96/Maps/waypoint_map-96.png" title="Waypoint Map" width="96">-->
+					<img id="optLink" src="https://maxcdn.icons8.com/Color/PNG/48/Maps/waypoint_map-48.png" title="Link continents" width="48">
+				</div>
+				<div class="u-flex-column u-align-center">
+					<img id="optParameters" src="https://maxcdn.icons8.com/Color/PNG/48/Very_Basic/support-48.png" title="Configure continent" width="48">
 				</div>
 			</div>
 		</div>
