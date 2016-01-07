@@ -144,8 +144,8 @@ var atackTerritory = function(){
        	content_battle.innerHTML+='Territory: '+args.idTerritory2+' Dices: '+dice2+' Dead: '+numDefender+'<br>';
        	if(territory2.numSoldier==0){
        		territory2.owner=territory1.owner;
-       		territory2.numSoldier=1;
-       		territory1.numSoldier=territory1.numSoldier-1;
+       		territory2.numSoldier=territory1.numSoldier-1;;
+       		territory1.numSoldier=1;
        		content_battle.innerHTML+='Conquered Territory';
        		auxPlayer=searchPlayer(match.listPlayer,match.turn);
        		auxPlayer.lastTerritorysConquers+=1;
@@ -177,7 +177,7 @@ var move = function(){
 		var idTerritory2=args.idTerritory2;
 		var territory1 = args.graph.node(idTerritory1);
 		var territory2 = args.graph.node(idTerritory2);
-		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner == nick && isneighbors(args.graph,idTerritory1,idTerritory2 )){
+		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner == nick){
 			return true;
 		}else
 			return false;
@@ -187,11 +187,13 @@ var move = function(){
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
-		var territory1 = graph.node(args.idTerritory1);
-        var territory2 = graph.node(args.idTerritory2);
-        var num = parseInt(args.num)
-       	territory1.numSoldier =territory1.numSoldier- num;
-       	territory2.numSoldier =territory2.numSoldier+ num;
+		if(args.idTerritory1!=null && args.idTerritory2!=null){
+			var territory1 = graph.node(args.idTerritory1);
+	        var territory2 = graph.node(args.idTerritory2);
+	        var num = parseInt(args.num)
+       		territory1.numSoldier =territory1.numSoldier- num;
+       		territory2.numSoldier =territory2.numSoldier+ num;
+       }
 		
 	}
 
