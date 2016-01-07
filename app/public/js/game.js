@@ -8,10 +8,11 @@ var temporalCards = [] //list to add select cards
 var socket;
 var territorysSelected;
 
-//paper variables
+//paper variables to a paper.js scope
 var mapGroup;
 var soldierItem;
 var turnItem;
+var paperMapScope;
 
 function isMyTurn(){
 	if(match.turn == nick){
@@ -362,10 +363,11 @@ function initLibPaper(url){
 	// Get a reference to the canvas object
 	var canvas = document.getElementById('myCanvas');
 	// Create an empty project and a view for the canvas:
-	paper.setup(canvas);
+	paperMapScope = new paper.PaperScope();
+    paperMapScope.setup(canvas);
 	loadSVGMap(url);
 	loadSoldierItem();
-	paper.view.draw();// Draw the view now:
+	paperMapScope.view.draw();// Draw the view now:
 }
 
 function loadSVGMap(file){	
@@ -375,12 +377,12 @@ function loadSVGMap(file){
 		url: file,
 		dataType: "xml",
 		success: function(xml){
-			mapGroup = paper.project.importSVG(xml.getElementsByTagName("svg")[0]);
+			mapGroup = paperMapScope.project.importSVG(xml.getElementsByTagName("svg")[0]);
 			mapGroup.scale(0.70);
-			mapGroup.position = new paper.Point(paper.view.size.width/2, paper.view.size.height/2);
+			mapGroup.position = new paperMapScope.Point(paperMapScope.view.size.width/2, paperMapScope.view.size.height/2);
 			setClick(clickTerritory);
 			loadTurnItem();
-			paper.view.on('frame',animationOn);
+			paperMapScope.view.on('frame',animationOn);
 		}
 	});
 }
@@ -404,12 +406,12 @@ function updateTerritoryAttack(territoryPath,color){
 	var soldier = soldierItem.clone();
 	soldier.position = territoryPath.position;
 	soldier.scale(0.10);
-	paper.project.activeLayer.addChild(soldier);
+	paperMapScope.project.activeLayer.addChild(soldier);
 	//updateNumSoldier(territoryPath);
 	var numSoldier = territoryPath.data.numSoldier;
-	var numSoldierPath = paper.project.activeLayer.getItem({ name : territoryPath.name + "-soldier" });
+	var numSoldierPath = paperMapScope.project.activeLayer.getItem({ name : territoryPath.name + "-soldier" });
 	if(!numSoldierPath){
-		var numSoldierPath = new paper.PointText({
+		var numSoldierPath = new paperMapScope.PointText({
 			name : territoryPath.name + "-soldier",
 			fillColor : 'white',
 	    	fontSize: 15
@@ -425,12 +427,12 @@ function updateTerritory(territoryPath,color){
 	var soldier = soldierItem.clone();
 	soldier.position = territoryPath.position;
 	soldier.scale(0.10);
-	paper.project.activeLayer.addChild(soldier);
+	paperMapScope.project.activeLayer.addChild(soldier);
 	updateNumSoldier(territoryPath);
 	var numSoldier = territoryPath.data.numSoldier;
-	var numSoldierPath = paper.project.activeLayer.getItem({ name : territoryPath.name + "-soldier" });
+	var numSoldierPath = paperMapScope.project.activeLayer.getItem({ name : territoryPath.name + "-soldier" });
 	if(!numSoldierPath){
-		var numSoldierPath = new paper.PointText({
+		var numSoldierPath = new paperMapScope.PointText({
 			name : territoryPath.name + "-soldier",
 			fillColor : 'white',
 	    	fontSize: 15
@@ -467,12 +469,12 @@ function clickTerritory(territoryPath){
 	}else{
 		console.log("Error al seleccionar territorio");
 	}
-	console.log("grafo actualizado", match.map.graph);
+	
 }
 
 function loadSoldierItem(){
 	//load a svg and it transforms to item
-	paper.project.importSVG('../svg/soldier.svg',function(soldier){
+	paperMapScope.project.importSVG('../svg/soldier.svg',function(soldier){
 		soldierItem = soldier;
 		soldier.remove();
 	});
@@ -481,9 +483,9 @@ function loadSoldierItem(){
 function loadTurnItem(){
 	//load a textitem with information about turn
 	var x,y;
-	x = paper.view.size.width/2 -100;
-	y = paper.view.size.height/2;
-	turnItem = new paper.PointText({
+	x = paperMapScope.view.size.width/2 -100;
+	y = paperMapScope.view.size.height/2;
+	turnItem = new paperMapScope.PointText({
     	point: [x,y],
     	content: 'YOUR TURN',
     	fontFamily: 'Plump',
