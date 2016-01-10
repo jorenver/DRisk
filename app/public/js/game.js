@@ -122,8 +122,8 @@ function clickTwoTerritorys(territoryPath){
 		});
 
 		if(value){
+			LightenDarkenColorTerritory(territorysSelected[0],-100);
 			if(stage.stageName!='Move'){
-				LightenDarkenColorTerritory(territorysSelected[0],100);
 				//LightenDarkenColorNeighborsTerritory(territorysSelected[0],-50);
 				socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
 			}else{
@@ -131,7 +131,7 @@ function clickTwoTerritorys(territoryPath){
 			}
 		}
 		else{
-			LightenDarkenColorTerritory(territorysSelected[0],100);
+			LightenDarkenColorTerritory(territorysSelected[0],-100);
 			//LightenDarkenColorNeighborsTerritory(territorysSelected[0],-50);
 			territorysSelected[0]=null;
 			territorysSelected[1]=null;
@@ -566,6 +566,11 @@ function clickTerritory(territoryPath){
 
 function buttonMove(){
 	if(isMyTurn() && stage.stageName=="Atack"){
+		if(territorysSelected[0]){
+			LightenDarkenColorTerritory(territorysSelected[0],-100);
+			territorysSelected[0]=null;
+			territorysSelected[1]=null;
+		}
 		socket.emit("doMove", {nick: nick, 
 								idMatch: idMatch, 
 								idTerritory1: null,
@@ -575,6 +580,11 @@ function buttonMove(){
 
 function buttonRecive(){
 	if(isMyTurn() && stage.stageName=="Move"){
+		if(territorysSelected[0]){
+			LightenDarkenColorTerritory(territorysSelected[0],-100);
+			territorysSelected[0]=null;
+			territorysSelected[1]=null;
+		}
 		socket.emit("doMove", {nick: nick, 
 								idMatch: idMatch, 
 								idTerritory1: null,

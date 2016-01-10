@@ -1,5 +1,7 @@
 
 function closeBattle(event){
+	territorysSelected[0]=null;
+	territorysSelected[1]=null;
     battle.style.display="none";
     //chat.style.opacity=1;
 }

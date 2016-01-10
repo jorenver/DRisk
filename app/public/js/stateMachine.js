@@ -144,8 +144,8 @@ var atackTerritory = function(){
        	content_battle.innerHTML+='Territory: '+args.idTerritory2+' Dices: '+dice2+' Dead: '+numDefender+'<br>';
        	if(territory2.numSoldier==0){
        		territory2.owner=territory1.owner;
-       		territory2.numSoldier=1;
-       		territory1.numSoldier=territory1.numSoldier-1;
+       		territory2.numSoldier=territory1.numSoldier-1;;
+       		territory1.numSoldier=1;
        		content_battle.innerHTML+='Conquered Territory';
        		auxPlayer=searchPlayer(match.listPlayer,match.turn);
        		auxPlayer.lastTerritorysConquers+=1;
