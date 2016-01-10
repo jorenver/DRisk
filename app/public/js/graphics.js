@@ -65,7 +65,7 @@ var graphicsCard = function(){
         }
 
 
-        paperScopeCard.project.importSVG('../svg/artillery.svg',function(soldier){
+        paperScopeCard.project.importSVG(url,function(soldier){
                 
         	var soldierPath  = soldier;
         	soldierPath.position.x = pathRect.position.x;
@@ -128,7 +128,7 @@ var graphicsChangeCards = function(){
         var listItem = [];
 
         //draw a rectangle to form the card
-
+        console.log("dibujo esta carta", card);
 
         var rect = new paperScopeChangeCard.Rectangle(x, y, this.widthCard, this.heigthCard);
         var pathRect = new paperScopeChangeCard.Path.Rectangle(rect);
@@ -170,7 +170,7 @@ var graphicsChangeCards = function(){
         }
 
 
-        paperScopeChangeCard.project.importSVG('../svg/artillery.svg',function(soldier){
+        paperScopeChangeCard.project.importSVG(url,function(soldier){
                 
             var soldierPath  = soldier;
             soldierPath.position.x = pathRect.position.x;

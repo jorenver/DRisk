@@ -26,7 +26,7 @@ var selectTerritory = function(){
 			return false;
 		}
 
-	};
+	}
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
@@ -144,8 +144,8 @@ var atackTerritory = function(){
        	content_battle.innerHTML+='Territory: '+args.idTerritory2+' Dices: '+dice2+' Dead: '+numDefender+'<br>';
        	if(territory2.numSoldier==0){
        		territory2.owner=territory1.owner;
-       		territory2.numSoldier=territory1.numSoldier-1;;
-       		territory1.numSoldier=1;
+       		territory2.numSoldier=1;
+       		territory1.numSoldier=territory1.numSoldier-1;
        		content_battle.innerHTML+='Conquered Territory';
        		auxPlayer=searchPlayer(match.listPlayer,match.turn);
        		auxPlayer.lastTerritorysConquers+=1;
@@ -177,7 +177,7 @@ var move = function(){
 		var idTerritory2=args.idTerritory2;
 		var territory1 = args.graph.node(idTerritory1);
 		var territory2 = args.graph.node(idTerritory2);
-		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner == nick){
+		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner == nick && isneighbors(args.graph,idTerritory1,idTerritory2 )){
 			return true;
 		}else
 			return false;
@@ -187,13 +187,11 @@ var move = function(){
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
-		if(args.idTerritory1!=null && args.idTerritory2!=null){
-			var territory1 = graph.node(args.idTerritory1);
-	        var territory2 = graph.node(args.idTerritory2);
-	        var num = parseInt(args.num)
-       		territory1.numSoldier =territory1.numSoldier- num;
-       		territory2.numSoldier =territory2.numSoldier+ num;
-       }
+		var territory1 = graph.node(args.idTerritory1);
+        var territory2 = graph.node(args.idTerritory2);
+        var num = parseInt(args.num)
+       	territory1.numSoldier =territory1.numSoldier- num;
+       	territory2.numSoldier =territory2.numSoldier+ num;
 		
 	}
 
@@ -277,20 +275,6 @@ var changeCards = function(){
 
 		//update the pop-up of change Cards
 
-		var listCards = document.getElementsByClassName("card");
-		console.log("listCard pop-up", listCards);
-
-		for(var i =0; i< listCards.length; i++){
-			for(var j = 0; j < cardsTraced.length; j++){
-
-				var idTerritory = listCards[i].getAttribute('data-idterritory');
-				if(idTerritory == cardsTraced[j].idTerritory){
-					listCards[i].style.display="none";
-				}
-
-			}
-
-		}
 		if(player.cards.length < 5){
 			bt_cancelTrace.disabled = false;
 		}
@@ -328,6 +312,8 @@ var receiveCard = function(){
 		var card = args.card; 
 		var player = searchPlayer(match.listPlayer, args.nick);
 		player.cards.push(card); //add the new card
+
+
 		
 	}
 

@@ -587,7 +587,7 @@ function buttonRecive(){
 
 function loadSoldierItem(){
 	//load a svg and it transforms to item
-	paperMapScope.project.importSVG('../svg/soldado-01.svg',function(soldier){
+	paperMapScope.project.importSVG('../svg/soldier-01.svg',function(soldier){
 		soldierItem = soldier;
 		soldier.remove();
 	});
