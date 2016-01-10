@@ -1,5 +1,6 @@
 var model = require('./model/model.js');
 var stage = require('./stateMachineServer.js');
+var validator = require('./victoryValidator.js');
 
 exports.createServerSocket = function(io,sessionMiddleware){
     var clients={};
@@ -62,6 +63,10 @@ exports.createServerSocket = function(io,sessionMiddleware){
 
             player.on("startGame", function(data){
                 var currentMatch = model.Matches[session.idMatch];
+                if(currentMatch.mode=="World Domination"){
+                    currentMatch.validator= new validator.victoryValidatorWorldDomination(); 
+                    console.log('xxxxxxxx Se Agrega el Validador xxxxxxx '+ currentMatch.validator)
+                }
                 currentMatch.stateMatch='playing';
                 var listPlayer = currentMatch.listPlayer;
                 suffle(listPlayer); //suffle the list of players
@@ -80,7 +85,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 */
                 numSoldier=50-5*listPlayer.length;
 
-                numSoldier = 3;
+                numSoldier = 5;
                 console.log('++++++++++++++++++number of soilder for each player:', numSoldier)
                 
                 for(p in listPlayer){
@@ -110,6 +115,16 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 }
                 nextState=currentMatch.stage.validateChangeStage(currentMatch, args);//get name of next stage
                 var data=currentMatch.stage.buildData(args,playerTurn,nextState);
+                if(currentMatch.stage.stageName=="Atack"){
+                    var validator=currentMatch.validator;
+                    data.winner=validator.getWinner(currentMatch);
+                    data.loser = validator.getLoser(currentMatch);
+                }
+                if(data.winner){
+                    console.log('%%%%%%%%%% el ganado es '+data.winner);
+                }else{
+                    console.log('%%%%%%%%%% no hay ganador');
+                }
                 if(currentMatch.stage.stageName!=nextState){ // only if is neceray change stage
                     currentMatch.stage=currentMatch.stage.nextStage();
                     currentMatch.stage.initStage(currentMatch);

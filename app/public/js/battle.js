@@ -17,9 +17,13 @@ function openBattle(){
 		next.style.display="none";
 		Stop.style.display="none";
 	}else{
-		next.style.display="flex";
+		if( graph.node(territorysSelected[0]).numSoldier>1){
+			next.style.display="flex";
+			next.addEventListener('click',nextRound);
+		}else{
+			next.style.display="none";
+		}
 		Stop.style.display="flex";
-		next.addEventListener('click',nextRound);
 		Stop.addEventListener('click',changeBattle);
 	}
 }

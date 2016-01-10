@@ -99,7 +99,8 @@ exports.createMatch = function(request,response){
 			"turn":"",
 			"state": null,
 			"stateMatch": 'pending',
-			"cards": []
+			"cards": [],
+			"validator":null
 		};
 		cont=cont+1;
 		Matches[Match.idMatch] = Match;

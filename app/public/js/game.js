@@ -26,6 +26,60 @@ function isMyTurn(){
 	}
 }
 
+function LightenDarkenColor(color, cant) {
+    //voy a extraer las tres partes del color
+	 var rojo = color.substr(1,2);
+	 var verd = color.substr(3,2);
+	 var azul = color.substr(5,2);
+	 
+	 //voy a convertir a enteros los string, que tengo en hexadecimal
+	 var introjo = parseInt(rojo,16);
+	 var intverd = parseInt(verd,16);
+	 var intazul = parseInt(azul,16);
+	 
+	 //ahora verifico que no quede como negativo y resto
+	 if (introjo-cant>=0) introjo = introjo-cant;
+	 if (intverd-cant>=0) intverd = intverd-cant;
+	 if (intazul-cant>=0) intazul = intazul-cant;
+	 
+	 //voy a convertir a hexadecimal, lo que tengo en enteros
+	 rojo = introjo.toString(16);
+	 verd = intverd.toString(16);
+	 azul = intazul.toString(16);
+	 
+	 //voy a validar que los string hexadecimales tengan dos caracteres
+	 if (rojo.length<2) rojo = "0"+rojo;
+	 if (verd.length<2) verd = "0"+verd;
+	 if (azul.length<2) azul = "0"+azul;
+	 
+	 //voy a construir el color hexadecimal
+	 var oscuridad = "#"+rojo+verd+azul;
+	 
+	 //la función devuelve el valor del color hexadecimal resultante
+	 return oscuridad;
+}
+
+function LightenDarkenColorTerritory(idTerritory,cant){
+	var territory=graph.node(idTerritory);
+	var territoryPath = searchTerritory(mapGroup.children,idTerritory);
+	var lastPlayer = searchPlayer(match.listPlayer,territory.owner);
+	updateTerritoryAttack(territoryPath,LightenDarkenColor(lastPlayer.color.code,cant));
+
+}
+function LightenDarkenColorNeighborsTerritory(idTerritory,cant){
+	list=graph.neighbors(idTerritory);
+	for (var i = 0; i < list.length; i++) {
+		var territory=graph.node(list[i]);
+		if (territory.owner==nick) {
+			continue;
+		}
+		if(territory.owner){
+			var territoryPath = searchTerritory(mapGroup.children,list[i]);
+			var lastPlayer = searchPlayer(match.listPlayer,territory.owner);
+			updateTerritoryAttack(territoryPath,LightenDarkenColor(lastPlayer.color.code,cant));	
+		}
+	}
+}
 
 function clickTwoTerritorys(territoryPath){
 	//valido con el grafo la jugada de acuerdo a los datos
@@ -36,15 +90,29 @@ function clickTwoTerritorys(territoryPath){
 		territorysSelected[1]=null;
 
 	}
+
 	if(!territorysSelected[0] ){
+		var territory=graph.node(idTerritory);
+
+		if(territory.owner!=nick || territory.numSoldier<=1){
+			alert('No puede escoger ese territorio');
+			return;
+		}
 		territorysSelected[0]=idTerritory;
+
+		//cambio el color del territorio seleccionado
+		LightenDarkenColorTerritory(territorysSelected[0],100);
+		//LightenDarkenColorNeighborsTerritory(territorysSelected[0],50);
+
 		if(stage.stageName!='Move'){
 			alert('Escoja el territorio ha actacar');
 		}
 		else{
 			alert('Escoja el territorio de Destino');
 		}
+
 	}else{
+
 		territorysSelected[1]=idTerritory;
 		var value = stage.validateMove({
 			nick: nick,
@@ -55,15 +123,18 @@ function clickTwoTerritorys(territoryPath){
 
 		if(value){
 			if(stage.stageName!='Move'){
+				LightenDarkenColorTerritory(territorysSelected[0],100);
+				//LightenDarkenColorNeighborsTerritory(territorysSelected[0],-50);
 				socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
 			}else{
 				openMove();
 			}
 		}
 		else{
+			LightenDarkenColorTerritory(territorysSelected[0],100);
+			//LightenDarkenColorNeighborsTerritory(territorysSelected[0],-50);
 			territorysSelected[0]=null;
 			territorysSelected[1]=null;
-			console.log("error");
 			alert('movimiento invalido, escoja otro par de territorios');
 		}
 		
@@ -173,9 +244,9 @@ function connectSocketGame(){
 			}
 
 		}
-		if(isMyTurn()){
+		//if(isMyTurn()){
 			loadTurnItem();
-		}
+		//}
 	});
 }
 
@@ -372,6 +443,8 @@ function initialize(event){
 	initLibPaper('../svg/MapaRisk.svg');//dentro se llama a setClick
 	//Mostrar.addEventListener('click',openBattle);
 	//Ocultar.addEventListener('click',closeBattle);
+	moveAction.addEventListener("click",buttonMove,false);
+	reciveCardsAction.addEventListener("click",buttonRecive,false);
 
 }
 
@@ -422,7 +495,8 @@ function updateTerritoryAttack(territoryPath,color){
 	
 	var soldier = soldierItem.clone();
 	soldier.position = territoryPath.position;
-	soldier.scale(0.10);
+	//soldier.scale(1);
+	//paper.project.activeLayer.addChild(soldier);
 	paperMapScope.project.activeLayer.addChild(soldier);
 	//updateNumSoldier(territoryPath);
 	var numSoldier = territoryPath.data.numSoldier;
@@ -431,10 +505,10 @@ function updateTerritoryAttack(territoryPath,color){
 		var numSoldierPath = new paperMapScope.PointText({
 			name : territoryPath.name + "-soldier",
 			fillColor : 'white',
-	    	fontSize: 15
+	    	fontSize: 20
 		});
 	}
-	numSoldierPath.point.x = territoryPath.position.x + 25;
+	numSoldierPath.point.x = territoryPath.position.x;
 	numSoldierPath.point.y = territoryPath.position.y;
 	numSoldierPath.content = numSoldier;
 }
@@ -443,7 +517,8 @@ function updateTerritory(territoryPath,color){
 	territoryPath.fillColor = color;
 	var soldier = soldierItem.clone();
 	soldier.position = territoryPath.position;
-	soldier.scale(0.10);
+	//soldier.scale(1);
+	//paper.project.activeLayer.addChild(soldier);
 	paperMapScope.project.activeLayer.addChild(soldier);
 	updateNumSoldier(territoryPath);
 	var numSoldier = territoryPath.data.numSoldier;
@@ -452,10 +527,10 @@ function updateTerritory(territoryPath,color){
 		var numSoldierPath = new paperMapScope.PointText({
 			name : territoryPath.name + "-soldier",
 			fillColor : 'white',
-	    	fontSize: 15
+	    	fontSize: 20
 		});
 	}
-	numSoldierPath.point.x = territoryPath.position.x -25;
+	numSoldierPath.point.x = territoryPath.position.x;
 	numSoldierPath.point.y = territoryPath.position.y;
 	numSoldierPath.content = numSoldier;
 }
@@ -489,9 +564,30 @@ function clickTerritory(territoryPath){
 	
 }
 
+function buttonMove(){
+	if(isMyTurn() && stage.stageName=="Atack"){
+		socket.emit("doMove", {nick: nick, 
+								idMatch: idMatch, 
+								idTerritory1: null,
+								idTerritory2: null });
+	}
+}
+
+function buttonRecive(){
+	if(isMyTurn() && stage.stageName=="Move"){
+		socket.emit("doMove", {nick: nick, 
+								idMatch: idMatch, 
+								idTerritory1: null,
+								idTerritory2: null,
+								num:0} );
+	}
+}
+
+
+
 function loadSoldierItem(){
 	//load a svg and it transforms to item
-	paperMapScope.project.importSVG('../svg/soldier.svg',function(soldier){
+	paperMapScope.project.importSVG('../svg/soldado-01.svg',function(soldier){
 		soldierItem = soldier;
 		soldier.remove();
 	});
@@ -504,7 +600,7 @@ function loadTurnItem(){
 	y = paperMapScope.view.size.height/2;
 	turnItem = new paperMapScope.PointText({
     	point: [x,y],
-    	content: 'YOUR TURN',
+    	content: 'YOUR TURN '+match.turn,
     	fontFamily: 'Plump',
     	strokeWidth : 1,
     	strokeColor : 'black',
