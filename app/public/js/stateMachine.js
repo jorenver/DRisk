@@ -322,30 +322,10 @@ var receiveCard = function(){
 			console.log("*****No recibe cartas*****");
 			return;
 		}
-
-
+		//add the new card
 		var card = args.card; 
-		console.log("NICKNAME:", args.nick);
 		var player = searchPlayer(match.listPlayer, args.nick);
 		player.cards.push(card); //add the new card
-		console.log("cards", player.cards);
-		//show a pop-up with the information
-		var p = document.createElement("p");
-		p.innerHTML = "You receive this card:"
-		var div = document.createElement("div");
-		div.innerHTML = args.card.soldierType + " " + args.card.idTerritory;
-		content_receiveCard.appendChild(p);
-		content_receiveCard.appendChild(div);
-		bt_closeReceiveCard.onclick = function(event){
-			console.log("cierro pop up receive card");
-			content_receiveCard.innerHTML = "";
-    		receiveCard_PopUp.style.display="none";
-
-		};
-
-		receiveCard_PopUp.style.display = "flex";
-		
-
 		
 	}
 

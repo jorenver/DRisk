@@ -5,21 +5,26 @@
   display: none;
   flex-direction: column;
   justify-content: start;
-  height: 60%;
+  height: 80%;
   width: 40%;
   position: fixed;
-  top: 20%;
+  top: 10%;
   left: 30%;
   right: 30%;
   z-index: 100;
   border: 3px solid white;
 }
 
+#receiveCardCanvas{
+  width: 95%;
+  height: 100%;
+}
+
 
 #content_receiveCard{
   background: #e2e4e6;
   width: 95%;
-  height: 70%;
+  height: 10%;
   margin: 2.5%;
   color: black;
   font-family: opcionUno;

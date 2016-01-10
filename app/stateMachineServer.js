@@ -558,6 +558,8 @@ var sendCard = function(){
 
     this.doMove = function(args, match){
         //get the new card
+        console.log("sencard recibo esto", args);
+
         if(!args.flag){
             return;
         }

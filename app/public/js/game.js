@@ -3,7 +3,6 @@ var stage;
 var match;
 var graph;
 var player;
-var temporalCards = [] //list to add select cards
 //sockets
 var socket;
 var territorysSelected;
@@ -13,6 +12,10 @@ var mapGroup;
 var soldierItem;
 var turnItem;
 var paperMapScope;
+
+
+//objects to draw in other scopes
+
 
 function isMyTurn(){
 	if(match.turn == nick){
@@ -189,6 +192,37 @@ function redraw(args, drawAction){
 	if(drawAction == "receiveCard"){
 		console.log("Dibujo un pop up con la carta recivida");
 		//draw a pop-up
+
+		if(!args.flag){
+			return;
+		}
+
+		//show a pop-up with the information
+		var p = document.createElement("p");
+		p.innerHTML = "You receive this card:"
+		content_receiveCard.appendChild(p);
+		var card = args.card;
+
+		var territoryPath = searchTerritory(mapGroup.children, card.idTerritory);
+		
+		var grapherReceiveCard = new graphicsCard();
+		grapherReceiveCard.initializeScope();
+		var territory = territoryPath.clone();
+		territory.remove();
+		grapherReceiveCard.drawCard(card, territory);
+		
+		bt_closeReceiveCard.onclick = function(event){
+			console.log("cierro pop up receive card");
+			content_receiveCard.innerHTML = "";
+			grapherReceiveCard.cleanScope();
+    		receiveCard_PopUp.style.display="none";
+
+		};
+
+		receiveCard_PopUp.style.display = "flex";
+
+
+
 	}
 	if(drawAction == "changeCards"){
 		console.log("Dibujo un pop up con las cartas a intercambiar");
@@ -222,37 +256,28 @@ function openChangeCard_PopUp( ){
     	bt_cancelTrace.disabled = true; //the player must change cards,
     	//do not close the pop-up
     }
-    var table = document.createElement("table");
+    
     var cards = player.cards;
-    //add the cards in the pop-up
-    for(var i=0; i< cards.length; i++){
-    	var row = document.createElement("tr");
-    	row.innerHTML = cards[i].soldierType + " " + cards[i].idTerritory;
-    	row.setAttribute("class","card");
-    	row.setAttribute('data-idterritory',cards[i].idTerritory );
-    	row.setAttribute('data-soldiertype',cards[i].soldierType );
-    	table.appendChild(row);
-    	
-    	row.addEventListener('click', function(event){
+    
+    var grapherChangeCards = new graphicsChangeCards();
+    grapherChangeCards.initializeScope();
 
-    		if(temporalCards.length >3){
-    			alert("Ya escogiste las tres cartas");
-    		}
+    for (var i = 0; i< cards.length; i++){
+    	var currentCard = cards[i];
+    	console.log(currentCard);
 
-    		this.style.backgroundColor = "yellow";
-    		//add in a temporal cards list
-			temporalCards.push({soldierType: this.getAttribute('data-soldiertype'),
-			 idTerritory: this.getAttribute('data-idterritory')});    		
+    	var territoryPath = searchTerritory(mapGroup.children, currentCard.idTerritory);
+		var territory = territoryPath.clone();
+		territory.remove();
+		var widthCard = grapherChangeCards.widthCard;
+		grapherChangeCards.drawCard(10 + (widthCard+ 20)*i, 10, currentCard , territory);
 
-    	});
     }
-
-    content_traceCard.appendChild(table);
 
     //event to the button trace cards
     bt_traceCard.onclick =  function(event){
-
-    	var value = stage.validateMove({listCards: temporalCards});
+    	var temporalCards = grapherChangeCards.getSelectedCards();
+    	var value = stage.validateMove({listCards: temporalCards });
     	if(value){
     		//emit the cards to the server
     		socket.emit("doMove", {nick: nick,idMatch: idMatch ,
@@ -261,26 +286,17 @@ function openChangeCard_PopUp( ){
     		//
     		var difference = player.cards.length - temporalCards.length;
     		if(difference<3){
-    			content_traceCard.innerHTML = "";
     			traceCard_PopUp.style.display="none";
     		}
-
-    		temporalCards = [];
     	}
     	else{
     		alert("error, las cartas deben ser todas iguales o todas diferentes");
-    		temporalCards = [];
-    		var listCards = document.getElementsByClassName("card");
-    		for (var i =0; i< listCards.length; i++ ){
-    			listCards[i].style.backgroundColor = "";
-    		}
     	}
     };
 
     bt_cancelTrace.onclick = function(event){
-    	content_traceCard.innerHTML = "";
     	traceCard_PopUp.style.display="none";
-
+    	grapherChangeCards.cleanScope();
     	console.log("Click en cerra change Cards");
     	socket.emit("doMove", {nick:nick, idMatch: idMatch,
 						  cardsTraced: [], flag: false }); //emit to change the state
@@ -368,6 +384,7 @@ function initLibPaper(url){
 	loadSVGMap(url);
 	loadSoldierItem();
 	paperMapScope.view.draw();// Draw the view now:
+
 }
 
 function loadSVGMap(file){	
