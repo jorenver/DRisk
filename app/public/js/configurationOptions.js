@@ -280,21 +280,6 @@ var DivideTerritoriesOption = function(paper,id){
 		}
 	}
 
-	this.dividePaths = function(){
-		console.log("mouse double click");
-		var compoundPath = self.target;
-		var children = compoundPath.children;
-		var group = new self.paper.Group();
-		for(var j = 0 ; j < children.length ; j++){
-			var child = children[j].clone();
-			child.fillColor = self.generateColor();
-			child.strokeColor = "black";
-			group.addChild(child);
-		}
-		group.position = compoundPath.position;
-		compoundPath.remove();
-	}
-
 	this.removeCircles = function(){
 		while(self.circles.length){
 			var circle = self.circles.pop()

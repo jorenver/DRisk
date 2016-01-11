@@ -34,8 +34,9 @@ router.get('/getMatches', joinMatchController.getMatches);
 router.get('/waitroom', waitroomController.waitroom);
 router.get('/getMatchData', waitroomController.getMatchData);
 
-//Map
+//Configure Map
 router.get('/customizeMap',customizeMapController.customizeMap);
+router.post('/saveSVG',customizeMapController.saveFileSVG);//save svg file
 
 //Start game
 router.get('/game',gameController.Start);
@@ -46,3 +47,6 @@ router.get('/players',waitroomController.getPlayers);
 
 //waitroom players creator
 router.get('/waitRoomCreator', waitRoomCreatorController.waitRoomCreator);
+
+
+

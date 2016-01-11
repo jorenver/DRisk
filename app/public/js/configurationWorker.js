@@ -21,6 +21,7 @@ var ConfigurationWorker = function(){
 
 		this.configurationTool = new ConfigurationTool(this.paper);
 		this.configurationTool.init();
+		buttonAccept.addEventListener('click',this.configurationTool.generateSVG,false);
 	}
 
 	this.registerEvents = function(){
@@ -208,4 +209,14 @@ var Util = function(){
 		distance = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
 		return distance;
 	}
+
+	this.generateColor = function(){
+		var red,green,blue;
+		var max = 255;
+		red = Math.floor(Math.random()*255 + 1);
+		green = Math.floor(Math.random()*255 + 1);
+		blue = Math.floor(Math.random()*255 + 1);
+		return new paper.Color(red/max, green/max, blue/max);
+	}
+
 }
