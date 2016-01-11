@@ -6,6 +6,7 @@ var ConfigurationTool = function(paper){
 	this.optionsID = ["optDragAndDrop","optRemove","optDivide","optRedraw","optLink","optParameters"]
 	this.options = {};
 	this.currentOption = null
+	this.continents = [];
 
 	this.init = function(){
 		this.options[this.optionsID[0]] = new DragAndDropOption(this.paper,this.optionsID[0]);
@@ -28,6 +29,7 @@ var ConfigurationTool = function(paper){
 					var option = self.options[event.target.id];
 					if(option){
 						self.setOption(option);
+						self.resetEventsHandle();
 						$("#"+event.target.id).css('background-color','rgba(200,0,0,1)');
 					}	
 				}, false);
@@ -35,8 +37,21 @@ var ConfigurationTool = function(paper){
 		}
 	}
 
+	this.resetEventsHandle = function(){
+		var cont;
+		for (var i = 0; i < configurationWorker.mapsContinents.length; i++) {
+			cont = configurationWorker.mapsContinents[i]
+			configurationWorker.registerEventContinent(cont);
+		};
+	}
+
 	this.setOption = function(option){
 		this.currentOption = option;
+	}
+
+	this.setContinents = function(continents){
+		this.continents = continents;
+		this.currentOption.setContinents(continents);
 	}
 
 	this.doConfiguration = function(args){

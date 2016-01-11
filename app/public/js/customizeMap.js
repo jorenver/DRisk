@@ -1,4 +1,4 @@
-
+var configurationWorker;
 
 function outputUpdate(vol) {
 	document.querySelector('#outSize').value = vol*100 + "%";
@@ -31,7 +31,7 @@ function changeParameters(event){
 
 
 function initialize () {
-	var configurationWorker = new ConfigurationWorker();
+	configurationWorker = new ConfigurationWorker();
 	configurationWorker.init();
 	configurationWorker.registerEvents();
 }

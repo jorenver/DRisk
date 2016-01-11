@@ -4,7 +4,7 @@ var ConfigurationWorker = function(){
 	var self = this;
 	this.configurationTool = null;
 	this.paper = null;
-	this.continentsID = ["NorthAmerica","SouthAmerica","Africa","Europe"]
+	this.continentsID = ["NorthAmerica","SouthAmerica","Africa","Europe","Oceania"]
 	this.canvas = document.getElementById("drawerMap");
 	this.util = null;
 	this.mapsContinents = [];
@@ -17,7 +17,7 @@ var ConfigurationWorker = function(){
 		this.paper = new paper.PaperScope();
 		this.paper.setup(this.canvas);	
 		
-		util = new Util();
+		this.util = new Util();
 
 		this.configurationTool = new ConfigurationTool(this.paper);
 		this.configurationTool.init();
@@ -49,17 +49,15 @@ var ConfigurationWorker = function(){
 		var file = element.src;
 		var callback = function (xml){
 			var continentPath = paper.project.importSVG(xml.getElementsByTagName("svg")[0]);
-			console.log(continentPath);
+			//we have to change a position,scale, strokeColor, etc and register events for the continent
 			var args = {};
-			args.factorScale = 0.8;
-			args.position = detail.position;
-			self.configureContinent(continentPath,args);
-			continentPath.on('click',function(event){
-				self.appendContinent(detail.id,continentPath);
-				self.configurationTool.doConfiguration({ event: event });
-			});
+			args.idContinent = detail.id;
+			args.factorScale = 0.6;
+			args.position = self.util.calculateCoordinates(detail.position);
+			args.stroke = "black"
+			self.fitContinent(continentPath,args);
+			self.registerEventContinent(continentPath.children[0].children[0].children[0]);
 		}
-
 		$.ajax({
 			type: "GET",
 			async: true,
@@ -69,20 +67,57 @@ var ConfigurationWorker = function(){
 		});
 	}
 
-	this.configureContinent = function(continentPath,args){
-		var pos = util.calculateCoordinates(args.position);
-		continentPath.scale(args.factorScale);
-		continentPath.position = new paper.Point(pos.x,pos.y);
-		continentPath.strokeColor = "black";
+	this.registerEventContinent = function(compoundPath){//register events of the continent
+		var mouseEnter = new HandleMouseEnter();
+		var mouseLeave = new HandleMouseLeave();
+		compoundPath.on(mouseLeave.name,mouseLeave.action);
+		compoundPath.on(mouseEnter.name,function(event){
+			var continent = event.target;
+			if(continent._class == "CompoundPath"){
+				mouseEnter.action(event);
+				self.configurationTool.doConfiguration({ event: event });
+				self.configurationTool.setContinents(self.mapsContinents);
+			}
+		});	
 	}
 
-	this.appendContinent = function(id,continentPath){
-		var continent = {};
+	this.fitContinent = function(continentPath,args){//change position scale,fillColor, stroke Color of the continent
+		continentPath.scale(args.factorScale);
+		continentPath.position = new paper.Point(args.position.x,args.position.y);
+		continentPath.strokeColor = args.stroke;
+
 		var compoundPath = continentPath.children[0].children[0].children[0];
-		continent.id = id ;
-		compoundPath.data.id = id;
-		continent.path = compoundPath;
-		this.mapsContinents.push(continent);
+		compoundPath.data.id = args.idContinent;
+		compoundPath.data.scale = args.factorScale;
+		self.addContinent(compoundPath);	
+	}
+
+	this.addContinent = function(compoundPath){
+		this.mapsContinents.push(compoundPath);
+	}
+}
+
+var HandleMouseEnter = function(){
+	this.name = "mouseenter";
+	this.action = function(event){
+		if(!configurationWorker.configurationTool.currentOption){
+			return;
+		}
+		var continent = event.target;
+		continent.shadowColor =new configurationWorker.paper.Color(1, 0, 0);
+		continent.shadowBlur = 15;// Set the shadow blur radius to 12:
+		continent.shadowOffset = new configurationWorker.paper.Point(0, 0);// Offset the shadow by { x: 5, y: 5 }
+	}
+}
+
+var HandleMouseLeave = function(){
+	this.name = "mouseleave";
+	this.action = function(event){
+		if(!configurationWorker.configurationTool.currentOption){
+			return;
+		}
+		var continent = event.target;
+		continent.shadowColor = null;
 	}
 }
 
@@ -165,4 +200,12 @@ var Util = function(){
 		return -1;
 	}
 
+	this.getDistance = function(pointOne,pointTwo){
+		var delta_x,delta_y;
+		var distance;
+		delta_x =  Math.abs( pointOne.x - pointTwo.x );
+		delta_y =  Math.abs( pointOne.y - pointTwo.y );
+		distance = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
+		return distance;
+	}
 }
