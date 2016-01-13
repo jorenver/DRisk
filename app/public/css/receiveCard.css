@@ -3,23 +3,21 @@
   border-radius: 6px;
   color: white;
   display: none;
-  flex-direction: column;
-  justify-content: start;
-  height: 80%;
-  width: 40%;
   position: fixed;
-  top: 10%;
-  left: 30%;
-  right: 30%;
+  top: 20px;
+  left: 100px;
   z-index: 100;
   border: 3px solid white;
 }
 
+<<<<<<< HEAD
 #receiveCardCanvas{
   width: 90%;
   height: 90%;
 }
 
+=======
+>>>>>>> fd60a18676fd09d8f4e342d91582bd3e0ed0e161
 
 #content_receiveCard{
   width: 95%;
@@ -31,4 +29,10 @@
   justify-content: center;
 }
 
+#receiveCardCanvas{
+  border: 1px dashed #CCCCCC;
+  position: absolute; 
+  top: 0px;
+  left: 0px;
+}
 

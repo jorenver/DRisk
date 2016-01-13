@@ -23,10 +23,10 @@ var graphicsCard = function(){
 
 		//draw a rectangle to form the card
         var x = paperScopeCard.view.size.width/2;
-        var y = paperScopeCard.view.size.height/2 - 65;
+        var y = paperScopeCard.view.size.height/2;
 
 
-		var rect = new paperScopeCard.Rectangle(x, y, 150, 175);
+		var rect = new paperScopeCard.Rectangle(0, 0, 150, 175);
         var pathRect = new paperScopeCard.Path.Rectangle(rect);
         pathRect.fillColor = '#e9e9ff';
         pathRect.strokeColor = 'blue';
@@ -34,6 +34,8 @@ var graphicsCard = function(){
         pathRect.shadowColor = new paperScopeCard.Color(0, 0, 0);
         pathRect.shadowBlur = 8;
         pathRect.shadowOffset = new paperScopeCard.Point(5, 5);
+        pathRect.position.x = x;
+        pathRect.position.y = y;
 
         //group.addChildren(pathRect);
 
