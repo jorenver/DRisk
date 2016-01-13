@@ -4,29 +4,34 @@ function closeBattle(event){
 	territorysSelected[1]=null;
     battle.style.display="none";
     //chat.style.opacity=1;
+    //var gb= new graphicsBattle();
+	//gb.cleanScope();
 }
 
 
 function openBattle(){
 
-	battle.style.display="flex";
+	battle.style.display="block";
 	$('#Ocultar').off('click');
 	$('#next').off('click');
 	$('#Stop').off('click');
-	Ocultar.addEventListener('click',closeBattle);
-	
+	Ocultar.onclick =closeBattle;
+	//battle.style.width="500px";
+	//battle.style.height="350px";
+	//content_battle_canvas.style.width="500px";
+	//content_battle_canvas.style.height="300px";
 	if(!isMyTurn()){
 		next.style.display="none";
 		Stop.style.display="none";
 	}else{
 		if( graph.node(territorysSelected[0]).numSoldier>1){
 			next.style.display="flex";
-			next.addEventListener('click',nextRound);
+			next.onclick =nextRound;
 		}else{
 			next.style.display="none";
 		}
-		Stop.style.display="flex";
-		Stop.addEventListener('click',changeBattle);
+		Stop.style.display="block";
+		Stop.onclick =changeBattle;
 	}
 }
 

@@ -12,6 +12,7 @@ var publicMatchController = require('./controller/publicMatchController');
 
 var customizeMapController = require('./controller/customizeMapController');
 var gameController = require('./controller/gameController');
+var victoryController = require('./controller/victoryController');
 
 router.get('/', indexController.index);
 
@@ -46,3 +47,6 @@ router.get('/players',waitroomController.getPlayers);
 
 //waitroom players creator
 router.get('/waitRoomCreator', waitRoomCreatorController.waitRoomCreator);
+
+router.get('/winner', victoryController.winner);
+router.get('/loser', victoryController.loser);

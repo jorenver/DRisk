@@ -25,9 +25,31 @@ var victoryValidatorWorldDomination = function(){
 		return null;
 	}
 
-	this.getLoser = function(match){
+	this.getLosers = function(match){
+		var graphPtr = match.map.graph;
+		var listPlayer=match.listPlayer;
+		var losers=[];
+		var aux={};
+		for (var i = 0; i < listPlayer.length; i++){
+			if(listPlayer[i])
+				aux[listPlayer[i].nick]=0;
+		}
+		var territorys= graphPtr.nodes();
+		for (var i = 0; i < territorys.length; i++) {
+			var territory= graphPtr.node(territorys[i]);
+			if(territory.owner!=null){
+				aux[territory.owner]+=1;
+			}	
+		}
+		for (var i = 0; i < listPlayer.length; i++){
+			if(listPlayer[i]){
+				if(aux[listPlayer[i].nick]==0){
+					losers.push(listPlayer[i].nick);
+				}
+			}
+		}
 
-		return null;
+		return losers;
 	}
 
 }
@@ -38,7 +60,7 @@ var victoryvalidatorCapitalMode= function(){
 		return null;
 	}
 
-	this.getLoser = function(match){
+	this.getLosers = function(match){
 
 		return null;
 	}
@@ -51,7 +73,7 @@ var victoryvalidatorWorldSecretMission = function(){
 		return null;
 	}
 
-	this.getLoser = function(match){
+	this.getLosers = function(match){
 
 		return null;
 	}

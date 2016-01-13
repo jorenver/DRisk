@@ -138,19 +138,15 @@ var atackTerritory = function(){
         var territory2 = graph.node(args.idTerritory2);
        	territory1.numSoldier =territory1.numSoldier- numAttacker;
        	territory2.numSoldier =territory2.numSoldier- numDefender;
-       	content_battle.innerHTML='Attacker: '+territory1.owner+'<br>';
-       	content_battle.innerHTML+='Territory: '+args.idTerritory1+' Dices: '+dice1+' Dead: '+numAttacker+'<br>';
-       	content_battle.innerHTML+='Defender: '+territory2.owner+'<br>';
-       	content_battle.innerHTML+='Territory: '+args.idTerritory2+' Dices: '+dice2+' Dead: '+numDefender+'<br>';
+       	var gb= new graphicsBattle();
+		gb.initializeScope();
+		gb.drawBattle(args);
        	if(territory2.numSoldier==0){
        		territory2.owner=territory1.owner;
        		territory2.numSoldier=territory1.numSoldier-1;;
        		territory1.numSoldier=1;
-       		content_battle.innerHTML+='Conquered Territory';
        		auxPlayer=searchPlayer(match.listPlayer,match.turn);
        		auxPlayer.lastTerritorysConquers+=1;
-       	}else{
-       		content_battle.innerHTML+='Not Conquered Territory';
        	}
        	openBattle();
 	}
@@ -187,11 +183,13 @@ var move = function(){
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
-		var territory1 = graph.node(args.idTerritory1);
-        var territory2 = graph.node(args.idTerritory2);
-        var num = parseInt(args.num)
-       	territory1.numSoldier =territory1.numSoldier- num;
-       	territory2.numSoldier =territory2.numSoldier+ num;
+		if(args.idTerritory1!=null && args.idTerritory2!=null){
+			var territory1 = graph.node(args.idTerritory1);
+	        var territory2 = graph.node(args.idTerritory2);
+	        var num = parseInt(args.num)
+       		territory1.numSoldier =territory1.numSoldier- num;
+       		territory2.numSoldier =territory2.numSoldier+ num;
+       }
 		
 	}
 

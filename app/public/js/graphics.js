@@ -22,11 +22,11 @@ var graphicsCard = function(){
 		var group = new paperScopeCard.Group();
 
 		//draw a rectangle to form the card
-        var x = paperScopeCard.view.size.width/2;
-        var y = paperScopeCard.view.size.height/2 - 65;
+        var x = 150;
+        var y = 175;
 
 
-		var rect = new paperScopeCard.Rectangle(x, y, 150, 175);
+		var rect = new paperScopeCard.Rectangle(0, 0, 150, 175);
         var pathRect = new paperScopeCard.Path.Rectangle(rect);
         pathRect.fillColor = '#e9e9ff';
         pathRect.strokeColor = 'blue';
@@ -34,6 +34,8 @@ var graphicsCard = function(){
         pathRect.shadowColor = new paperScopeCard.Color(0, 0, 0);
         pathRect.shadowBlur = 8;
         pathRect.shadowOffset = new paperScopeCard.Point(5, 5);
+        pathRect.position.x = x;
+        pathRect.position.y = y;
 
         //group.addChildren(pathRect);
 
@@ -258,6 +260,111 @@ var graphicsChangeCards = function(){
 
     this.getSelectedCards = function(){
         return selectedCards;
+    }
+
+
+
+}
+
+
+
+var graphicsBattle= function(){
+
+    this.paperScopeBattle;
+
+    this.initializeScope = function(){
+        
+        var canvas = document.getElementById('content_battle_canvas');
+          
+        var paperScopeBattle = new paper.PaperScope();
+        paperScopeBattle.setup(canvas);
+        this.paperScopeBattle = paperScopeBattle;
+
+
+
+    }
+
+    this.drawBattle = function(args){
+
+        var paperScopeBattle = this.paperScopeBattle;
+        var group = new paperScopeBattle.Group();
+        var nodeTerritory1 = graph.node(args.idTerritory1);
+        var nodeTerritory2 = graph.node(args.idTerritory2);
+
+        var text = new paperScopeBattle.PointText(new paperScopeBattle.Point(200, 30));
+        text.fillColor = 'black';
+        text.fontSize=30;
+        text.content = 'Battle ';
+
+        var textAttaker = new paperScopeBattle.PointText(new paperScopeBattle.Point(70, 50));
+        textAttaker.fillColor = 'black';
+        textAttaker.content = nodeTerritory1.owner;
+
+        var textAttakerTerritory = new paperScopeBattle.PointText(new paperScopeBattle.Point(70, 70));
+        textAttakerTerritory.fillColor = 'black';
+        textAttakerTerritory.content ="Territory: "+ args.idTerritory1;
+
+        var territoryPath1 = searchTerritory(mapGroup.children,args.idTerritory1);
+        var territory1 = territoryPath1.clone();
+        territory1.remove();
+        territory1.scale(1);
+        territory1.position.x = 90;
+        territory1.position.y = 150;
+        paperScopeBattle.project.activeLayer.addChild(territory1);
+
+        var textAttaker = new paperScopeBattle.PointText(new paperScopeBattle.Point(310, 50));
+        textAttaker.fillColor = 'black';
+        textAttaker.content = nodeTerritory2.owner;
+
+        var textDefenderTerritory = new paperScopeBattle.PointText(new paperScopeBattle.Point(310, 70));
+        textDefenderTerritory.fillColor = 'black';
+        textDefenderTerritory.content = "Territory: "+args.idTerritory2;
+        
+        var territoryPath2 = searchTerritory(mapGroup.children,args.idTerritory2);
+        //var lastPlayer2 = searchPlayer(match.listPlayer,nodeTerritory2.owner);
+        var territory2 = territoryPath2.clone();
+        territory2.remove();
+        territory2.scale(1);
+        //territory2.fillColor=lastPlayer2.color.code;
+        territory2.position.x = 330;
+        territory2.position.y = 150;
+        paperScopeBattle.project.activeLayer.addChild(territory2);
+        
+        for (var i = 0; i < args.dice1.length; i++) {
+            dice=dicesPaths[args.dice1[i]-1].clone();
+            dice.remove();
+            dice.scale(0.5);
+            dice.position.x = 50*(i+1);
+            dice.position.y = 250;
+            paperScopeBattle.project.activeLayer.addChild(dice);
+
+        };
+
+        for (var i = 0; i < args.dice2.length; i++) {
+            dice=dicesPaths[args.dice2[i]-1].clone();
+            dice.remove();
+            dice.scale(0.5);
+            dice.position.x = 330+50*(i+1);
+            dice.position.y = 250;
+            paperScopeBattle.project.activeLayer.addChild(dice);
+
+        };
+        
+        if(nodeTerritory2.numSoldier==0){
+            var conquer = new paperScopeBattle.PointText(new paperScopeBattle.Point(10, 300));
+            conquer.fillColor = 'black';
+            conquer.fontSize=20;
+            conquer.content = 'Conquer Territory';
+            paperScopeBattle.project.activeLayer.addChild(conquer);
+        }
+        
+        paperScopeBattle.view.draw();
+
+
+    }
+
+    this.cleanScope = function(){
+        this.paperScopeBattle.project.activeLayer.removeChildren();
     }
 
 

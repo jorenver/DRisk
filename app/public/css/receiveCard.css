@@ -1,34 +1,44 @@
 #receiveCard_PopUp {
-  background-color: rgba(226,228,230, 0.5);
+  background-color: rgba(226,228,230,1);
   border-radius: 6px;
   color: white;
   display: none;
-  flex-direction: column;
-  justify-content: start;
-  height: 80%;
-  width: 40%;
   position: fixed;
+  top: 20px;
+  left: 100px;
+  z-index: 100;
+  border: 3px solid white;
+  width: 500px;
+  height: 350px;
   top: 10%;
   left: 30%;
   right: 30%;
-  z-index: 100;
-  border: 3px solid white;
 }
 
 #receiveCardCanvas{
   width: 300px;
-  height: 450px;
+  height: 350px;
 }
 
 
 #content_receiveCard{
-  background: #e2e4e6;
   width: 95%;
-  height: 10%;
+  height: 30px;
   margin: 2.5%;
   color: black;
   font-family: opcionUno;
-  overflow-y: auto;
+  justify-content: center;
 }
 
-
+#receiveCardCanvas{
+  position: absolute; 
+  top: 30px;
+  left: 50px;
+}
+#button_recive_card{
+  display: flex;
+  justify-content: center;
+  position: absolute; 
+  top: 400px;
+  left: 160px;
+}
