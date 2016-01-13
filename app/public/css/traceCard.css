@@ -13,8 +13,6 @@
 }
 
 #changeCardsCanvas{
-    height:700px;
-    width: 500px;
     border-width: 1px;
     border: 1px dashed #CCCCCC;
 }

@@ -290,7 +290,7 @@ function redraw(args, drawAction){
 
 		};
 
-		receiveCard_PopUp.style.display = "flex";
+		receiveCard_PopUp.style.display = "block" ;
 
 
 
@@ -375,7 +375,7 @@ function openChangeCard_PopUp( ){
     };
 
 
-    traceCard_PopUp.style.display="flex";
+    traceCard_PopUp.style.display="block";
     
 }
 
