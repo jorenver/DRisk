@@ -4,7 +4,7 @@ function closeBattle(event){
 	territorysSelected[1]=null;
     battle.style.display="none";
     //chat.style.opacity=1;
-    var gb= new graphicsBattle(args.idTerritory1,args.idTerritory2);
+    var gb= new graphicsBattle();
 	gb.cleanScope();
 }
 
@@ -15,7 +15,7 @@ function openBattle(){
 	$('#Ocultar').off('click');
 	$('#next').off('click');
 	$('#Stop').off('click');
-	Ocultar.addEventListener('click',closeBattle);
+	Ocultar.onclick =closeBattle;
 	//battle.style.width="500px";
 	//battle.style.height="350px";
 	//content_battle_canvas.style.width="500px";
@@ -25,13 +25,13 @@ function openBattle(){
 		Stop.style.display="none";
 	}else{
 		if( graph.node(territorysSelected[0]).numSoldier>1){
-			next.style.display="bock";
-			next.addEventListener('click',nextRound);
+			next.style.display="flex";
+			next.onclick =nextRound;
 		}else{
 			next.style.display="none";
 		}
 		Stop.style.display="block";
-		Stop.addEventListener('click',changeBattle);
+		Stop.onclick =changeBattle;
 	}
 }
 

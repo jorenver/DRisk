@@ -350,6 +350,14 @@ var graphicsBattle= function(){
 
         };
         
+        if(nodeTerritory2.numSoldier==0){
+            var conquer = new paperScopeBattle.PointText(new paperScopeBattle.Point(10, 300));
+            conquer.fillColor = 'black';
+            conquer.fontSize=20;
+            conquer.content = 'Conquer Territory';
+            paperScopeBattle.project.activeLayer.addChild(conquer);
+        }
+        
         paperScopeBattle.view.draw();
 
 

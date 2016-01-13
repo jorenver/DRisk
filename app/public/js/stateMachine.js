@@ -138,18 +138,15 @@ var atackTerritory = function(){
         var territory2 = graph.node(args.idTerritory2);
        	territory1.numSoldier =territory1.numSoldier- numAttacker;
        	territory2.numSoldier =territory2.numSoldier- numDefender;
-       	var gb= new graphicsBattle(args.idTerritory1,args.idTerritory2);
+       	var gb= new graphicsBattle();
 		gb.initializeScope();
 		gb.drawBattle(args);
        	if(territory2.numSoldier==0){
        		territory2.owner=territory1.owner;
        		territory2.numSoldier=territory1.numSoldier-1;;
        		territory1.numSoldier=1;
-       		//content_battle.innerHTML+='Conquered Territory';
        		auxPlayer=searchPlayer(match.listPlayer,match.turn);
        		auxPlayer.lastTerritorysConquers+=1;
-       	}else{
-       		//content_battle.innerHTML+='Not Conquered Territory';
        	}
        	openBattle();
 	}

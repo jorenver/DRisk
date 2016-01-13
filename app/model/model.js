@@ -196,7 +196,7 @@ exports.joinPlayer = function(idMatch, nickPlayer,sockets){
 	};
 	Matches[idMatch].listPlayer.push(player);
 	for(var i=0;i<sockets.length;i++){//broadcast to all the players 
-		sockets[i].emit("addPlayer", {player: player} );
+		sockets[i].socket.emit("addPlayer", {player: player} );
 	}
 }
 

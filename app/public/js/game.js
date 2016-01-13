@@ -104,14 +104,6 @@ function clickTwoTerritorys(territoryPath){
 		//cambio el color del territorio seleccionado
 		LightenDarkenColorTerritory(territorysSelected[0],100);
 		//LightenDarkenColorNeighborsTerritory(territorysSelected[0],50);
-
-		if(stage.stageName!='Move'){
-			alert('Escoja el territorio ha actacar');
-		}
-		else{
-			alert('Escoja el territorio de Destino');
-		}
-
 	}else{
 
 		territorysSelected[1]=idTerritory;
@@ -135,7 +127,6 @@ function clickTwoTerritorys(territoryPath){
 			//LightenDarkenColorNeighborsTerritory(territorysSelected[0],-50);
 			territorysSelected[0]=null;
 			territorysSelected[1]=null;
-			alert('movimiento invalido, escoja otro par de territorios');
 		}
 		
 	}
@@ -159,15 +150,29 @@ function searchTerritory(list,idTerritory){
 	return null;
 }
 
+function updateNumSoldiers(auxPlayer){
+    $("#viewSoldiersNum").html(auxPlayer.numSoldier);
+}
+
 function procesarNumSolidier(event){
 	var respond = JSON.parse(event.target.responseText);
 	var numSoldier = respond.numSoldier; 
-	var user = respond.nick; 
-    player.numSoldier += numSoldier;   
-	console.log("Recibiste "+ numSoldier + " soldados, chucha");
-    $("#soldierNum").html(player.numSoldier);
-
+	var user = respond.nick;
+	var auxPlayer=searchPlayer(match.listPlayer,match.turn);
+    auxPlayer.numSoldier += numSoldier;  
+	console.log("YYYYYYYYYYY Soldados por Jugador" ,match.listPlayer);
+	if(isMyTurn())
+		updateNumSoldiers(auxPlayer);
     setClick(clickTerritory);
+}
+
+function getSoldiers(){
+	var url = "/getNumSoldier?nick="+match.turn;
+    var request = new XMLHttpRequest();
+    console.log("***** Estoy en reforce cliente");
+    request.addEventListener('load',procesarNumSolidier, false);
+    request.open("GET",url, true);
+    request.send(null);
 }
 
 function connectSocketGame(){
@@ -185,18 +190,12 @@ function connectSocketGame(){
 
 		redraw(args, stage.drawAction);
 		updateViewStage();
+		updateNumSoldiers(player);
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
 			updateViewStage();
-			// alert('Estado: '+args.stage);
 			if(args.stage=='Reforce'){
-				var url = "/getNumSoldier?nick="+match.turn;
-		        var request = new XMLHttpRequest();
-		        console.log("***** Estoy en reforce cliente");
-		        request.addEventListener('load',procesarNumSolidier, false);
-		        request.open("GET",url, true);
-		        request.send(null);
-		        setClick(clickTerritory);
+				getSoldiers();
 			}	
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
