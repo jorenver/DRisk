@@ -4,8 +4,8 @@ function closeBattle(event){
 	territorysSelected[1]=null;
     battle.style.display="none";
     //chat.style.opacity=1;
-    var gb= new graphicsBattle();
-	gb.cleanScope();
+    //var gb= new graphicsBattle();
+	//gb.cleanScope();
 }
 
 

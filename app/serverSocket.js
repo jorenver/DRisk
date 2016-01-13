@@ -141,6 +141,45 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 for(p in playersSocket){
                     playersSocket[p].socket.emit('updateMap', data);
                 }
+                if(data.losers){
+                    for (var i = 0; i < data.losers.length; i++) {
+                        var sockets = clients[session.idMatch];//it gets all the clients has joined to this match
+                        if(sockets){
+                            //we can get one specific socket by id
+                            for (j in sockets){
+                                if(sockets[j].nick == data.losers[i]){
+                                    console.log("se borro conexion por perdedor");
+                                    sockets[j].socket.emit('loser');
+                                    sockets.splice(j,1);
+                                    j--;
+                                }
+                            }
+                            for (j in currentMatch.listPlayer){
+                                if(currentMatch.listPlayer[j].nick==data.losers[i]){
+                                    console.log("se borro el player por perdedor");
+                                    currentMatch.listPlayer.splice(j,1);
+                                    j--;
+
+                                }
+                            }
+                        }
+                    }
+                }
+                if(data.winner){
+                    var sockets = clients[session.idMatch];//it gets all the clients has joined to this match
+                    if(sockets){
+                        //we can get one specific socket by id
+                        for (j in sockets){
+                            if(sockets[j].nick == data.winner){
+                                console.log("se borro conexion por Ganador");
+                                sockets[j].socket.emit('winner');
+                                sockets.splice(j,i);
+                                j--;
+                            }
+                        }
+                    }
+                }
+
             });
         }
     });

@@ -181,7 +181,12 @@ function connectSocketGame(){
 	socket.on('connect',function(){
 		socket.emit('addConnection');
 	});
-
+	socket.on("winner", function(){
+		window.location.href = "/winner";
+	});
+	socket.on("loser", function(){
+		window.location.href = "/loser";
+	});
 	socket.on("updateMap", function(args){
 		match.turn = args.nickTurn;
 		stage.doUpdateMap(args, match, graph); //actualiza juego, grafo
@@ -200,8 +205,19 @@ function connectSocketGame(){
 			if(args.stage=='Atack' || args.stage=='Move'){
 				setClick(clickTwoTerritorys);
 				if(args.stage=='Atack' ){
-					auxPlayer=searchPlayer(match.listPlayer,match.turn);
+					var auxPlayer=searchPlayer(match.listPlayer,match.turn);
 	       			auxPlayer.lastTerritorysConquers=0;
+	       			if(args.losers){
+	       				for (var i = 0; i < args.losers.length; i++) {
+	       					var nickLoser=args.losers[i];
+	       					for (var i = 0; i < listPlayer.length; i++) {
+	       						if(listPlayer[i].nick==nickLoser){
+	       							listPlayer.splice(i,1);
+	       							i--;
+	       						}
+	       					}
+	       				}
+	       			}
 	       		}
 			}
 			if(args.stage == 'changeCards'){
@@ -243,10 +259,7 @@ function connectSocketGame(){
 			}
 
 		}
-		//if(isMyTurn()){
-		//loadTurnItem();
 		changeColorTurn();
-		//}
 	});
 }
 

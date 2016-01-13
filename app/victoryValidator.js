@@ -31,7 +31,8 @@ var victoryValidatorWorldDomination = function(){
 		var losers=[];
 		var aux={};
 		for (var i = 0; i < listPlayer.length; i++){
-			aux[listPlayer[i].nick]=0;
+			if(listPlayer[i])
+				aux[listPlayer[i].nick]=0;
 		}
 		var territorys= graphPtr.nodes();
 		for (var i = 0; i < territorys.length; i++) {
@@ -41,8 +42,10 @@ var victoryValidatorWorldDomination = function(){
 			}	
 		}
 		for (var i = 0; i < listPlayer.length; i++){
-			if(aux[listPlayer[i].nick]==0){
-				losers.push(listPlayer[i].nick);
+			if(listPlayer[i]){
+				if(aux[listPlayer[i].nick]==0){
+					losers.push(listPlayer[i].nick);
+				}
 			}
 		}
 

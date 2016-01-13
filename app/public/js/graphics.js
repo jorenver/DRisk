@@ -22,8 +22,8 @@ var graphicsCard = function(){
 		var group = new paperScopeCard.Group();
 
 		//draw a rectangle to form the card
-        var x = paperScopeCard.view.size.width/2;
-        var y = paperScopeCard.view.size.height/2;
+        var x = 150;
+        var y = 175;
 
 
 		var rect = new paperScopeCard.Rectangle(0, 0, 150, 175);
