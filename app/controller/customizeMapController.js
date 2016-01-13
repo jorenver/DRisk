@@ -10,7 +10,7 @@ exports.saveFileSVG = function(request,response){
 	var svgString = request.body.svg;
 	var fileName =  "mapConfigured"  + getDateTime() + ".svg";
 	fs.writeFile(path.resolve(__dirname,fileName),svgString, function (err) {
-        if (err) console(err);
+        if (err) console.log(err);
         console.log('Saved!');
     });
     response.json({fileName: fileName});

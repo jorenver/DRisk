@@ -48,6 +48,9 @@ var ConfigurationTool = function(paper){
 
 	this.setOption = function(option){
 		this.currentOption = option;
+		if(this.currentOption.id == "optLink"){
+			this.currentOption.getEdges();
+		}
 	}
 
 	this.setContinents = function(continents){

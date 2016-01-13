@@ -4,6 +4,7 @@ var DragAndDropOption = function(paper,id){
 	this.paper = paper;
 	this.id = id;
 	this.target = null;
+	this.util = new Util()
 
 	this.configure = function(args){
 		var eventMouse = args.event;
@@ -22,14 +23,8 @@ var DragAndDropOption = function(paper,id){
 		target.off('click');
 	}
 
-	this.lightContinent = function(continent){
-		continent.shadowColor = "blue"
-		continent.shadowBlur = 15;
-		continent.shadowOffset = new self.paper.Point(0, 0);
-	}
-
 	this.mouseDown = function(event){
-		self.lightContinent(event.target);
+		self.util.lightContinent(event.target);
 	}
 
 	this.mouseUp= function(event){
@@ -60,6 +55,7 @@ var RemoveOption = function(paper,id){
 	this.paper = paper;
 	this.id = id;
 	this.target = null;
+	this.continents = null;
 
 	this.configure = function(args){
 		console.log("remove a continent!");
@@ -80,6 +76,13 @@ var RemoveOption = function(paper,id){
 	this.removeContinent = function(event){
 		self.target.remove();
 		self.reset();
+		for (var i = self.continents.length - 1; i >= 0; i--) {
+			if( self.continents[i].data.id == self.target.data.id ){
+				self.continents[i].splice(i, 1);			
+				break
+			}
+		};
+
 	}
 
 	this.reset = function(){
@@ -106,7 +109,7 @@ var RemoveOption = function(paper,id){
 	}
 
 	this.setContinents = function(continents){
-
+		this.continents = continents;
 	}
 
 }
@@ -174,12 +177,6 @@ var DivideTerritoriesOption = function(paper,id){
 		this.util = new Util();
 	}
 
-	this.lightContinent = function(continent){
-		continent.shadowColor = "blue"
-		continent.shadowBlur = 15;
-		continent.shadowOffset = new self.paper.Point(0, 0);
-	}
-
 	this.defineContinent = function (event){
 		self.target = event.target;
 		self.startPoint = null;
@@ -225,7 +222,7 @@ var DivideTerritoriesOption = function(paper,id){
 	this.mouseMove = function(event){
 		console.log("mouse move");
 		var point = self.getNearestPoint(event.target,event.point);
-		self.lightContinent(event.target);
+		self.util.lightContinent(event.target);
 		if(point){
 			self.pointerReference.bringToFront();
 			self.pointerReference.position = point;
@@ -342,13 +339,29 @@ var RedrawEdgesOption = function(paper,id){
 		console.log("redraw edges of territories");
 		var eventMouse = args.event;
 		this.target = eventMouse.target;
-		//this.target.selected = true;
-		this.target.on('mousedown',this.mouseDown);
-		this.target.on('mousedrag',this.mouseDrag);
-		this.target.on('mouseup',this.mouseUp);
-		//this.target.on('mouseenter',this.mouseEnter);
-		//this.target.on('mouseleave',this.mouseLeave);
+		this.target.on('click',this.mouseClick);
 		this.util = new Util();
+	}
+
+	this.mouseClick = function(event){
+		console.log("mouse click")
+		self.removeEventsHandle(self.target);
+		self.util.lightContinent(self.target);
+		self.target.on('mouseenter',self.mouseEnter)
+		self.target.on('mouseleave',self.mouseLeave)
+		self.target.on('mousedown',self.mouseDown);
+		self.target.on('mousedrag',self.mouseDrag);
+		self.target.on('mouseup',self.mouseUp);
+	}
+
+	this.removeEventsHandle = function(target){
+		target.off('mouseenter');
+		target.off('mouseleave');
+		target.off('mousedrag');
+		target.off('mousedown');
+		target.off('mouseup');
+		target.off('mousemove');
+		target.off('click');
 	}
 
 	this.mouseDown = function(event){
@@ -395,14 +408,14 @@ var RedrawEdgesOption = function(paper,id){
 		var point = event.point;
 		var array = self.getNearestPaths(self.target,point);
 		var pathCloser = array[0].path;
-		pathCloser.selected = true;
+		//pathCloser.selected = true;
 	}
 
 	this.mouseLeave = function(event){
 		var point = event.point;
 		var array = self.getNearestPaths(self.target,point);
 		var pathCloser = array[0].path;
-		pathCloser.selected = false;
+		//pathCloser.selected = false;
 	}
 
 	this.getNearestPaths = function(compoundPath,point){
@@ -442,19 +455,26 @@ var LinkTerritoriesOption = function(paper,id){
 	var self = this;
 	this.paper = paper;
 	this.id = id;
-	this.edges = {}
+	this.edges = null
 	this.continents = null;
 	this.target = null;
+	this.graph = {}
 
 	this.configure = function(args){
 		console.log("links continents");
 		this.target = args.event.target;	
-		this.getEdges();	
-		this.target.off('click');
-		this.target.off('mousemove');
-		this.target.on('click',this.selectTerritory);
-		console.log(this.target);
+		this.removeEventsHandle(this.target);
+		//this.target.shadowColor = null;
+		this.target.on('click',self.selectTerritory);
 		this.util = new Util();
+	}
+
+	this.removeEventsHandle = function(target){
+		target.off('mousedrag');
+		target.off('mousedown');
+		target.off('mouseup');
+		target.off('mousemove');
+		target.off('click');
 	}
 
 	this.getContinent = function(id){
@@ -466,10 +486,65 @@ var LinkTerritoriesOption = function(paper,id){
 		return null;
 	}
 
+	this.generateNodeGraph = function(){
+		//debe ejecutarse solamente una vez
+		this.graph["Nodes"] = []
+		var continent;
+		var continentID;
+		var territories;
+		var territoryID;
+		for (var i =0 ; i < this.continents.length ; i++){
+			continent = this.continents[i]
+			continentID = continent.data.id
+			territories = continent.children;
+			for(var j = 0 ; j < continent.children.length; j++){
+				territoryID = continentID + j
+				territories[j].data.id = territoryID
+				this.graph.Nodes.push({"id": territoryID ,"continent": continentID });
+			}
+		}
+		this.graph["Edges"] = []
+		this.generateEdgeGraph();
+	}
+
+	this.getNeighbourhood = function(territory,territories){
+		var neighbourhood = []
+		for(var i = 0 ; i < territories.length ; i++){
+			if(territories[i].data.id == territory.data.id){
+				continue;
+			}
+			if(territory.intersects(territories[i])){
+				neighbourhood.push(territories[i]);
+			}
+		}
+		return neighbourhood;
+	}
+
+	this.generateEdgeGraph = function(){
+		var continent,territory , neighbourhood;
+		for (var i =0 ; i < this.continents.length ; i++){
+			continent = this.continents[i];
+			territories = continent.children;
+			for(var j = 0 ; j < territories.length; j++){
+				territory = territories[j];
+				neighbourhood = this.getNeighbourhood(territory,territories);
+				for(var k = 0 ; k < neighbourhood.length ; k++){
+					this.createEdge(territory.data.id,neighbourhood[k].data.id);
+				}
+			}
+		}
+		console.log(this.graph);
+	}
+
 	this.getEdges = function(){
+		console.log("get edges");
 		var svgPath;
 		var id;
 		var continentsID = ["NorthAmerica","SouthAmerica","Africa","Europe","Oceania"]
+		if(this.edges != null){
+			return
+		}
+		this.edges = {}
 		for(var i = 0 ; i < continentsID.length  ;i++){
 			id = continentsID[i];
 			svgPath = "../svg/" +  id + ".svg";
@@ -489,6 +564,7 @@ var LinkTerritoriesOption = function(paper,id){
 				}
 			});
 		}
+		console.log(self.edges);
 	}
 
 	this.transformEdge = function(edge,continent){
@@ -519,8 +595,16 @@ var LinkTerritoriesOption = function(paper,id){
 	}
 
 	this.selectTerritory = function(event){
+		console.log("select territory");
 		var point = event.point;
-		var territory = self.getPathCloser(self.target,point).clone(); //get territory closer to the poing
+		var territory = self.getPathCloser(self.target,point); //get territory closer to the poing
+		if(!territory){
+			return
+		}
+		territory = territory.clone();
+		if(!self.target.data){
+			return
+		}
 		var idContinent = self.target.data.id;
 		var continentParent;
 
@@ -543,20 +627,29 @@ var LinkTerritoriesOption = function(paper,id){
 			var vectorTwo = self.getNormalVector(territoryLink,continentLink);
 			var dif = Math.abs(vectorTwo.angle - vectorOne.angle);
 			if(dif >0 && dif < 90){
-				alert("you cannot link that territory" + dif)
+				alert("you cannot link that territory" )
 			}else{
-				alert("territorios que se pueden unir" + dif);
-				territory.remove();
-				territory.fillColor = "red";
-				self.paper.project.activeLayer.addChild(territory);
-				territoryLink.remove();
-				territoryLink.fillColor = self.generateColor();
-				self.paper.project.activeLayer.addChild(territoryLink);
-				//generate adjacents from path to territoryLink 
+				alert("joins territories");
+				var from = self.getCentroid(territory);
+				var to = self.getCentroid(territoryLink);
+				var line = new self.paper.Path.Line(from, to);
+				line.strokeColor = 'red';
+				line.strokeWidth = 5;
+				line.dashArray = [10, 4];
+				//generate adjacents from territory to territoryLink and back
+				var source = territory.data.id;
+				var destiny = territoryLink.data.id;
+				self.createEdge(source,destiny);
+				self.createEdge(destiny,source);
+				
 			}
 		}else{
 			alert("it is not a territory in the edge");
 		}
+	}
+
+	this.createEdge = function(source,destiny){
+		this.graph["Edges"].push({ "U" : source ,"V" : destiny });
 	}
 
 	this.getNormalVector = function(territory,parentContinent){
@@ -576,7 +669,7 @@ var LinkTerritoriesOption = function(paper,id){
 			normal.x = - normal.x;
 			normal.y = - normal.y;
 		}
-		this.drawNormalVector(normal,point);//draw vector;
+		//this.drawNormalVector(normal,point);//draw vector;
 		return normal;
 	}
 
@@ -662,12 +755,13 @@ var LinkTerritoriesOption = function(paper,id){
 	this.disable = function(){
 		$("#"+this.id).css("background-color","rgba(0,0,96, 1)");
 		if(this.target){
-			this.target.off('click');
+			this.removeEventsHandle(this.target);
 		}
 	}
 
 	this.setContinents = function(continents){
 		this.continents = continents;
+		this.generateNodeGraph();
 	}
 
 }

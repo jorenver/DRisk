@@ -164,6 +164,7 @@ var HandleDrop = function(){
 		});
 		var canvas = document.getElementById("drawerMap");
 		canvas.dispatchEvent(loadMapEvent);
+		//configurationWorker.configurationTool.setContinents(configurationWorker.mapsContinents);
 		return false;
 	}
 }
@@ -217,6 +218,11 @@ var Util = function(){
 		green = Math.floor(Math.random()*255 + 1);
 		blue = Math.floor(Math.random()*255 + 1);
 		return new paper.Color(red/max, green/max, blue/max);
+	}
+
+	this.lightContinent = function(continent){
+		continent.shadowColor = "blue"
+		continent.shadowBlur = 15;
 	}
 
 }
