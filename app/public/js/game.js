@@ -12,6 +12,7 @@ var mapGroup;
 var soldierItem;
 var turnItem;
 var paperMapScope;
+var dicesPaths=[];
 
 
 //objects to draw in other scopes
@@ -122,16 +123,15 @@ function clickTwoTerritorys(territoryPath){
 		});
 
 		if(value){
-			LightenDarkenColorTerritory(territorysSelected[0],-100);
+			LightenDarkenColorTerritory(territorysSelected[0],0);
 			if(stage.stageName!='Move'){
-				//LightenDarkenColorNeighborsTerritory(territorysSelected[0],-50);
 				socket.emit("doMove", {nick: nick, idMatch: idMatch, idTerritory1: territorysSelected[0],idTerritory2: territorysSelected[1] } );
 			}else{
 				openMove();
 			}
 		}
 		else{
-			LightenDarkenColorTerritory(territorysSelected[0],-100);
+			LightenDarkenColorTerritory(territorysSelected[0],0);
 			//LightenDarkenColorNeighborsTerritory(territorysSelected[0],-50);
 			territorysSelected[0]=null;
 			territorysSelected[1]=null;
@@ -184,9 +184,10 @@ function connectSocketGame(){
 		console.log("Recibo esto", args);
 
 		redraw(args, stage.drawAction);
-
+		updateViewStage();
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
+			updateViewStage();
 			// alert('Estado: '+args.stage);
 			if(args.stage=='Reforce'){
 				var url = "/getNumSoldier?nick="+match.turn;
@@ -195,7 +196,6 @@ function connectSocketGame(){
 		        request.addEventListener('load',procesarNumSolidier, false);
 		        request.open("GET",url, true);
 		        request.send(null);
-		        $("#reforceAction").css('background-color','#43888e');
 		        setClick(clickTerritory);
 			}	
 			if(args.stage=='Atack' || args.stage=='Move'){
@@ -245,7 +245,8 @@ function connectSocketGame(){
 
 		}
 		//if(isMyTurn()){
-			loadTurnItem();
+		//loadTurnItem();
+		changeColorTurn();
 		//}
 	});
 }
@@ -317,6 +318,7 @@ function redraw(args, drawAction){
 		territoryPath2.data.numSoldier=territory2.numSoldier;
 		var lastPlayer2 = searchPlayer(match.listPlayer,territory2.owner);
 		updateTerritoryAttack(territoryPath2,lastPlayer2.color.code);
+
 	}
 
 }
@@ -414,9 +416,7 @@ function loadMatch(event){
 	//cargar el grafo
 	var strMap = match.map.graph;
 	graph = new graphlib.json.read(strMap);
-	if(player && turnItem){
-		turnItem.fillColor = player.color.code;
-	}
+	updateViewStage();
 }
 
 function getMatch(){
@@ -445,6 +445,7 @@ function initialize(event){
 	//Ocultar.addEventListener('click',closeBattle);
 	moveAction.addEventListener("click",buttonMove,false);
 	reciveCardsAction.addEventListener("click",buttonRecive,false);
+	//updateViewStage();
 
 }
 
@@ -456,6 +457,7 @@ function initLibPaper(url){
     paperMapScope.setup(canvas);
 	loadSVGMap(url);
 	loadSoldierItem();
+	loadDicesItems();
 	paperMapScope.view.draw();// Draw the view now:
 
 }
@@ -471,8 +473,9 @@ function loadSVGMap(file){
 			mapGroup.scale(0.70);
 			mapGroup.position = new paperMapScope.Point(paperMapScope.view.size.width/2, paperMapScope.view.size.height/2);
 			setClick(clickTerritory);
-			loadTurnItem();
-			paperMapScope.view.on('frame',animationOn);
+			//loadTurnItem();
+			changeColorTurn()
+			//paperMapScope.view.on('frame',animationOn);
 		}
 	});
 }
@@ -567,7 +570,7 @@ function clickTerritory(territoryPath){
 function buttonMove(){
 	if(isMyTurn() && stage.stageName=="Atack"){
 		if(territorysSelected[0]){
-			LightenDarkenColorTerritory(territorysSelected[0],-100);
+			LightenDarkenColorTerritory(territorysSelected[0],0);
 			territorysSelected[0]=null;
 			territorysSelected[1]=null;
 		}
@@ -581,7 +584,7 @@ function buttonMove(){
 function buttonRecive(){
 	if(isMyTurn() && stage.stageName=="Move"){
 		if(territorysSelected[0]){
-			LightenDarkenColorTerritory(territorysSelected[0],-100);
+			LightenDarkenColorTerritory(territorysSelected[0],0);
 			territorysSelected[0]=null;
 			territorysSelected[1]=null;
 		}
@@ -603,6 +606,17 @@ function loadSoldierItem(){
 	});
 }
 
+function loadDicesItems(){
+	//load a svg and it transforms to item
+	for (var i = 1; i <=6 ; i++) {
+		paperMapScope.project.importSVG('../svg/Dice'+i+'.svg',function(dice){
+			dicesPaths.push(dice);
+			dice.remove();
+		});
+	}
+	
+}
+/*
 function loadTurnItem(){
 	//load a textitem with information about turn
 	var x,y;
@@ -641,6 +655,50 @@ function turnAnimation(){
 			turnItem.visible = false;
 			turnItem.remove();
 		}
+	}
+}
+*/
+function changeColorTurn(){
+	viewTurn.innerHTML=match.turn;
+	viewTurn.style.color=searchPlayer(match.listPlayer,match.turn).color.code;
+	var players=$( ".row-table-nick");
+	for (var i = 0; i < players.length; i++) {
+		if(players[i].innerHTML==match.turn){
+			players[i].style.color=searchPlayer(match.listPlayer,match.turn).color.code;
+		}else{
+			players[i].style.color="black";
+		}
+	};
+}
+
+function updateViewStage(){
+	//$("#reforceAction").css('background-color','#43888e');
+	$(".actionButton").css('background-color','#000096');
+	//$('.actionButton').attr('disabled', true);
+	
+	if(stage.stageName=="Select"){
+		viewStage.innerHTML="Select Territory";
+		selectAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
+	}
+	if(stage.stageName=="Reforce"){
+		viewStage.innerHTML="Reforce Territory";
+		reforceAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
+	}
+	if(stage.stageName=="Atack"){
+		viewStage.innerHTML="Attack Territory";
+		attackAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
+	}
+	if(stage.stageName=="Move"){
+		viewStage.innerHTML="Move Soldier";
+		moveAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
+	}
+	if(stage.stageName=="changeCards"){
+		viewStage.innerHTML="Change Cards";
+		changeAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
+	}
+	if(stage.stageName=="receiveCard"){
+		viewStage.innerHTML="Receive Card";
+		reciveCardsAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
 	}
 }
 

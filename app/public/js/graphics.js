@@ -265,3 +265,100 @@ var graphicsChangeCards = function(){
 }
 
 
+
+var graphicsBattle= function(){
+
+    this.paperScopeBattle;
+
+    this.initializeScope = function(){
+        
+        var canvas = document.getElementById('content_battle_canvas');
+          
+        var paperScopeBattle = new paper.PaperScope();
+        paperScopeBattle.setup(canvas);
+        this.paperScopeBattle = paperScopeBattle;
+
+
+
+    }
+
+    this.drawBattle = function(args){
+
+        var paperScopeBattle = this.paperScopeBattle;
+        var group = new paperScopeBattle.Group();
+        var nodeTerritory1 = graph.node(args.idTerritory1);
+        var nodeTerritory2 = graph.node(args.idTerritory2);
+
+        var text = new paperScopeBattle.PointText(new paperScopeBattle.Point(200, 30));
+        text.fillColor = 'black';
+        text.fontSize=30;
+        text.content = 'Battle ';
+
+        var textAttaker = new paperScopeBattle.PointText(new paperScopeBattle.Point(70, 50));
+        textAttaker.fillColor = 'black';
+        textAttaker.content = nodeTerritory1.owner;
+
+        var textAttakerTerritory = new paperScopeBattle.PointText(new paperScopeBattle.Point(70, 70));
+        textAttakerTerritory.fillColor = 'black';
+        textAttakerTerritory.content ="Territory: "+ args.idTerritory1;
+
+        var territoryPath1 = searchTerritory(mapGroup.children,args.idTerritory1);
+        var territory1 = territoryPath1.clone();
+        territory1.remove();
+        territory1.scale(1);
+        territory1.position.x = 90;
+        territory1.position.y = 150;
+        paperScopeBattle.project.activeLayer.addChild(territory1);
+
+        var textAttaker = new paperScopeBattle.PointText(new paperScopeBattle.Point(310, 50));
+        textAttaker.fillColor = 'black';
+        textAttaker.content = nodeTerritory2.owner;
+
+        var textDefenderTerritory = new paperScopeBattle.PointText(new paperScopeBattle.Point(310, 70));
+        textDefenderTerritory.fillColor = 'black';
+        textDefenderTerritory.content = "Territory: "+args.idTerritory2;
+        
+        var territoryPath2 = searchTerritory(mapGroup.children,args.idTerritory2);
+        //var lastPlayer2 = searchPlayer(match.listPlayer,nodeTerritory2.owner);
+        var territory2 = territoryPath2.clone();
+        territory2.remove();
+        territory2.scale(1);
+        //territory2.fillColor=lastPlayer2.color.code;
+        territory2.position.x = 330;
+        territory2.position.y = 150;
+        paperScopeBattle.project.activeLayer.addChild(territory2);
+        
+        for (var i = 0; i < args.dice1.length; i++) {
+            dice=dicesPaths[args.dice1[i]-1].clone();
+            dice.remove();
+            dice.scale(0.5);
+            dice.position.x = 50*(i+1);
+            dice.position.y = 250;
+            paperScopeBattle.project.activeLayer.addChild(dice);
+
+        };
+
+        for (var i = 0; i < args.dice2.length; i++) {
+            dice=dicesPaths[args.dice2[i]-1].clone();
+            dice.remove();
+            dice.scale(0.5);
+            dice.position.x = 330+50*(i+1);
+            dice.position.y = 250;
+            paperScopeBattle.project.activeLayer.addChild(dice);
+
+        };
+        
+        paperScopeBattle.view.draw();
+
+
+    }
+
+    this.cleanScope = function(){
+        this.paperScopeBattle.project.activeLayer.removeChildren();
+    }
+
+
+
+}
+
+

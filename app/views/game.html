@@ -33,24 +33,35 @@
 	<div class="gameWrapper u-flex-column u-align-center">
 		<div class="barWrapper u-flex-row u-justify-center">
 			<div class="barOption">
-				<span>Cards</span>
 				<img src="../img/cards.jpg" width="45px" height="45px">
-				<!--<span>0</span>-->
+				<span>Cards: </span>
+				<span id="viewNumCards: ">0</span>
 			</div>
 			<div class="barOption">
-				<span>Soldiers</span>
 				<img src="../svg/soldierIcon.svg" width="45px" height="45px" />
-				<span id="soldierNum"></span>
+				<span>Soldiers: </span>
+				<span id="soldierNum: ">0</span>
+			</div>
+			<div class="barOption" >
+				<img src="../svg/soldier-01.svg" width="45px" height="45px" />
+				<span margin-top="10px">Turn: </span>
+				<span id="viewTurn" margin-top="10px"></span>
+			</div>
+			<div class="barOption" >
+				<img src="../img/situacion.png" width="45px" height="45px" />
+				<span margin-top="10px">Stage: </span>
+				<span id="viewStage" margin-top="10px"></span>
 			</div>
 		</div>
-		<div class="u-flex-column">
+		<div class="u-flex-column u-align-center">
 			<div class="mapWrapper u-flex-row u-align-center">
 				<table id ="listPlayer" class="listPlayerWrapper">
 				</table >
 				<canvas id="myCanvas" width="900" height="500"></canvas>
 			</div>
 			<div class="actionWrapper u-flex-row u-justify-center">
-				<input id="" type="button" class="actionButton" value="Change">
+				<input id="changeAction" type="button" class="actionButton" value="Change">
+				<input id="selectAction" type="button" class="actionButton" value="Select">
 				<input id="reforceAction" type="button" class="actionButton" value="Reforce">
 				<input id="attackAction" type="button" class="actionButton" value="Attack">
 				<input id="moveAction" type="button" class="actionButton" value="Move" >
