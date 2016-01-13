@@ -1,0 +1,364 @@
+{
+  "Graph": {
+    "Nodes": [
+      {
+        "id": "NorthAmerica0",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica1",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica2",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica3",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica4",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica5",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica6",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica7",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica8",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica9",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "SouthAmerica0",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica1",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica2",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica3",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica4",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica5",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica6",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica7",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica8",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica9",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica10",
+        "continent": "SouthAmerica"
+      }
+    ],
+    "Edges": [
+      {
+        "U": "NorthAmerica1",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica1",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica1",
+        "V": "NorthAmerica8"
+      },
+      {
+        "U": "NorthAmerica2",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica2",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica2",
+        "V": "NorthAmerica5"
+      },
+      {
+        "U": "NorthAmerica2",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica1"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica2"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica8"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica1"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica2"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica8"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica5",
+        "V": "NorthAmerica2"
+      },
+      {
+        "U": "NorthAmerica5",
+        "V": "NorthAmerica6"
+      },
+      {
+        "U": "NorthAmerica5",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica6",
+        "V": "NorthAmerica5"
+      },
+      {
+        "U": "NorthAmerica6",
+        "V": "NorthAmerica7"
+      },
+      {
+        "U": "NorthAmerica6",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica7",
+        "V": "NorthAmerica6"
+      },
+      {
+        "U": "NorthAmerica7",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica8",
+        "V": "NorthAmerica1"
+      },
+      {
+        "U": "NorthAmerica8",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica8",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica8",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica2"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica5"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica6"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica7"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica8"
+      },
+      {
+        "U": "SouthAmerica0",
+        "V": "SouthAmerica1"
+      },
+      {
+        "U": "SouthAmerica0",
+        "V": "SouthAmerica2"
+      },
+      {
+        "U": "SouthAmerica0",
+        "V": "SouthAmerica5"
+      },
+      {
+        "U": "SouthAmerica0",
+        "V": "SouthAmerica7"
+      },
+      {
+        "U": "SouthAmerica1",
+        "V": "SouthAmerica0"
+      },
+      {
+        "U": "SouthAmerica1",
+        "V": "SouthAmerica2"
+      },
+      {
+        "U": "SouthAmerica1",
+        "V": "SouthAmerica5"
+      },
+      {
+        "U": "SouthAmerica1",
+        "V": "SouthAmerica7"
+      },
+      {
+        "U": "SouthAmerica2",
+        "V": "SouthAmerica0"
+      },
+      {
+        "U": "SouthAmerica2",
+        "V": "SouthAmerica1"
+      },
+      {
+        "U": "SouthAmerica2",
+        "V": "SouthAmerica7"
+      },
+      {
+        "U": "SouthAmerica3",
+        "V": "SouthAmerica4"
+      },
+      {
+        "U": "SouthAmerica3",
+        "V": "SouthAmerica6"
+      },
+      {
+        "U": "SouthAmerica4",
+        "V": "SouthAmerica3"
+      },
+      {
+        "U": "SouthAmerica4",
+        "V": "SouthAmerica5"
+      },
+      {
+        "U": "SouthAmerica4",
+        "V": "SouthAmerica6"
+      },
+      {
+        "U": "SouthAmerica5",
+        "V": "SouthAmerica0"
+      },
+      {
+        "U": "SouthAmerica5",
+        "V": "SouthAmerica1"
+      },
+      {
+        "U": "SouthAmerica5",
+        "V": "SouthAmerica4"
+      },
+      {
+        "U": "SouthAmerica5",
+        "V": "SouthAmerica6"
+      },
+      {
+        "U": "SouthAmerica5",
+        "V": "SouthAmerica7"
+      },
+      {
+        "U": "SouthAmerica5",
+        "V": "SouthAmerica8"
+      },
+      {
+        "U": "SouthAmerica6",
+        "V": "SouthAmerica3"
+      },
+      {
+        "U": "SouthAmerica6",
+        "V": "SouthAmerica4"
+      },
+      {
+        "U": "SouthAmerica6",
+        "V": "SouthAmerica5"
+      },
+      {
+        "U": "SouthAmerica6",
+        "V": "SouthAmerica7"
+      },
+      {
+        "U": "SouthAmerica7",
+        "V": "SouthAmerica0"
+      },
+      {
+        "U": "SouthAmerica7",
+        "V": "SouthAmerica1"
+      },
+      {
+        "U": "SouthAmerica7",
+        "V": "SouthAmerica2"
+      },
+      {
+        "U": "SouthAmerica7",
+        "V": "SouthAmerica5"
+      },
+      {
+        "U": "SouthAmerica7",
+        "V": "SouthAmerica6"
+      },
+      {
+        "U": "SouthAmerica8",
+        "V": "SouthAmerica5"
+      }
+    ]
+  }
+}

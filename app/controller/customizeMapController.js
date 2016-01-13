@@ -1,6 +1,10 @@
 var fs = require('fs');
+var jsonfile = require('jsonfile');
+jsonfile.spaces = 2;
 var path = require('path');
-var __dirname = "app/public/svg/";
+var __dirnameSVG = "app/public/svg/";
+var __dirnameJSON = "app/public/JSON/";
+
 
 exports.customizeMap = function(request,response){
 	response.render("customizeMap.html");
@@ -9,10 +13,17 @@ exports.customizeMap = function(request,response){
 exports.saveFileSVG = function(request,response){
 	var svgString = request.body.svg;
 	var fileName =  "mapConfigured"  + getDateTime() + ".svg";
-	fs.writeFile(path.resolve(__dirname,fileName),svgString, function (err) {
+    var graphJSON = request.body.graph;
+    //save svg file
+	fs.writeFile(path.resolve(__dirnameSVG,fileName),svgString, function (err) {
         if (err) console.log(err);
-        console.log('Saved!');
+        console.log('Saved svg file!');
     });
+    //save json file
+    jsonfile.writeFile(__dirnameJSON + "configured.json",{ Graph: graphJSON } ,function(){
+        console.log("Saved json file!")
+    });
+
     response.json({fileName: fileName});
 }
 

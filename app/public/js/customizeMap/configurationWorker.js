@@ -21,7 +21,6 @@ var ConfigurationWorker = function(){
 
 		this.configurationTool = new ConfigurationTool(this.paper);
 		this.configurationTool.init();
-		buttonAccept.addEventListener('click',this.configurationTool.generateSVG,false);
 	}
 
 	this.registerEvents = function(){
