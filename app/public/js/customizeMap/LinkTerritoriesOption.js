@@ -323,14 +323,39 @@ var LinkTerritoriesOption = function(paper,id){
 				var territory = territory.clone();
 				territory.fillColor = self.util.generateColor();
 				var territoryGroup = new self.paper.Group();
+				territoryGroup.id = territory.data.id;
 				territoryGroup.addChild(territory);
 				territoryGroup.remove();
 				project.activeLayer.addChild(territoryGroup);
 			});
 		});		
-		var fileName = "mapContinents.svg";
 		var graph = self.graph;
-		var svgString = project.exportSVG({asString:true});
+		var svgObject = project.exportSVG();//convert group paper in node html
+		svgObject = formatToSVG(svgObject);//change hierarchy of the node
+		var serializer = new XMLSerializer();
+		var svgString = serializer.serializeToString(svgObject);
+		sendMapData(svgString,graph);
+	}
+
+	var formatToSVG = function(svgObject){
+		//change svgObject to specified format to send to the server
+		var groupNode, territoryNode;
+		var data,dataJson;
+		var layer = svgObject.children[0];//
+		var territoriesNode = layer.children;
+		var svgParent = svgObject.cloneNode();
+		for(var i = 0 ; i < territoriesNode.length ; i++){
+			groupNode = territoriesNode[i];
+			territoryNode = groupNode.children[0];
+			data = JSON.parse(territoryNode.getAttribute('data-paper-data'));
+			groupNode.setAttribute("id",data.id);
+			svgParent.appendChild(groupNode.cloneNode(true));
+		}
+		return svgParent;
+	}
+
+
+	var sendMapData = function(svgString,graph){
 		$.ajax({
 	        type: 'POST',
 	        url: '/saveSVG',

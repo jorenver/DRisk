@@ -5,25 +5,16 @@
   display: none;
   flex-direction: column;
   justify-content: start;
-  height: 60%;
-  width: 40%;
+  height: 90%;
+  width: 70%;
   position: fixed;
-  top: 20%;
-  left: 30%;
-  right: 30%;
   z-index: 100;
   border: 3px solid white;
 }
 
-
-#content_traceCard{
-  background: #e2e4e6;
-  width: 95%;
-  height: 70%;
-  margin: 2.5%;
-  color: black;
-  font-family: opcionUno;
-  overflow-y: auto;
+#changeCardsCanvas{
+    border-width: 1px;
+    border: 1px dashed #CCCCCC;
 }
 
 

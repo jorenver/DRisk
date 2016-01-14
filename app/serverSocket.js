@@ -1,5 +1,6 @@
 var model = require('./model/model.js');
 var stage = require('./stateMachineServer.js');
+var validator = require('./victoryValidator.js');
 
 exports.createServerSocket = function(io,sessionMiddleware){
     var clients={};
@@ -20,7 +21,11 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     if(!clients[session.idMatch]){
                         clients[session.idMatch] = [];
                     }
-                    clients[session.idMatch].push(player);
+                    auxSocket=getIdSoket(clients[session.idMatch],session.nick);
+                    if(auxSocket==-1)
+                        clients[session.idMatch].push({nick:session.nick,socket:player});
+                    else
+                        clients[session.idMatch][auxSocket]={nick:session.nick,socket:player};
                 }
             });
 
@@ -31,7 +36,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 if(sockets){
                     //we can get one specific socket by id
                     for (i in sockets){
-                        if(sockets[i].id == player.id){
+                        if(sockets[i].nick == session.nick){
                             console.log("se borro conexion")
                             delete sockets[i];
                         }
@@ -62,6 +67,10 @@ exports.createServerSocket = function(io,sessionMiddleware){
 
             player.on("startGame", function(data){
                 var currentMatch = model.Matches[session.idMatch];
+                if(currentMatch.mode=="World Domination"){
+                    currentMatch.validator= new validator.victoryValidatorWorldDomination(); 
+                    console.log('xxxxxxxx Se Agrega el Validador xxxxxxx '+ currentMatch.validator)
+                }
                 currentMatch.stateMatch='playing';
                 var listPlayer = currentMatch.listPlayer;
                 suffle(listPlayer); //suffle the list of players
@@ -78,10 +87,9 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     5 players= 25 soldier
                     6 players= 20 soldier
                 */
-                //numSoldier=50-5*listPlayer.length;
+                numSoldier=50-5*listPlayer.length;
 
                 numSoldier = 3;
-
                 console.log('++++++++++++++++++number of soilder for each player:', numSoldier)
                 
                 for(p in listPlayer){
@@ -90,7 +98,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 
                 var playersSocket = clients[session.idMatch];
                 for(p in playersSocket){
-                    playersSocket[p].emit('playerStart');
+                    playersSocket[p].socket.emit('playerStart');
                 }
             });
 
@@ -111,6 +119,17 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 }
                 nextState=currentMatch.stage.validateChangeStage(currentMatch, args);//get name of next stage
                 var data=currentMatch.stage.buildData(args,playerTurn,nextState);
+                if(currentMatch.stage.stageName=="Atack"){
+                    var validator=currentMatch.validator;
+                    data.winner=validator.getWinner(currentMatch);
+                    data.losers = validator.getLosers(currentMatch);
+                    console.log('XXXXXXXXXXXXX Perdedores '+data.losers);
+                }
+                if(data.winner){
+                    console.log('%%%%%%%%%% el ganado es '+data.winner);
+                }else{
+                    console.log('%%%%%%%%%% no hay ganador');
+                }
                 if(currentMatch.stage.stageName!=nextState){ // only if is neceray change stage
                     currentMatch.stage=currentMatch.stage.nextStage();
                     currentMatch.stage.initStage(currentMatch);
@@ -120,22 +139,72 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     console.log("mantengo mi estado");
                 }
                 for(p in playersSocket){
-                    playersSocket[p].emit('updateMap', data);
+                    playersSocket[p].socket.emit('updateMap', data);
                 }
+                if(data.losers){
+                    for (var i = 0; i < data.losers.length; i++) {
+                        var sockets = clients[session.idMatch];//it gets all the clients has joined to this match
+                        if(sockets){
+                            //we can get one specific socket by id
+                            for (j in sockets){
+                                if(sockets[j].nick == data.losers[i]){
+                                    console.log("se borro conexion por perdedor");
+                                    sockets[j].socket.emit('loser');
+                                    sockets.splice(j,1);
+                                    j--;
+                                }
+                            }
+                            for (j in currentMatch.listPlayer){
+                                if(currentMatch.listPlayer[j].nick==data.losers[i]){
+                                    console.log("se borro el player por perdedor");
+                                    currentMatch.listPlayer.splice(j,1);
+                                    j--;
+
+                                }
+                            }
+                        }
+                    }
+                }
+                if(data.winner){
+                    var sockets = clients[session.idMatch];//it gets all the clients has joined to this match
+                    if(sockets){
+                        //we can get one specific socket by id
+                        for (j in sockets){
+                            if(sockets[j].nick == data.winner){
+                                console.log("se borro conexion por Ganador");
+                                sockets[j].socket.emit('winner');
+                                sockets.splice(j,i);
+                                j--;
+                            }
+                        }
+                    }
+                }
+
             });
         }
     });
 
 }
 
-    function suffle(input){
+function suffle(input){
+     
+    for (var i = input.length-1; i >=0; i--) {
+     
+        var randomIndex = Math.floor(Math.random()*(i+1)); 
+        var itemAtIndex = input[randomIndex]; 
          
-        for (var i = input.length-1; i >=0; i--) {
-         
-            var randomIndex = Math.floor(Math.random()*(i+1)); 
-            var itemAtIndex = input[randomIndex]; 
-             
-            input[randomIndex] = input[i]; 
-            input[i] = itemAtIndex;
-        }
+        input[randomIndex] = input[i]; 
+        input[i] = itemAtIndex;
     }
+}
+
+function getIdSoket(list,nick){
+    var pos=-1; 
+    for (var i = 0; i <list.length; i++) {
+        if(list[i]==null)
+            return pos=i;
+        else if(list[i].nick==nick)
+            return i;
+    }
+    return pos;
+}

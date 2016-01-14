@@ -147,8 +147,7 @@ var selectTerritory = function(){
 function calculateNumReforces(match){
     /*
         number territorys -- numSoldiers
-        1  a  8 -- 3
-        9  a 11 -- 3
+        1  a 11 -- 3
         12 a 14 -- 4
         15 a 17 -- 5
         18 a 20 -- 6
@@ -159,18 +158,46 @@ function calculateNumReforces(match){
         33 a 35 -- 11
         36 a 38 -- 12
         37 a 39 -- 13
-
-        per continet
-        
-        Africa 3
-        oceania 2
-        Asia 7
-        Eruropa 5
-        America Norte 5
-        America del Sur 2
-
+        *Africa -- 3
+        oceania -- 2
+        *Asia --   7
+        *Europa -- 5
+        *America Norte -- 5
+        *America del Sur -- 2
     */
-    return 13;
+    var graphPtr = match.map.graph;
+    var Af=3,Oc=2,As=7,Eu=5,An=5,Ams=2;
+    idTerritorys=graphPtr.nodes();
+    var cont=0;
+    for (var i = 0; i < idTerritorys.length; i++) {
+        idTerritory=idTerritorys[i];
+        if(graphPtr.node(idTerritory).owner==match.turn){
+            cont++;
+        }else{
+            if(graphPtr.node(idTerritory).continent=="NorthAmerica")
+                An=0;
+            if(graphPtr.node(idTerritory).continent=="SouthAmerica")
+                Ams=0;
+            if(graphPtr.node(idTerritory).continent=="Africa")
+                Af=0;
+            if(graphPtr.node(idTerritory).continent=="Europe")
+                Eu=0;
+            if(graphPtr.node(idTerritory).continent=="Asia")
+                As=0;
+            if(graphPtr.node(idTerritory).continent=="Oceania")
+                Oc=0;
+        }
+
+    }
+    var num;
+    if(cont <=11){
+        num=3;
+    }else{
+        cont=cont-12;
+        num=((cont-(cont%3))/3)+4;
+    }
+    num=num+An+Ams+Af+Eu+As+Oc;
+    return num;
 }
 
 var reforceTerritory = function(){
@@ -183,7 +210,7 @@ var reforceTerritory = function(){
         player= searchPlayer(listPlayer,match.turn);
         //calcular el numero de soldados
 
-        player.numSoldier=calculateNumReforces();
+        player.numSoldier=calculateNumReforces(match);
     }
 
     this.isChangeTurn= function(){
@@ -320,10 +347,10 @@ var atackTerritory = function(){
                 territoryD.numSoldier=territoryD.numSoldier-1;
                 //console.log('Defensor: '+territoryD.numSoldier);
                 this.defender+=1;
-                if(territoryD.numSoldier=0){
+                if(territoryD.numSoldier==0){
                     territoryD.owner=territoryA.owner;
-                    territoryA.numSoldier=territoryA.numSoldier-1;
-                    territoryD.numSoldier=1;
+                    territoryD.numSoldier=territoryA.numSoldier-1;
+                    territoryA.numSoldier=1;
                     auxPlayer=searchPlayer(match.listPlayer,territoryA.owner);
                     auxPlayer.lastTerritorysConquers+=1;
                 }
@@ -353,7 +380,9 @@ var atackTerritory = function(){
             dice2:this.listDiceDefender,
             numAttacker:this.atacker,
             numDefender:this.defender,
-            stage: stage
+            stage: stage,
+            winner: null,
+            loser:null
         };
         return data;
         
@@ -387,9 +416,11 @@ var move = function(){
         var nick = args.nick;
         var idTerritory1 = args.idTerritory1;
          var idTerritory2 = args.idTerritory2;
-        var graphPtr = match.map.graph;
-        graphPtr.node(idTerritory1).numSoldier -= args.num;
-        graphPtr.node(idTerritory2).numSoldier += args.num;
+         if(idTerritory1!=null && idTerritory2!=null){
+            var graphPtr = match.map.graph;
+            graphPtr.node(idTerritory1).numSoldier -= args.num;
+            graphPtr.node(idTerritory2).numSoldier += args.num;
+        }
     }
 
     this.nextStage = function(){
@@ -544,6 +575,8 @@ var sendCard = function(){
 
     this.doMove = function(args, match){
         //get the new card
+        console.log("sencard recibo esto", args);
+
         if(!args.flag){
             return;
         }

@@ -26,7 +26,7 @@ var selectTerritory = function(){
 			return false;
 		}
 
-	};
+	}
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
@@ -138,19 +138,15 @@ var atackTerritory = function(){
         var territory2 = graph.node(args.idTerritory2);
        	territory1.numSoldier =territory1.numSoldier- numAttacker;
        	territory2.numSoldier =territory2.numSoldier- numDefender;
-       	content_battle.innerHTML='Attacker: '+territory1.owner+'<br>';
-       	content_battle.innerHTML+='Territory: '+args.idTerritory1+' Dices: '+dice1+' Dead: '+numAttacker+'<br>';
-       	content_battle.innerHTML+='Defender: '+territory2.owner+'<br>';
-       	content_battle.innerHTML+='Territory: '+args.idTerritory2+' Dices: '+dice2+' Dead: '+numDefender+'<br>';
+       	var gb= new graphicsBattle();
+		gb.initializeScope();
+		gb.drawBattle(args);
        	if(territory2.numSoldier==0){
        		territory2.owner=territory1.owner;
-       		territory2.numSoldier=1;
-       		territory1.numSoldier=territory1.numSoldier-1;
-       		content_battle.innerHTML+='Conquered Territory';
+       		territory2.numSoldier=territory1.numSoldier-1;;
+       		territory1.numSoldier=1;
        		auxPlayer=searchPlayer(match.listPlayer,match.turn);
        		auxPlayer.lastTerritorysConquers+=1;
-       	}else{
-       		content_battle.innerHTML+='Not Conquered Territory';
        	}
        	openBattle();
 	}
@@ -187,11 +183,13 @@ var move = function(){
 
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
-		var territory1 = graph.node(args.idTerritory1);
-        var territory2 = graph.node(args.idTerritory2);
-        var num = parseInt(args.num)
-       	territory1.numSoldier =territory1.numSoldier- num;
-       	territory2.numSoldier =territory2.numSoldier+ num;
+		if(args.idTerritory1!=null && args.idTerritory2!=null){
+			var territory1 = graph.node(args.idTerritory1);
+	        var territory2 = graph.node(args.idTerritory2);
+	        var num = parseInt(args.num)
+       		territory1.numSoldier =territory1.numSoldier- num;
+       		territory2.numSoldier =territory2.numSoldier+ num;
+       }
 		
 	}
 
@@ -275,20 +273,6 @@ var changeCards = function(){
 
 		//update the pop-up of change Cards
 
-		var listCards = document.getElementsByClassName("card");
-		console.log("listCard pop-up", listCards);
-
-		for(var i =0; i< listCards.length; i++){
-			for(var j = 0; j < cardsTraced.length; j++){
-
-				var idTerritory = listCards[i].getAttribute('data-idterritory');
-				if(idTerritory == cardsTraced[j].idTerritory){
-					listCards[i].style.display="none";
-				}
-
-			}
-
-		}
 		if(player.cards.length < 5){
 			bt_cancelTrace.disabled = false;
 		}
@@ -322,29 +306,11 @@ var receiveCard = function(){
 			console.log("*****No recibe cartas*****");
 			return;
 		}
-
-
+		//add the new card
 		var card = args.card; 
-		console.log("NICKNAME:", args.nick);
 		var player = searchPlayer(match.listPlayer, args.nick);
 		player.cards.push(card); //add the new card
-		console.log("cards", player.cards);
-		//show a pop-up with the information
-		var p = document.createElement("p");
-		p.innerHTML = "You receive this card:"
-		var div = document.createElement("div");
-		div.innerHTML = args.card.soldierType + " " + args.card.idTerritory;
-		content_receiveCard.appendChild(p);
-		content_receiveCard.appendChild(div);
-		bt_closeReceiveCard.onclick = function(event){
-			console.log("cierro pop up receive card");
-			content_receiveCard.innerHTML = "";
-    		receiveCard_PopUp.style.display="none";
 
-		};
-
-		receiveCard_PopUp.style.display = "flex";
-		
 
 		
 	}
