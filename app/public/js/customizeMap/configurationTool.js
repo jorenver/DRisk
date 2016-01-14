@@ -59,25 +59,8 @@ var ConfigurationTool = function(paper){
 	}
 
 	this.doConfiguration = function(args){
-		this.currentOption.configure(args);
-	}
-
-	this.generateColor = function(){
-		var red,green,blue;
-		var max = 255;
-		red = Math.floor(Math.random()*255 + 1);
-		green = Math.floor(Math.random()*255 + 1);
-		blue = Math.floor(Math.random()*255 + 1);
-		return new paper.Color(red/max, green/max, blue/max);
-	}
-
-	this.generateGrayColor = function(){
-		var red,green,blue;
-		var max = 255;
-		red = Math.floor(Math.random()*255 + 1);
-		green = Math.floor(Math.random()*255 + 1);
-		blue = Math.floor(Math.random()*255 + 1);
-		return new paper.Color(red/max, green/max, blue/max);
+		if(this.currentOption)
+			this.currentOption.configure(args);
 	}
 }
 

@@ -132,11 +132,11 @@ exports.setDataMatch = function(request,response){
 }
 
 exports.setMap = function(request,response){
-
-	mapChosen=request.body.mapChosen;
+	var mapChosen=request.body.mapChosen;
+	var dirName = "../public/JSON/";
 	var Map={
-		name:mapChosen,
-		graph: loadGraph("../public/JSON/worldGraph.json"),//world map
+		name: mapChosen,
+		graph: loadGraph(dirName + mapChosen + "Graph.json"),//world map
 		svg:null
 	}
 	var match = Matches[request.session.idMatch];
@@ -285,19 +285,20 @@ exports.emitPublicMatch = function(idMatch,nick,io){
 
 
 exports.goWaitRoom = function(request,response){
-	numPlayer=Matches[request.session.idMatch].numPlayers;
-	mode=Matches[request.session.idMatch].mode;
-	map=Matches[request.session.idMatch].map.name;
-	response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,map:map,player:player});
+	console.log("go to wait room")
+	var numPlayer=Matches[request.session.idMatch].numPlayers;
+	var mode=Matches[request.session.idMatch].mode;
+	var map=Matches[request.session.idMatch].map.name;
+	response.render('waitRoomCreator',{ idMatch:request.session.idMatch, numPlayer:numPlayer, mode:mode,nameMap:map,player:player});
 }
 
 
 exports.waitroom = function(request,response){
 	var idMatch = request.query.id_match;
 	var nick = request.session.nick;
-	var match=Matches[idMatch];
-
-	response.render('waitroom',{idMatch:idMatch, nick: nick,numPlayer:match.numPlayers,mode:match.mode,listPlayer:match.listPlayer });
+	var match = Matches[idMatch];
+	var map = Matches[idMatch].map.name;
+	response.render('waitroom',{idMatch:idMatch, nick: nick,numPlayer:match.numPlayers,mode:match.mode,listPlayer:match.listPlayer,nameMap : map });
 }
 
 

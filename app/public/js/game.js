@@ -422,13 +422,14 @@ function loadMatch(event){
 	var respond = JSON.parse(event.target.responseText);
 	match = respond.match;
 	console.log("***match- cliente", match);
-	//load the information of current player 
-	player = searchPlayer(match.listPlayer,nick);
+	
+	player = searchPlayer(match.listPlayer,nick);//load the information of current player 
 	loadPlayersInfo(match.listPlayer);
-	//cargar el grafo
-	var strMap = match.map.graph;
+	
+	var strMap = match.map.graph;//cargar el grafo
 	graph = new graphlib.json.read(strMap);
 	updateViewStage();
+	initLibPaper();
 }
 
 function getMatch(){
@@ -452,7 +453,6 @@ function initialize(event){
 		territory1:null,
 		territory12:null
 	}
-	initLibPaper('../svg/MapaRisk.svg');//dentro se llama a setClick
 	//Mostrar.addEventListener('click',openBattle);
 	//Ocultar.addEventListener('click',closeBattle);
 	moveAction.addEventListener("click",buttonMove,false);
@@ -461,12 +461,13 @@ function initialize(event){
 
 }
 
-function initLibPaper(url){
+function initLibPaper(){
 	// Get a reference to the canvas object
 	var canvas = document.getElementById('myCanvas');
 	// Create an empty project and a view for the canvas:
 	paperMapScope = new paper.PaperScope();
     paperMapScope.setup(canvas);
+    var url = '../svg/maps/'+ match.map.name + ".svg"
 	loadSVGMap(url);
 	loadSoldierItem();
 	loadDicesItems();

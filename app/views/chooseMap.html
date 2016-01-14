@@ -13,7 +13,7 @@
 
 	<div class="matchMap u-flex-column u-justify-center u-align-center" >
 		<div class="mapParameterWrapper u-flex-column u-justify-center u-align-center" style="width:40%;">
-			<div class="mapInfoUser u-flex-column u-align-center" style="width: 70%;">
+			<div class="mapInfoUser u-flex-column u-align-center">
 				<h1 class="mapTitle">Match of {{nick}}</h1>
 				{% if mode == 'World Domination' %}
 					<img src="img/globe.png">
@@ -26,23 +26,23 @@
   				{% endif %}
 				<h1 class="mapTitle">{{mode}}</h1>
 			</div>
-			<div class="u-flex-column u-justify-center u-align-center " style="width: 70%;">
-					
+			<div class="u-flex-column u-justify-center u-align-center " style="width: 90%;">
 					<div class="mapList u-flex-column u-align-center" >
+						<div class="mapInputs u-flex-column u-align-center">
+							<img id = "configureMap" src="https://maxcdn.icons8.com/Color/PNG/48/Maps/world_map-48.png" width="48" onclick="customizeMap();">
+							<label>Click to Configure your own Map!</label>
+						</div>
 						<h1 class="mapTitle"> Choose a Preload Map </h1>
 						<div class="mapInformation">
 							<select id="mapChosen" name="mapChosen" form="optionsMap" onChange="changeContent(this);" >
-								<option id="map1" name="Map1" selected>Ecuador</option>
-								<option id="map2" name="Map2">Brazil</option>
-								<option id="map3" name="Map3">USA</option>
-								<option id="map4" name="Map4">World</option>
-								<option id="map5" name="Map5">China</option>
+								<option id="map1" name="Map1" selected>World</option>
+								<option id="map2" name="Map2" >EcuadorGermany</option>
+								<option id="map3" name="Map3">OrientedCountry</option>
+								<!--<option id="map4" name="Map4">USA</option>
+								<option id="map5" name="Map5">China</option>-->
 							</select>
 						</div>
-						<img class="mapImages" name="listaImagenes" src="/img/ecuador.png" width="350px" height="250px" />
-						<div class="mapInputs flex-row">
-							<input type="button" value="Customize Map" class="button" onclick="customizeMap();">
-						</div>
+						<img class="mapImages" name="listaImagenes" src="/svg/maps/World.svg" width="350px" height="250px" />
 					</div>
 			</div>
 			<div class="mapInputStart">

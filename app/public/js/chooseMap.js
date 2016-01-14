@@ -9,11 +9,11 @@
 */
 
 var ArrayImagenes = new Array();
-ArrayImagenes[0]='/img/ecuador.png';
-ArrayImagenes[1]='/img/brazil.png';
-ArrayImagenes[2]='/img/estadosUnidos.png';
-ArrayImagenes[3]='/img/mundo.png';
-ArrayImagenes[4]='/img/china.png';
+ArrayImagenes[0]='/svg/maps/World.svg';
+ArrayImagenes[1]='/svg/maps/EcuadorGermany.svg';
+ArrayImagenes[2]='/svg/maps/OrientedCountry.svg';
+//ArrayImagenes[3]='/svg/preload maps/';
+//SArrayImagenes[4]='/svg/preload maps/';
 /*
  	Description:
  	Esta funcion se conecta con el combobox y lo que hace es que a medida

@@ -219,6 +219,13 @@ var Util = function(){
 		return new paper.Color(red/max, green/max, blue/max);
 	}
 
+	this.generateGrayColor = function(){
+		var gray;
+		var max = 255;
+		gray = Math.floor(Math.random()*180 + 50);
+		return new paper.Color(gray/max);
+	}
+
 	this.lightContinent = function(continent){
 		continent.shadowColor = "blue"
 		continent.shadowBlur = 15;

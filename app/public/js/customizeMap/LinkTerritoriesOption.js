@@ -36,15 +36,13 @@ var LinkTerritoriesOption = function(paper,id){
 	}
 
 	this.generateNodeGraph = function(){
-		//debe ejecutarse solamente una vez
 		this.graph["Nodes"] = []
-		var continent;
-		var continentID;
-		var territories;
-		var territoryID;
+		var continent, continentID;
+		var territories, territoryID;
 		for (var i =0 ; i < this.continents.length ; i++){
 			continent = this.continents[i]
 			continentID = continent.data.id
+			continentID.data.selected = false
 			territories = continent.children;
 			for(var j = 0 ; j < continent.children.length; j++){
 				territoryID = continentID + j
@@ -54,19 +52,6 @@ var LinkTerritoriesOption = function(paper,id){
 		}
 		this.graph["Edges"] = []
 		this.generateEdgeGraph();
-	}
-
-	this.getNeighbourhood = function(territory,territories){
-		var neighbourhood = []
-		for(var i = 0 ; i < territories.length ; i++){
-			if(territories[i].data.id == territory.data.id){
-				continue;
-			}
-			if(territory.intersects(territories[i])){
-				neighbourhood.push(territories[i]);
-			}
-		}
-		return neighbourhood;
 	}
 
 	this.generateEdgeGraph = function(){
@@ -85,8 +70,20 @@ var LinkTerritoriesOption = function(paper,id){
 		console.log(this.graph);
 	}
 
+	this.getNeighbourhood = function(territory,territories){
+		var neighbourhood = []
+		for(var i = 0 ; i < territories.length ; i++){
+			if(territories[i].data.id == territory.data.id){
+				continue;
+			}
+			if(territory.intersects(territories[i])){
+				neighbourhood.push(territories[i]);
+			}
+		}
+		return neighbourhood;
+	}
+
 	this.getEdges = function(){
-		console.log("get edges");
 		var svgPath;
 		var id;
 		var continentsID = ["NorthAmerica","SouthAmerica","Africa","Europe","Oceania"]
@@ -106,17 +103,14 @@ var LinkTerritoriesOption = function(paper,id){
 					var continentPath = self.paper.project.importSVG(xml.getElementsByTagName("svg")[0]);
 					var compoundPath = continentPath.children[0].children[0].children[0];
 					compoundPath.data.id = id;
-					console.log("compoundPath");
-					console.log(compoundPath);
 					self.edges[id] = compoundPath;
 					continentPath.remove();
 				}
 			});
 		}
-		console.log(self.edges);
 	}
 
-	this.transformEdge = function(edge,continent){
+	this.transformLimit = function(edge,continent){
 		var edgeTmp = edge.clone();
 		edgeTmp.position = continent.position;
 		edgeTmp.scale(continent.data.scale);
@@ -126,7 +120,7 @@ var LinkTerritoriesOption = function(paper,id){
 	this.getTerritoryEdge = function(territory,edge){//determine if a path belongs to edge
 		//edges object is set of compoundPaths that keeps only the edges of the continents
 		var continent = this.getContinent(edge.data.id);// get reference to continent that the user already have configured
-		var edgeTmp = this.transformEdge(edge,continent);// change position, rotation and scale of this edge, edgeTemp is type "Path"
+		var edgeTmp = this.transformLimit(edge,continent);// change position, rotation and scale of this edge, edgeTemp is type "Path"
 		var inter = edgeTmp.getIntersections(territory);
 		if(inter.length){//if the current "territory" belongs to edge "length" should not be zero
 			return inter;
@@ -144,7 +138,6 @@ var LinkTerritoriesOption = function(paper,id){
 	}
 
 	this.selectTerritory = function(event){
-		console.log("select territory");
 		var point = event.point;
 		var territory = self.getPathCloser(self.target,point); //get territory closer to the poing
 		if(!territory){
@@ -201,6 +194,7 @@ var LinkTerritoriesOption = function(paper,id){
 		this.graph["Edges"].push({ "U" : source ,"V" : destiny });
 	}
 
+	/*
 	this.getNormalVector = function(territory,parentContinent){
 		var intersects = self.getTerritoryEdge(territory,parentContinent);
 		var pathIntersect = new paper.Path(intersects);
@@ -220,6 +214,37 @@ var LinkTerritoriesOption = function(paper,id){
 		}
 		//this.drawNormalVector(normal,point);//draw vector;
 		return normal;
+	}*/
+
+	this.getNormalVector = function(territory,parentContinent){
+		var intersects = self.getTerritoryEdge(territory,parentContinent);
+		var pathIntersect = new paper.Path(intersects);
+		var normal, offset , point, vector, sum;
+		var centroid ;
+		normal = this.getMeanVector(pathIntersect)
+		centroid = this.getCentroid(pathIntersect);
+		point = pathIntersect.getNearestPoint(centroid);
+		vector = new paper.Point(normal.x*40,normal.y*40);
+		sum =  new paper.Point(vector.x + point.x , vector.y + point.y );
+		if(territory.parent.contains(sum)){
+			normal.x = - normal.x;
+			normal.y = - normal.y;
+		}
+		//this.drawNormalVector(normal,point);//draw vector;
+		return normal;
+	}
+
+	this.getMeanVector = function(edges){
+		var segments = edges.segments;
+		var sum_x = 0 ,sum_y = 0;
+		var normal;
+		for(var i=0 ; i < segments.length; i++){
+			offset = edges.getOffsetOf(segments[i].point);
+			normal = edges.getNormalAt(offset);
+			sum_x += normal.x;
+			sum_y += normal.y;
+		}
+		return new this.paper.Point(sum_x/segments.length,sum_y/segments.length);
 	}
 
 	this.drawNormalVector = function(normal,point){
@@ -246,16 +271,6 @@ var LinkTerritoriesOption = function(paper,id){
 			}
 		}
 		return null;
-	}
-
-	
-	this.generateColor = function(){
-		var red,green,blue;
-		var max = 255;
-		red = Math.floor(Math.random()*255 + 1);
-		green = Math.floor(Math.random()*255 + 1);
-		blue = Math.floor(Math.random()*255 + 1);
-		return new paper.Color(red/max, green/max, blue/max);
 	}
 
 	this.getLinkerTerritories = function(territory){
@@ -321,7 +336,7 @@ var LinkTerritoriesOption = function(paper,id){
 			var territories = continent.children;
 			territories.forEach(function(territory){
 				var territory = territory.clone();
-				territory.fillColor = self.util.generateColor();
+				territory.fillColor = self.util.generateGrayColor();
 				var territoryGroup = new self.paper.Group();
 				territoryGroup.id = territory.data.id;
 				territoryGroup.addChild(territory);
@@ -360,13 +375,29 @@ var LinkTerritoriesOption = function(paper,id){
 	        type: 'POST',
 	        url: '/saveSVG',
 	        data: { svg : svgString , graph : graph },
-	        dataType: 'application/json',
-	        success: function(){
+	        dataType: 'json',
+	        success: function(dat)
+	        {
 	            console.log("done")
+	        },
+	        error: function(jqXHR, textStatus, errorThrown){
+	        	console.log(errorThrown);
 	        }
 	    }).done(function(dat) {
-	        console.log(dat);
-	    })
+	    	alert("Your map has been created!")
+	       	goToPlay(dat.fileName);
+	    });
+	}
+
+	var goToPlay = function(fileName){
+		var form = document.createElement("form");
+		form.setAttribute('method',"post");
+		form.setAttribute('action',"/setMap");
+		var input = document.createElement("input"); //input element, Submit button
+		input.setAttribute('name','mapChosen');
+		input.setAttribute('value',fileName);
+		form.appendChild(input);
+		form.submit();
 	}
 
 }
