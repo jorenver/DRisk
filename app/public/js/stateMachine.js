@@ -129,9 +129,7 @@ var atackTerritory = function(){
 		}
 		//update the graph
         dice1=args.dice1;
-        console.log('########Dados Atacante####### '+ dice1);
         dice2=args.dice2;
-        console.log('########Dados Defensor#######'+ dice2);
         numAttacker=args.numAttacker;
         numDefender=args.numDefender;
         var territory1 = graph.node(args.idTerritory1);
@@ -140,6 +138,7 @@ var atackTerritory = function(){
        	territory2.numSoldier =territory2.numSoldier- numDefender;
        	var gb= new graphicsBattle();
 		gb.initializeScope();
+		gb.cleanScope();
 		gb.drawBattle(args);
        	if(territory2.numSoldier==0){
        		territory2.owner=territory1.owner;

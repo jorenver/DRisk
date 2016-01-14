@@ -210,7 +210,7 @@ var reforceTerritory = function(){
         player= searchPlayer(listPlayer,match.turn);
         //calcular el numero de soldados
 
-        player.numSoldier=calculateNumReforces(match);
+        player.numSoldier+=calculateNumReforces(match);
     }
 
     this.isChangeTurn= function(){
@@ -382,7 +382,7 @@ var atackTerritory = function(){
             numDefender:this.defender,
             stage: stage,
             winner: null,
-            loser:null
+            losers:null
         };
         return data;
         

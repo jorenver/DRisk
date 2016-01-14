@@ -333,7 +333,7 @@ var graphicsBattle= function(){
         for (var i = 0; i < args.dice1.length; i++) {
             dice=dicesPaths[args.dice1[i]-1].clone();
             dice.remove();
-            dice.scale(0.5);
+            dice.scale(3);
             dice.position.x = 50*(i+1);
             dice.position.y = 250;
             paperScopeBattle.project.activeLayer.addChild(dice);
@@ -343,7 +343,7 @@ var graphicsBattle= function(){
         for (var i = 0; i < args.dice2.length; i++) {
             dice=dicesPaths[args.dice2[i]-1].clone();
             dice.remove();
-            dice.scale(0.5);
+            dice.scale(3);
             dice.position.x = 330+50*(i+1);
             dice.position.y = 250;
             paperScopeBattle.project.activeLayer.addChild(dice);

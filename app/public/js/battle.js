@@ -16,10 +16,6 @@ function openBattle(){
 	$('#next').off('click');
 	$('#Stop').off('click');
 	Ocultar.onclick =closeBattle;
-	//battle.style.width="500px";
-	//battle.style.height="350px";
-	//content_battle_canvas.style.width="500px";
-	//content_battle_canvas.style.height="300px";
 	if(!isMyTurn()){
 		next.style.display="none";
 		Stop.style.display="none";
