@@ -388,8 +388,8 @@ var graphicsMove= function(){
 
     this.drawMove = function(){
         var paperScopeMove = this.paperScopeMove;
-        var idTerritory1=territorysSelected[0]=null;
-        var idTerritory2=territorysSelected[1]=null;
+        var idTerritory1=territorysSelected[0];
+        var idTerritory2=territorysSelected[1];
         var nodeTerritory1 = graph.node(idTerritory1);
         var nodeTerritory2 = graph.node(idTerritory2);
 

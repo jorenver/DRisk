@@ -168,7 +168,7 @@ var move = function(){
 		var idTerritory2=args.idTerritory2;
 		var territory1 = args.graph.node(idTerritory1);
 		var territory2 = args.graph.node(idTerritory2);
-		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner == nick && isneighbors(args.graph,idTerritory1,idTerritory2 )){
+		if(territory1.numSoldier>1 && territory1.owner==nick && territory2.owner == nick){
 			return true;
 		}else
 			return false;

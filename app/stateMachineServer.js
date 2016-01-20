@@ -434,8 +434,8 @@ var move = function(){
          var idTerritory2 = args.idTerritory2;
          if(idTerritory1!=null && idTerritory2!=null){
             var graphPtr = match.map.graph;
-            graphPtr.node(idTerritory1).numSoldier -= args.num;
-            graphPtr.node(idTerritory2).numSoldier += args.num;
+            graphPtr.node(idTerritory1).numSoldier -= parseInt(args.num);
+            graphPtr.node(idTerritory2).numSoldier += parseInt(args.num);
         }
     }
 
