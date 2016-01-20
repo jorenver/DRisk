@@ -281,6 +281,10 @@ function redraw(args, drawAction){
 			return;
 		}
 
+		if(nick!= args.nick){
+			return;
+		}
+
 		//show a pop-up with the information
 		var p = document.createElement("p");
 		p.innerHTML = "You receive this card:"
