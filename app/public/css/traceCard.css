@@ -10,11 +10,33 @@
   position: fixed;
   z-index: 100;
   border: 3px solid white;
+  top: 10%;
+  left: 21%;
 }
 
 #changeCardsCanvas{
-    border-width: 1px;
-    border: 1px dashed #CCCCCC;
+  border-width: 1px;
+  position: absolute; 
+  top: 40px;
+  left: 10px;
+  border: 1px dashed #CCCCCC;
 }
 
+#traceCar_content{
+  width: 95%;
+  height: 30px;
+  margin: 2.5%;
+  color: black;
+  font-family: opcionUno;
+  justify-content: center;
+}
+
+
+#button_trace_card{
+  display: flex;
+  justify-content: center;
+  position: absolute; 
+  top: 450px;
+  left: 160px;
+}
 
