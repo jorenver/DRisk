@@ -1,17 +1,15 @@
 #popMove {
-  background-color: rgba(226,228,230,1);
+   background-color: rgba(226,228,230,1);
   border-radius: 6px;
   color: white;
   display: none;
-  flex-direction: column;
-  justify-content: start;
-  height: 60%;
-  width: 40%;
   position: fixed;
   top: 20%;
   left: 30%;
   right: 30%;
   z-index: 100;
+  width: 500px;
+  height: 350px;
   border: 3px solid white;
 }
 
@@ -22,23 +20,20 @@
   color: black;
   font-family: opcionUno;
   overflow-y: auto;
+  position: absolute;
+  top: 250px;
 }
 
 #buttons_move{
   display: flex;
   flex-direction: row;
   justify-content: center;
+  position: absolute;
+  top: 300px;
 
 }
 
-.buttonBattle {
-    background-color: #000096;
-    border-radius: 8px;
-    color: #FFF;
-    font-family: opcionUno;
-    font-size: 16px;
-    margin: 5px;
-    padding: 5px;
-    cursor: pointer;
-    transition: all 0.6s ease 0s;
+#content_move_canvas{
+  position: absolute;
+
 }
