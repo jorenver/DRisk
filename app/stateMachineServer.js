@@ -114,11 +114,16 @@ var selectTerritory = function(){
         return new reforceTerritory();
     }
 
-    this.buildData= function(args, playerTurn, stage){
+    this.buildData= function(args, playerTurn, stage,match){
         console.log('bild data Select');
+        var graphPtr = match.map.graph;
+        var player;
+        player= searchPlayer(match.listPlayer,nick);
         var data = {
             nick: args.nick, 
             idTerritory: args.idTerritory,
+            numSoldier:graphPtr.node(args.idTerritory).numSoldier,
+            playerNumSoldier:player.numSoldier,
             nickTurn: playerTurn.nick, 
             stage: stage
         };
@@ -242,11 +247,16 @@ var reforceTerritory = function(){
 
     }
 
-    this.buildData= function(args, playerTurn, stage){
+    this.buildData= function(args, playerTurn, stage,match){
         console.log('bild data Reforce');
+        var graphPtr = match.map.graph;
+        var player;
+        player= searchPlayer(match.listPlayer,nick);
         var data = {
             nick: args.nick, 
             idTerritory: args.idTerritory,
+            numSoldier:graphPtr.node(args.idTerritory).numSoldier,
+            playerNumSoldier:player.numSoldier,
             nickTurn: playerTurn.nick, 
             stage: stage
         };
@@ -269,11 +279,10 @@ var atackTerritory = function(){
 
     //recibe an object {nick, idTerritory, graph }
     this.stageName = "Atack";
-    this.atacker=0;
-    this.defender=0;
     this.listDiceDefender=null;
     this.listDiceAttacker=null;
     this.change=false;
+    this.conquer=false;
 
     this.initStage= function(match){
         console.log('init Atack');
@@ -286,6 +295,7 @@ var atackTerritory = function(){
     } 
 
     this.doMove = function(args, match){
+        this.conquer=false;
         //update the graph
         if(args.idTerritory1==null && args.idTerritory2==null){
             this.change=true;
@@ -346,20 +356,16 @@ var atackTerritory = function(){
                 //console.log('Defensor: '+territoryD.numSoldier);
                 territoryD.numSoldier=territoryD.numSoldier-1;
                 //console.log('Defensor: '+territoryD.numSoldier);
-                this.defender+=1;
                 if(territoryD.numSoldier==0){
                     territoryD.owner=territoryA.owner;
                     territoryD.numSoldier=territoryA.numSoldier-1;
                     territoryA.numSoldier=1;
                     auxPlayer=searchPlayer(match.listPlayer,territoryA.owner);
                     auxPlayer.lastTerritorysConquers+=1;
+                    this.conquer=true;
                 }
             }else{
-                //console.log('gana defensor');
-                //console.log('Atacante: '+territoryA.numSoldier);
                 territoryA.numSoldier=territoryA.numSoldier-1;
-                this.atacker+=1;
-                //console.log('Atacante: '+territoryA.numSoldier);
             }  
 
         }
@@ -370,16 +376,26 @@ var atackTerritory = function(){
         return new move();
     }
 
-    this.buildData= function(args, playerTurn, stage){
+    this.buildData= function(args, playerTurn, stage,match){
         console.log('bild data Atack');
+        var graphPtr = match.map.graph;
+        if(args.idTerritory1 && args.idTerritory2){
+            var numSodierA=graphPtr.node(args.idTerritory1).numSoldier;
+            var numSodierD=graphPtr.node(args.idTerritory2).numSoldier;
+        }else{
+            var numSodierA=0;
+            var numSodierD=0;
+
+        }
         var data = { 
             idTerritory1: args.idTerritory1,
             idTerritory2: args.idTerritory2,
             nickTurn: playerTurn.nick,
             dice1:this.listDiceAttacker,
             dice2:this.listDiceDefender,
-            numAttacker:this.atacker,
-            numDefender:this.defender,
+            numAttacker:numSodierA,
+            numDefender:numSodierD,
+            conquer:this.conquer,
             stage: stage,
             winner: null,
             losers:null
@@ -428,13 +444,22 @@ var move = function(){
         return new sendCard();
     }
 
-    this.buildData= function(args, playerTurn, stage){
+    this.buildData= function(args, playerTurn, stage, match){
         console.log('bild data Move');
+        var graphPtr = match.map.graph;
+        if(args.idTerritory1 && args.idTerritory2){
+            var numSodierA=graphPtr.node(args.idTerritory1).numSoldier;
+            var numSodierB=graphPtr.node(args.idTerritory2).numSoldier;
+        }else{
+            var numSodierA=0;
+            var numSodierB=0;
+        }
         var data = { 
             idTerritory1: args.idTerritory1,
             idTerritory2: args.idTerritory2,
             nickTurn: playerTurn.nick,
-            num:args.num,
+            numA:numSodierA,
+            numB:numSodierB,
             stage: stage
         };
         return data;
@@ -525,7 +550,7 @@ var changeCards = function(){
         return new reforceTerritory();
     }
 
-    this.buildData= function(args, playerTurn, stage){
+    this.buildData= function(args, playerTurn, stage,match){
         console.log('bild data Cards');
         
 
@@ -593,7 +618,7 @@ var sendCard = function(){
         return new changeCards();
     }
 
-    this.buildData= function(args, playerTurn, stage){
+    this.buildData= function(args, playerTurn, stage,match){
         console.log('build data receive Cards');
         return {nick: args.nick, card: this.newCard, stage: "changeCards",
          flag: args.flag, nickTurn: playerTurn.nick };

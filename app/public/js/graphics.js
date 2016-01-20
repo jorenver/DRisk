@@ -287,7 +287,6 @@ var graphicsBattle= function(){
     this.drawBattle = function(args){
 
         var paperScopeBattle = this.paperScopeBattle;
-        var group = new paperScopeBattle.Group();
         var nodeTerritory1 = graph.node(args.idTerritory1);
         var nodeTerritory2 = graph.node(args.idTerritory2);
 
@@ -333,7 +332,7 @@ var graphicsBattle= function(){
         for (var i = 0; i < args.dice1.length; i++) {
             dice=dicesPaths[args.dice1[i]-1].clone();
             dice.remove();
-            dice.scale(3);
+            dice.scale(6);
             dice.position.x = 50*(i+1);
             dice.position.y = 250;
             paperScopeBattle.project.activeLayer.addChild(dice);
@@ -343,14 +342,14 @@ var graphicsBattle= function(){
         for (var i = 0; i < args.dice2.length; i++) {
             dice=dicesPaths[args.dice2[i]-1].clone();
             dice.remove();
-            dice.scale(3);
+            dice.scale(6);
             dice.position.x = 330+50*(i+1);
             dice.position.y = 250;
             paperScopeBattle.project.activeLayer.addChild(dice);
 
         };
         
-        if(nodeTerritory2.numSoldier==0){
+        if(args.conquer){
             var conquer = new paperScopeBattle.PointText(new paperScopeBattle.Point(10, 300));
             conquer.fillColor = 'black';
             conquer.fontSize=20;
@@ -365,6 +364,80 @@ var graphicsBattle= function(){
 
     this.cleanScope = function(){
         this.paperScopeBattle.project.activeLayer.removeChildren();
+    }
+
+
+
+}
+
+var graphicsMove= function(){
+
+    this.paperScopeMove;
+
+    this.initializeScope = function(){
+        
+        var canvas = document.getElementById('content_move_canvas');
+          
+        var paperScopeMove = new paper.PaperScope();
+        paperScopeMove.setup(canvas);
+        this.paperScopeMove = paperScopeMove;
+
+
+
+    }
+
+    this.drawMove = function(){
+        var paperScopeMove = this.paperScopeMove;
+        var idTerritory1=territorysSelected[0]=null;
+        var idTerritory2=territorysSelected[1]=null;
+        var nodeTerritory1 = graph.node(idTerritory1);
+        var nodeTerritory2 = graph.node(idTerritory2);
+
+        var text = new paperScopeMove.PointText(new paperScopeMove.Point(200, 30));
+        text.fillColor = 'black';
+        text.fontSize=30;
+        text.content = 'Move ';
+
+        var textAttaker = new paperScopeMove.PointText(new paperScopeMove.Point(70, 50));
+        textAttaker.fillColor = 'black';
+        textAttaker.content = nodeTerritory1.owner;
+
+        var textAttakerTerritory = new paperScopeMove.PointText(new paperScopeMove.Point(70, 70));
+        textAttakerTerritory.fillColor = 'black';
+        textAttakerTerritory.content ="Territory: "+ idTerritory1;
+
+        var territoryPath1 = searchTerritory(mapGroup.children,idTerritory1);
+        var territory1 = territoryPath1.clone();
+        territory1.remove();
+        territory1.scale(1);
+        territory1.position.x = 90;
+        territory1.position.y = 150;
+        paperScopeMove.project.activeLayer.addChild(territory1);
+
+        var textAttaker = new paperScopeMove.PointText(new paperScopeMove.Point(310, 50));
+        textAttaker.fillColor = 'black';
+        textAttaker.content = nodeTerritory2.owner;
+
+        var textDefenderTerritory = new paperScopeMove.PointText(new paperScopeMove.Point(310, 70));
+        textDefenderTerritory.fillColor = 'black';
+        textDefenderTerritory.content = "Territory: "+idTerritory2;
+        
+        var territoryPath2 = searchTerritory(mapGroup.children,idTerritory2);
+        //var lastPlayer2 = searchPlayer(match.listPlayer,nodeTerritory2.owner);
+        var territory2 = territoryPath2.clone();
+        territory2.remove();
+        territory2.scale(1);
+        //territory2.fillColor=lastPlayer2.color.code;
+        territory2.position.x = 330;
+        territory2.position.y = 150;
+        paperScopeMove.project.activeLayer.addChild(territory2);
+        paperScopeMove.view.draw();
+
+
+    }
+
+    this.cleanScope = function(){
+        this.paperScopeMove.project.activeLayer.removeChildren();
     }
 
 

@@ -118,7 +118,7 @@ exports.createServerSocket = function(io,sessionMiddleware){
                     //console.log(playerTurn)
                 }
                 nextState=currentMatch.stage.validateChangeStage(currentMatch, args);//get name of next stage
-                var data=currentMatch.stage.buildData(args,playerTurn,nextState);
+                var data=currentMatch.stage.buildData(args,playerTurn,nextState,currentMatch);
                 if(currentMatch.stage.stageName=="Atack"){
                     var validator=currentMatch.validator;
                     data.winner=validator.getWinner(currentMatch);

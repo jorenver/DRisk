@@ -1,7 +1,12 @@
 function openMove(){
+	var gb= new graphicsMove();
+	gb.initializeScope();
+	gb.cleanScope();
+	gb.drawMove();
 	txtNumSoilderMove.value=1;
-	popMove.style.display="flex";
+	popMove.style.display="block";
 	txtNumSoilderMove.max=graph.node(territorysSelected[0]).numSoldier-1;
+	txtNumSoilderMove.min=0;
 }
 
 function closeMove(){

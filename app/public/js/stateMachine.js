@@ -31,13 +31,12 @@ var selectTerritory = function(){
 	this.doUpdateMap = function(args, match, graph){
 		//update the graph
 		var nick = args.nick;
+		var player;
 		var idTerritory = args.idTerritory;
 		graph.node(idTerritory).owner = nick;
-		graph.node(idTerritory).numSoldier += 1;
-		var player;
+		graph.node(idTerritory).numSoldier= args.numSoldier;
 		player= searchPlayer(match.listPlayer,nick);
-        console.log(player)
-        player.numSoldier-=1;
+        player.numSoldier=args.playerNumSoldier;
         console.log(player);
 
 		console.log("grafo actualizado Select", graph);
@@ -77,14 +76,13 @@ var reforceTerritory = function(){
 		//update the graph
 		var nick = args.nick;
 		var idTerritory = args.idTerritory;
-		graph.node(idTerritory).owner = nick;
-		graph.node(idTerritory).numSoldier += 1;
 		var player;
+		graph.node(idTerritory).owner = nick;
+		graph.node(idTerritory).numSoldier= args.numSoldier;
+		
 		player= searchPlayer(match.listPlayer,nick);
-        console.log(player)
-        player.numSoldier-=1;
+        player.numSoldier=args.playerNumSoldier;
         console.log(player);
-		console.log("grafo actualizado Reforce", graph);
 	}
 
 
@@ -134,16 +132,14 @@ var atackTerritory = function(){
         numDefender=args.numDefender;
         var territory1 = graph.node(args.idTerritory1);
         var territory2 = graph.node(args.idTerritory2);
-       	territory1.numSoldier =territory1.numSoldier- numAttacker;
-       	territory2.numSoldier =territory2.numSoldier- numDefender;
+       	territory1.numSoldier =numAttacker;
+       	territory2.numSoldier =numDefender;
        	var gb= new graphicsBattle();
 		gb.initializeScope();
 		gb.cleanScope();
 		gb.drawBattle(args);
-       	if(territory2.numSoldier==0){
+       	if(args.conquer){
        		territory2.owner=territory1.owner;
-       		territory2.numSoldier=territory1.numSoldier-1;;
-       		territory1.numSoldier=1;
        		auxPlayer=searchPlayer(match.listPlayer,match.turn);
        		auxPlayer.lastTerritorysConquers+=1;
        	}
@@ -185,9 +181,10 @@ var move = function(){
 		if(args.idTerritory1!=null && args.idTerritory2!=null){
 			var territory1 = graph.node(args.idTerritory1);
 	        var territory2 = graph.node(args.idTerritory2);
-	        var num = parseInt(args.num)
-       		territory1.numSoldier =territory1.numSoldier- num;
-       		territory2.numSoldier =territory2.numSoldier+ num;
+	        var numA = parseInt(args.numA)
+	        var numB = parseInt(args.numB)
+       		territory1.numSoldier =numA;
+       		territory2.numSoldier =numB;
        }
 		
 	}
