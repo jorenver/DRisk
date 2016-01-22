@@ -52,6 +52,7 @@ var LinkTerritoriesOption = function(paper,id){
 			continent = continents[i]
 			continentID = continent.data.id;
 			territories = continent.children;
+			debugger
 			for(var j = 0 ; j < territories.length; j++){
 				territoryID = continentID + j
 				territories[j].data.id = territoryID
