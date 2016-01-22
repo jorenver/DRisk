@@ -7,7 +7,7 @@ var RedrawEdgesOption = function(paper,id){
 	this.firstSegment = null;
 	this.secondSegment = null;
 	this.hitOptions = { segments: true, stroke: true, fill: true, tolerance: 5 }
-
+	this.notificationOn = false;
 
 	this.configure = function(args){
 		console.log("redraw edges of territories");

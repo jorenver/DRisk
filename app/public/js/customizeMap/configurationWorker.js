@@ -104,7 +104,7 @@ var HandleMouseEnter = function(){
 			return;
 		}
 		var continent = event.target;
-		continent.shadowColor =new configurationWorker.paper.Color(1, 0, 0);
+		continent.shadowColor = new configurationWorker.paper.Color(1, 0, 0);
 		continent.shadowBlur = 15;// Set the shadow blur radius to 12:
 		continent.shadowOffset = new configurationWorker.paper.Point(0, 0);// Offset the shadow by { x: 5, y: 5 }
 	}
@@ -231,4 +231,46 @@ var Util = function(){
 		continent.shadowBlur = 15;
 	}
 
+}
+
+var Notification = function(msg){
+	var self = this;
+	this.parentHTML = {};
+	this.buttonAccept = {};
+	this.action = null;
+	this.args = null;
+
+	this.launch = function(){
+		var div = $("<div>", { class: "notification u-flex-column u-align-center u-justify-space-around" }).html(msg);
+		var divButton = $("<div>", { class: "notificationButton u-flex-row u-align-center u-justify-center" })
+		this.buttonAccept = $("<input>",{ value: 'ok', type : "button"});
+		this.parentHTML = div;
+		this.buttonAccept.on('click',function(){
+			if(self.action){
+				self.action(self.args);
+			}
+			self.quit();
+		});
+		divButton.append(this.buttonAccept);
+		div.append(divButton)
+		setTimeout(function(){ 
+			if(self.action){
+				self.action(self.args);
+			}
+			self.quit();
+		}, 3000);
+		$("body").append(div);   
+	}
+
+	this.setCallback = function(callback){
+		this.action = callback;
+	}
+
+	this.setCallbackArg = function(args){
+		this.args = args;
+	}
+
+	this.quit = function(){
+		self.parentHTML.slideUp();
+	}
 }

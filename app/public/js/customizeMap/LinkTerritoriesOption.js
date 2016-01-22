@@ -6,6 +6,7 @@ var LinkTerritoriesOption = function(paper,id){
 	this.edges = null
 	this.continents = null;
 	this.target = null;
+	this.notificationOn = false;
 	this.graph = {};
 
 	this.configure = function(args){
@@ -13,9 +14,15 @@ var LinkTerritoriesOption = function(paper,id){
 		this.target = args.event.target;	
 		this.removeEventsHandle(this.target);
 		//this.target.shadowColor = null;
-		this.target.on('click',self.selectTerritory);
-		buttonAccept.addEventListener('click',this.generateSVG,false);
+		this.target.on('click',this.selectTerritory);
+		buttonAccept.addEventListener('click',this.clickButtonAccept,false);
 		this.util = new Util();
+	}
+
+	this.clickButtonAccept = function(event){
+		console.log("generar svg");
+		var worker = new SVGWorker(self.paper,self.continents,self.graph);
+		worker.generateSVG();
 	}
 
 	this.removeEventsHandle = function(target){
@@ -35,29 +42,32 @@ var LinkTerritoriesOption = function(paper,id){
 		return null;
 	}
 
-	this.generateNodeGraph = function(){
-		this.graph["Nodes"] = []
+	this.generateNodeGraph = function(continents){
+		this.graph["continents"] = [];
+		this.graph["Graph"] = {};
+ 		this.graph["Graph"]["Nodes"] = [];
 		var continent, continentID;
 		var territories, territoryID;
-		for (var i =0 ; i < this.continents.length ; i++){
-			continent = this.continents[i]
-			continentID = continent.data.id
-			continentID.data.selected = false
+		for (var i =0 ; i < continents.length ; i++){
+			continent = continents[i]
+			continentID = continent.data.id;
 			territories = continent.children;
-			for(var j = 0 ; j < continent.children.length; j++){
+			debugger
+			for(var j = 0 ; j < territories.length; j++){
 				territoryID = continentID + j
 				territories[j].data.id = territoryID
-				this.graph.Nodes.push({"id": territoryID ,"continent": continentID });
+				this.graph["Graph"]["Nodes"].push({"id": territoryID ,"continent": continentID });
 			}
 		}
-		this.graph["Edges"] = []
-		this.generateEdgeGraph();
+		this.generateEdgeGraph(continents);
+		this.addNumberSoldiersContinents(continents);
 	}
 
-	this.generateEdgeGraph = function(){
+	this.generateEdgeGraph = function(continents){
+		this.graph["Graph"]["Edges"] = []
 		var continent,territory , neighbourhood;
-		for (var i =0 ; i < this.continents.length ; i++){
-			continent = this.continents[i];
+		for (var i =0 ; i < continents.length ; i++){
+			continent = continents[i];
 			territories = continent.children;
 			for(var j = 0 ; j < territories.length; j++){
 				territory = territories[j];
@@ -67,7 +77,55 @@ var LinkTerritoriesOption = function(paper,id){
 				}
 			}
 		}
-		console.log(this.graph);
+	}
+
+	this.isThereEdge = function(source,destiny){
+		var edges = this.graph["Graph"]["Edges"];
+		for(var i =0 ; i < edges.length ; i++){
+			if( edges[i].U == source && edges[i].V == destiny){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	this.createEdge = function(source,destiny){
+		if(!this.isThereEdge(source,destiny)){
+			this.graph["Graph"]["Edges"].push({ "U" : source ,"V" : destiny });
+		}else{
+			alert("arco repetido");
+		}
+	}
+
+	this.addNumberSoldiersContinents = function(continents){
+		var numSoldiers, continentID;
+		var dataContinents = []
+		for (var i =0 ; i < continents.length ; i++){
+			continent = continents[i]
+			continentID = continent.data.id;
+			switch(continentID){
+				case "NorthAmerica":
+					numSoldiers = 5
+					break;
+				case "SouthAmerica":
+					numSoldiers = 2
+					break;
+				case "Africa":
+					numSoldiers = 3
+					break;
+				case "Europe":
+					numSoldiers = 5
+					break;
+				case "Asia":
+					numSoldiers = 7
+					break;
+				case "Oceania":
+					numSoldiers = 2
+					break;
+			}
+			dataContinents.push({ 'name' : continentID , 'num' : numSoldiers});
+		}
+		this.graph["continents"] = dataContinents;
 	}
 
 	this.getNeighbourhood = function(territory,territories){
@@ -169,9 +227,11 @@ var LinkTerritoriesOption = function(paper,id){
 			var vectorTwo = self.getNormalVector(territoryLink,continentLink);
 			var dif = Math.abs(vectorTwo.angle - vectorOne.angle);
 			if(dif >0 && dif < 90){
-				alert("you cannot link that territory" )
+				var notification = new Notification("You cannot link that territories!");
+				notification.launch();
 			}else{
-				alert("joins territories");
+				var notification = new Notification("Link the territories!");
+				notification.launch();
 				var from = self.getCentroid(territory);
 				var to = self.getCentroid(territoryLink);
 				var line = new self.paper.Path.Line(from, to);
@@ -183,38 +243,22 @@ var LinkTerritoriesOption = function(paper,id){
 				var destiny = territoryLink.data.id;
 				self.createEdge(source,destiny);
 				self.createEdge(destiny,source);
-				
+				//self.updateContinents(source,destiny);
 			}
 		}else{
-			alert("it is not a territory in the edge");
+			var notification = new Notification("this territory is not edge");
+			notification.launch();
 		}
 	}
 
-	this.createEdge = function(source,destiny){
-		this.graph["Edges"].push({ "U" : source ,"V" : destiny });
+	this.updateContinents = function(idSource,idDestiny){
+		var continentSource = this.getContinent(idSource);
+		var continentDestiny = this.getContinent(idDestiny);
+		if(continentSource && continentDestiny){
+			continentSource.selected = true;
+			continentDestiny.selected = true;
+		}
 	}
-
-	/*
-	this.getNormalVector = function(territory,parentContinent){
-		var intersects = self.getTerritoryEdge(territory,parentContinent);
-		var pathIntersect = new paper.Path(intersects);
-		var normal, offset , point, vector, sum;
-		var centroid = this.getCentroid(pathIntersect);
-		point = pathIntersect.getNearestPoint(centroid);
-		offset = pathIntersect.getOffsetOf(point);
-		if(!offset){
-			return;
-		}
-		normal = pathIntersect.getNormalAt(offset);
-		vector = new paper.Point(normal.x*40,normal.y*40);
-		sum =  new paper.Point(vector.x + point.x , vector.y + point.y );
-		if(territory.parent.contains(sum)){
-			normal.x = - normal.x;
-			normal.y = - normal.y;
-		}
-		//this.drawNormalVector(normal,point);//draw vector;
-		return normal;
-	}*/
 
 	this.getNormalVector = function(territory,parentContinent){
 		var intersects = self.getTerritoryEdge(territory,parentContinent);
@@ -325,14 +369,22 @@ var LinkTerritoriesOption = function(paper,id){
 
 	this.setContinents = function(continents){
 		this.continents = continents;
-		this.generateNodeGraph();
 	}
 
+}
+
+
+var SVGWorker = function(paper,continents,graph){
+	var self = this;
+	this.paper = paper;
+	this.continents = continents;
+	this.graph = graph;
+	
 	this.generateSVG = function(){
-		console.log("generar svg");
+		this.util = new Util();
 		var canvas = document.getElementById("resultadoMap");
 		var project = new self.paper.Project(canvas);		
-		self.continents.forEach(function(continent){
+		this.continents.forEach(function(continent){
 			var territories = continent.children;
 			territories.forEach(function(territory){
 				var territory = territory.clone();
@@ -343,16 +395,16 @@ var LinkTerritoriesOption = function(paper,id){
 				territoryGroup.remove();
 				project.activeLayer.addChild(territoryGroup);
 			});
-		});		
-		var graph = self.graph;
+		});	
+		console.log(project.activeLayer.view.viewSize);
 		var svgObject = project.exportSVG();//convert group paper in node html
-		svgObject = formatToSVG(svgObject);//change hierarchy of the node
+		svgObject = this.formatToSVG(svgObject);//change hierarchy of the node html to set id of continents in the territory
 		var serializer = new XMLSerializer();
 		var svgString = serializer.serializeToString(svgObject);
-		sendMapData(svgString,graph);
+		this.sendMapData(svgString,this.graph);
 	}
 
-	var formatToSVG = function(svgObject){
+	this.formatToSVG = function(svgObject){
 		//change svgObject to specified format to send to the server
 		var groupNode, territoryNode;
 		var data,dataJson;
@@ -370,7 +422,7 @@ var LinkTerritoriesOption = function(paper,id){
 	}
 
 
-	var sendMapData = function(svgString,graph){
+	this.sendMapData = function(svgString,graph){
 		$.ajax({
 	        type: 'POST',
 	        url: '/saveSVG',
@@ -384,12 +436,15 @@ var LinkTerritoriesOption = function(paper,id){
 	        	console.log(errorThrown);
 	        }
 	    }).done(function(dat) {
-	    	alert("Your map has been created!")
-	       	goToPlay(dat.fileName);
+	    	var notification = new Notification("Your map has been created!");
+			notification.launch();
+			notification.setCallback(self.goToPlay);
+			notification.setCallbackArg({'fileName' : dat.fileName});
 	    });
 	}
 
-	var goToPlay = function(fileName){
+	this.goToPlay = function(args){
+		var fileName = args.fileName;
 		var form = document.createElement("form");
 		form.setAttribute('method',"post");
 		form.setAttribute('action',"/setMap");
@@ -401,6 +456,4 @@ var LinkTerritoriesOption = function(paper,id){
 	}
 
 }
-
-
 

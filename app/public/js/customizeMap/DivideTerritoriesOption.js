@@ -9,6 +9,7 @@ var DivideTerritoriesOption = function(paper,id){
 	this.pointerReference = null;
 	this.continents = []
 	this.circles = [];
+	this.notificationOn = false;
 	
 	this.configure = function(args){//mouse enter event
 		console.log("divide territories of continents");
@@ -82,7 +83,8 @@ var DivideTerritoriesOption = function(paper,id){
 			//self.edges.push(straightLine);
 			var compoundPath = event.target;
 			var intersections = compoundPath.getIntersections(straightLine);
-			self.splitPaths(intersections);
+			intersections = self.filterIntersections(intersections);
+			self.splitPaths(compoundPath,intersections);
 			self.closedPaths(compoundPath,intersections);
 			straightLine.remove();
 			self.startPoint = null;
@@ -90,15 +92,75 @@ var DivideTerritoriesOption = function(paper,id){
 		}
 	}
 
-	this.splitPaths = function(intersections){
+	this.compareCurveLocation = function(locationOne,locationTwo){
+		if(locationOne.point.y == locationTwo.point.y){
+			return 0;
+		}
+		if(locationOne.point.y > locationTwo.point.y){
+			return 1;
+		}
+		return -1;
+	}
+
+	this.filterIntersections = function(intersections){
+		var intersection;
+		var radius = 6;
+		var flag = false;
+		var interFiltered = [];
+		var clusters = [];
+		var num_clusters = 0
+		intersections = intersections.sort(this.compareCurveLocation);
+		for(var i = 0; i <intersections.length ; i++){
+			intersection = intersections[i];
+			clusters[num_clusters] = [];
+			clusters[num_clusters].push(intersection)
+			for(var j = i + 1 ; j < intersections.length ; j++ ){
+				var distance = intersection.point.getDistance(intersections[j].point);
+				if( intersection._id != intersections[j]._id && distance <= radius){
+					clusters[num_clusters].push(intersections[j]);
+					i++;
+				} 
+			}
+			num_clusters += 1;
+		}
+		console.log(clusters);
+		for(var i = 0; i < num_clusters ; i++){
+			var cluster = clusters[i];
+			interFiltered.push(cluster.pop());
+		}
+
+		return interFiltered;
+	}
+
+	this.splitPaths = function(compoundPath,intersections){
 		var parentPath;
 		intersections.forEach(function(intersection) {
 			var point = intersection.point;
-			parentPath = intersection.path;	
-			var location = parentPath.getLocationOf(point);
-			parentPath.split(location);
+			var pathsIntersected = self.getPaths(compoundPath,point);
+			for(var j = 0 ; j < pathsIntersected.length ; j++){
+				var parentPath =  pathsIntersected[j];
+				var location = parentPath.getLocationOf(point);
+				parentPath.split(location);
+			}
+			//parentPath = intersection.path;	
+			//var location = parentPath.getLocationOf(point);
+			//parentPath.split(location);
 		});
 	}
+
+	this.getPaths = function(compoundPath,point){
+		var children = compoundPath.children;
+		var paths = [];
+		for(var j = 0 ; j < children.length ; j++){
+			var child = children[j];
+			if(child.getLocationOf(point)){
+				paths.push(child);
+			}
+		}
+		return paths;
+	}
+
+
 
 	this.closedPaths = function(compoundPath,intersections,edge){
 		var children = compoundPath.children;

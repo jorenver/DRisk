@@ -24,7 +24,7 @@ exports.saveFileSVG = function(request,response){
         console.log('Saved svg file!');
     });
     //save json file
-    jsonfile.writeFile(__dirnameJSON +fileName +"Graph.json",{ Graph: graphJSON } ,function(){
+    jsonfile.writeFile(__dirnameJSON +fileName +"Graph.json", graphJSON  ,function(){
         console.log("Saved json file!")
     });
 

@@ -4,6 +4,7 @@ var ParametersOption = function(paper,id){
 	this.paper = paper;
 	this.currentScale = 0.6;
 	this.id = id;
+	this.notificationOn = false;
 	this.target = null;
 
 	this.configure = function(args){
@@ -17,7 +18,7 @@ var ParametersOption = function(paper,id){
 	this.changeParameters = function(event){
 		var detail = event.detail;
 		var size = detail.size;
-		var color =  detail.color;
+		//var color =  detail.color;
 		var degrees = detail.degrees;
 
 		if(self.target){
@@ -28,7 +29,7 @@ var ParametersOption = function(paper,id){
 			if (size>0){
 				self.target.scale(size);
 			}
-			self.target.fillColor = color;
+			//self.target.fillColor = color;
 			self.target.rotate(degrees);
 		}
 	}

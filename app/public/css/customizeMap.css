@@ -100,3 +100,30 @@ td{
 	background-color: rgba(0,0,96,1);
 	padding: 20px;
 }
+
+.notification{
+	position: fixed;
+	z-index: 20;
+	height: 100px;
+	width: 325px;
+	background-color: rgba(0,0,96,1);
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+	color: white;
+	border-radius: 10px;
+	font-family: opcionUno;
+	font-size: 18px;
+}
+
+.notificationButton{
+
+}
+
+.notificationButton input{
+	margin: 10px;
+	width: 100px;
+	border-radius: 5px;
+	cursor: pointer;
+}
