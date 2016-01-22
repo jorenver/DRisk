@@ -253,6 +253,10 @@ var graphicsChangeCards = function(){
 
     }
 
+    this.quitCards = function(card){
+        
+    }
+
     this.cleanScope = function(){
         this.paperScopeChangeCard.project.activeLayer.removeChildren();
 

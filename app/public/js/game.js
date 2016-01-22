@@ -362,7 +362,16 @@ function openChangeCard_PopUp( ){
 		var territory = territoryPath.clone();
 		territory.remove();
 		var widthCard = grapherChangeCards.widthCard;
-		grapherChangeCards.drawCard(10 + (widthCard+ 20)*i, 10, currentCard , territory);
+		var heightCard = grapherChangeCards.heigthCard;
+		if (i <5){
+			grapherChangeCards.drawCard(10 + (widthCard+ 20)*i, 10, currentCard , territory);
+		}
+		else{
+
+			x = i - 5;
+			grapherChangeCards.drawCard(10 + (widthCard+ 20)*x, 20 + heightCard , currentCard , territory);
+		}
+
 
     }
 
@@ -381,9 +390,7 @@ function openChangeCard_PopUp( ){
     			traceCard_PopUp.style.display="none";
     		}
     	}
-    	else{
-    		alert("error, las cartas deben ser todas iguales o todas diferentes");
-    	}
+    	
     };
 
     bt_cancelTrace.onclick = function(event){

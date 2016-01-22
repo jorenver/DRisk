@@ -1,5 +1,5 @@
 #traceCard_PopUp {
-  background-color: rgba(226,228,230, 0.5);
+  background-color: rgba(226,228,230, 1);
   border-radius: 6px;
   color: white;
   display: none;
@@ -19,7 +19,6 @@
   position: absolute; 
   top: 40px;
   left: 10px;
-  border: 1px dashed #CCCCCC;
 }
 
 #traceCar_content{
@@ -29,6 +28,17 @@
   color: black;
   font-family: opcionUno;
   justify-content: center;
+}
+
+#traceCar_message{
+  width: 95%;
+  height: 30px;
+  margin: 2.5%;
+  color: black;
+  font-family: opcionUno;
+  justify-content: center;
+  position: absolute; 
+  top: 400px;
 }
 
 
