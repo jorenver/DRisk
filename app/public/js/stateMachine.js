@@ -126,6 +126,8 @@ var atackTerritory = function(){
 			return;
 		}
 		//update the graph
+		gb.cleanScope();
+		gb.drawBattle(args);
         dice1=args.dice1;
         dice2=args.dice2;
         numAttacker=args.numAttacker;
@@ -134,9 +136,6 @@ var atackTerritory = function(){
         var territory2 = graph.node(args.idTerritory2);
        	territory1.numSoldier =numAttacker;
        	territory2.numSoldier =numDefender;
-       	
-		gb.cleanScope();
-		gb.drawBattle(args);
        	if(args.conquer){
        		territory2.owner=territory1.owner;
        		auxPlayer=searchPlayer(match.listPlayer,match.turn);

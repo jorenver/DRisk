@@ -362,7 +362,16 @@ function openChangeCard_PopUp( ){
 		var territory = territoryPath.clone();
 		territory.remove();
 		var widthCard = grapherChangeCards.widthCard;
-		grapherChangeCards.drawCard(10 + (widthCard+ 20)*i, 10, currentCard , territory);
+		var heightCard = grapherChangeCards.heigthCard;
+		if (i <5){
+			grapherChangeCards.drawCard(10 + (widthCard+ 20)*i, 10, currentCard , territory);
+		}
+		else{
+
+			x = i - 5;
+			grapherChangeCards.drawCard(10 + (widthCard+ 20)*x, 20 + heightCard , currentCard , territory);
+		}
+
 
     }
 
@@ -381,9 +390,7 @@ function openChangeCard_PopUp( ){
     			traceCard_PopUp.style.display="none";
     		}
     	}
-    	else{
-    		alert("error, las cartas deben ser todas iguales o todas diferentes");
-    	}
+    	
     };
 
     bt_cancelTrace.onclick = function(event){
@@ -521,7 +528,7 @@ function updateTerritoryAttack(territoryPath,color){
 	
 	var soldier = soldierItem.clone();
 	soldier.position = territoryPath.position;
-	//soldier.scale(1);
+	soldier.scale(0.5);
 	//paper.project.activeLayer.addChild(soldier);
 	paperMapScope.project.activeLayer.addChild(soldier);
 	//updateNumSoldier(territoryPath);
@@ -543,7 +550,7 @@ function updateTerritory(territoryPath,color){
 	territoryPath.fillColor = color;
 	var soldier = soldierItem.clone();
 	soldier.position = territoryPath.position;
-	//soldier.scale(1);
+	soldier.scale(0.5);
 	//paper.project.activeLayer.addChild(soldier);
 	paperMapScope.project.activeLayer.addChild(soldier);
 	updateNumSoldier(territoryPath);
