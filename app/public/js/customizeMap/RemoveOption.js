@@ -5,6 +5,7 @@ var RemoveOption = function(paper,id){
 	this.id = id;
 	this.target = null;
 	this.continents = null;
+	this.notificationOn = false;
 
 	this.configure = function(args){
 		console.log("remove a continent!");

@@ -231,4 +231,39 @@ var Util = function(){
 		continent.shadowBlur = 15;
 	}
 
+	this.notification = function(msg,callback){
+
+	}
+
+}
+
+var Notification = function(msg,callback){
+	var self = this;
+	this.parentHTML = {};
+	this.buttonAccept = {};
+	this.action = callback;
+
+	this.launch = function(){
+		var div = $("<div>", { class: "notification u-flex-column u-align-center u-justify-space-around" }).html(msg);
+		var divButton = $("<div>", { class: "notificationButton u-flex-row u-align-center u-justify-center" })
+		this.buttonAccept = $("<input>",{ value: 'ok', type : "button"});
+		this.parentHTML = div;
+		this.buttonAccept.on('click',function(){
+			//self.action();
+			self.quit();
+		});
+		//$('#mapWrapper').animate({opacity: 0.4}, 500);
+		divButton.append(this.buttonAccept);
+		div.append(divButton)
+		setTimeout(function(){ 
+			self.quit();
+		}, 3000);
+		$("body").append(div);   
+	}
+
+	this.quit = function(){
+		self.parentHTML.slideUp();
+	}
+
+
 }

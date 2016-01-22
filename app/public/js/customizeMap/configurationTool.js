@@ -31,11 +31,22 @@ var ConfigurationTool = function(paper){
 					if(option){
 						self.setOption(option);
 						self.resetEventsHandle();
+						self.generateNotificaction();
 						$("#"+event.target.id).css('background-color','rgba(200,0,0,1)');
 					}	
 				}, false);
 			}
 		}
+	}
+
+	this.generateNotificaction = function(){
+		if(this.currentOption.notificationOn){
+			return;
+		}
+		var title = $("#" + this.currentOption.id).attr('title');
+		var notification = new Notification(title,null);
+		notification.launch();
+		this.currentOption.notificationOn = true;
 	}
 
 	this.resetEventsHandle = function(){
@@ -50,6 +61,7 @@ var ConfigurationTool = function(paper){
 		this.currentOption = option;
 		if(this.currentOption.id == "optLink"){
 			this.currentOption.getEdges();
+			this.currentOption.generateNodeGraph(configurationWorker.mapsContinents);
 		}
 	}
 

@@ -6,6 +6,7 @@ var LinkTerritoriesOption = function(paper,id){
 	this.edges = null
 	this.continents = null;
 	this.target = null;
+	this.notificationOn = false;
 	this.graph = {};
 
 	this.configure = function(args){
@@ -35,29 +36,28 @@ var LinkTerritoriesOption = function(paper,id){
 		return null;
 	}
 
-	this.generateNodeGraph = function(){
+	this.generateNodeGraph = function(continents){
 		this.graph["Nodes"] = []
 		var continent, continentID;
 		var territories, territoryID;
-		for (var i =0 ; i < this.continents.length ; i++){
-			continent = this.continents[i]
-			continentID = continent.data.id
-			continentID.data.selected = false
+		for (var i =0 ; i < continents.length ; i++){
+			continent = continents[i]
+			continentID = continent.data.id;
 			territories = continent.children;
-			for(var j = 0 ; j < continent.children.length; j++){
+			for(var j = 0 ; j < territories.length; j++){
 				territoryID = continentID + j
 				territories[j].data.id = territoryID
 				this.graph.Nodes.push({"id": territoryID ,"continent": continentID });
 			}
 		}
-		this.graph["Edges"] = []
-		this.generateEdgeGraph();
+		this.generateEdgeGraph(continents);
 	}
 
-	this.generateEdgeGraph = function(){
+	this.generateEdgeGraph = function(continents){
+		this.graph["Edges"] = []
 		var continent,territory , neighbourhood;
-		for (var i =0 ; i < this.continents.length ; i++){
-			continent = this.continents[i];
+		for (var i =0 ; i < continents.length ; i++){
+			continent = continents[i];
 			territories = continent.children;
 			for(var j = 0 ; j < territories.length; j++){
 				territory = territories[j];
@@ -183,10 +183,19 @@ var LinkTerritoriesOption = function(paper,id){
 				var destiny = territoryLink.data.id;
 				self.createEdge(source,destiny);
 				self.createEdge(destiny,source);
-				
+				self.updateContinents(source,destiny);
 			}
 		}else{
 			alert("it is not a territory in the edge");
+		}
+	}
+
+	this.updateContinents = function(idSource,idDestiny){
+		var continentSource = this.getContinent(idSource);
+		var continentDestiny = this.getContinent(idDestiny);
+		if(continentSource && continentDestiny){
+			continentSource.selected = true;
+			continentDestiny.selected = true;
 		}
 	}
 
@@ -325,7 +334,6 @@ var LinkTerritoriesOption = function(paper,id){
 
 	this.setContinents = function(continents){
 		this.continents = continents;
-		this.generateNodeGraph();
 	}
 
 	this.generateSVG = function(){

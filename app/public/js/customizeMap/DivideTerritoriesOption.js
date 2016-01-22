@@ -9,6 +9,7 @@ var DivideTerritoriesOption = function(paper,id){
 	this.pointerReference = null;
 	this.continents = []
 	this.circles = [];
+	this.notificationOn = false;
 	
 	this.configure = function(args){//mouse enter event
 		console.log("divide territories of continents");

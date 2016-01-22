@@ -5,6 +5,7 @@ var DragAndDropOption = function(paper,id){
 	this.id = id;
 	this.target = null;
 	this.util = new Util()
+	this.notificationOn = false;
 
 	this.configure = function(args){
 		var eventMouse = args.event;
