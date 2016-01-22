@@ -97,7 +97,6 @@ function clickTwoTerritorys(territoryPath){
 		var territory=graph.node(idTerritory);
 
 		if(territory.owner!=nick || territory.numSoldier<=1){
-			alert('No puede escoger ese territorio');
 			return;
 		}
 		territorysSelected[0]=idTerritory;
