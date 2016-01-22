@@ -97,7 +97,6 @@ function clickTwoTerritorys(territoryPath){
 		var territory=graph.node(idTerritory);
 
 		if(territory.owner!=nick || territory.numSoldier<=1){
-			alert('No puede escoger ese territorio');
 			return;
 		}
 		territorysSelected[0]=idTerritory;
@@ -188,6 +187,10 @@ function connectSocketGame(){
 	});
 	socket.on("loser", function(){
 		window.location.href = "/loser";
+	});
+	socket.on("allReady", function(){
+		console.log("close pop up");
+		waiting.style.display="none";
 	});
 	socket.on("updateMap", function(args){
 		match.turn = args.nickTurn;
@@ -504,6 +507,7 @@ function loadSVGMap(file){
 			mapGroup.position = new paperMapScope.Point(paperMapScope.view.size.width/2, paperMapScope.view.size.height/2);
 			setClick(clickTerritory);
 			//loadTurnItem();
+			socket.emit("ready");
 			changeColorTurn()
 			//paperMapScope.view.on('frame',animationOn);
 		}

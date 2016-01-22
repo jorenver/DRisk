@@ -192,7 +192,8 @@ exports.joinPlayer = function(idMatch, nickPlayer,sockets){
 		numSoldier: 0,
 		lastTerritorysConquers:0,
 		timesCardTrace: 0, //*********HHDDdkhdshdhdPILASSSSSSS*********%$$##$$%ˆˆ&&**
-		color:colors[currentIndex]
+		color:colors[currentIndex],
+		ready:false
 
 	};
 	Matches[idMatch].listPlayer.push(player);

@@ -65,6 +65,22 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 model.emitPublicMatch(idMatch,nick,player);//stay the current match as 'published'
             });
 
+            player.on("ready", function(data){
+                console.log("Ready **************")
+                var currentMatch = model.Matches[session.idMatch];
+                var listPlayer = currentMatch.listPlayer;
+                for (var i = 0; i < listPlayer.length; i++) {
+                    if(listPlayer[i].nick==session.nick)
+                        listPlayer[i].ready=true;
+                }
+                if(allReady(listPlayer)){
+                    var playersSocket = clients[session.idMatch];
+                    for(p in playersSocket){
+                        playersSocket[p].socket.emit('allReady');
+                    }
+                }
+            });
+
             player.on("startGame", function(data){
                 var currentMatch = model.Matches[session.idMatch];
                 if(currentMatch.mode=="World Domination"){
@@ -121,7 +137,6 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 var data=currentMatch.stage.buildData(args,playerTurn,nextState,currentMatch);
                 if(currentMatch.stage.stageName=="Atack"){
                     var validator=currentMatch.validator;
-                    data.winner=validator.getWinner(currentMatch);
                     data.losers = validator.getLosers(currentMatch);
                     console.log('XXXXXXXXXXXXX Perdedores '+data.losers);
                 }
@@ -141,9 +156,9 @@ exports.createServerSocket = function(io,sessionMiddleware){
                 for(p in playersSocket){
                     playersSocket[p].socket.emit('updateMap', data);
                 }
-                if(data.losers){
+                if(data.losers && data.losers.length>0){
+                    var sockets = clients[session.idMatch];//it gets all the clients has joined to this match
                     for (var i = 0; i < data.losers.length; i++) {
-                        var sockets = clients[session.idMatch];//it gets all the clients has joined to this match
                         if(sockets){
                             //we can get one specific socket by id
                             for (j in sockets){
@@ -164,19 +179,8 @@ exports.createServerSocket = function(io,sessionMiddleware){
                             }
                         }
                     }
-                }
-                if(data.winner){
-                    var sockets = clients[session.idMatch];//it gets all the clients has joined to this match
-                    if(sockets){
-                        //we can get one specific socket by id
-                        for (j in sockets){
-                            if(sockets[j].nick == data.winner){
-                                console.log("se borro conexion por Ganador");
-                                sockets[j].socket.emit('winner');
-                                sockets.splice(j,i);
-                                j--;
-                            }
-                        }
+                    if(validator.getWinner(currentMatch)!=null){
+                        sockets[0].socket.emit('winner');
                     }
                 }
 
@@ -207,4 +211,12 @@ function getIdSoket(list,nick){
             return i;
     }
     return pos;
+}
+
+function allReady(listPlayer){
+    for (var i = 0; i < listPlayer.length; i++) {
+        if(listPlayer[i].ready==false)
+            return false;
+    }
+    return true;
 }
