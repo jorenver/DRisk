@@ -134,8 +134,7 @@ var atackTerritory = function(){
         var territory2 = graph.node(args.idTerritory2);
        	territory1.numSoldier =numAttacker;
        	territory2.numSoldier =numDefender;
-       	var gb= new graphicsBattle();
-		gb.initializeScope();
+       	
 		gb.cleanScope();
 		gb.drawBattle(args);
        	if(args.conquer){

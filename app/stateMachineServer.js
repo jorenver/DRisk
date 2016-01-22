@@ -171,37 +171,37 @@ function calculateNumReforces(match){
         *America del Sur -- 2
     */
     var graphPtr = match.map.graph;
-    var Af=3,Oc=2,As=7,Eu=5,An=5,Ams=2;
-    idTerritorys=graphPtr.nodes();
+    var continents=match.map.continents;
+    var listExtraContinents=[];
+    var num=0;
     var cont=0;
+    var sum=0;
+    for (var i = 0; i < continents.length; i++) {
+        listExtraContinents.push(continents[i].num);
+    }
+    idTerritorys=graphPtr.nodes();
     for (var i = 0; i < idTerritorys.length; i++) {
         idTerritory=idTerritorys[i];
         if(graphPtr.node(idTerritory).owner==match.turn){
             cont++;
         }else{
-            if(graphPtr.node(idTerritory).continent=="NorthAmerica")
-                An=0;
-            if(graphPtr.node(idTerritory).continent=="SouthAmerica")
-                Ams=0;
-            if(graphPtr.node(idTerritory).continent=="Africa")
-                Af=0;
-            if(graphPtr.node(idTerritory).continent=="Europe")
-                Eu=0;
-            if(graphPtr.node(idTerritory).continent=="Asia")
-                As=0;
-            if(graphPtr.node(idTerritory).continent=="Oceania")
-                Oc=0;
+            for (var j=0; j < continents.length; j++) {
+                if(graphPtr.node(idTerritory).continent==continents[j].name){
+                    listExtraContinents[j]=0;
+                }
+            }
         }
-
     }
-    var num;
     if(cont <=11){
         num=3;
     }else{
         cont=cont-12;
         num=((cont-(cont%3))/3)+4;
     }
-    num=num+An+Ams+Af+Eu+As+Oc;
+    for (var i = 0; i < listExtraContinents.length; i++) {
+        sum+=listExtraContinents[i];
+    }
+    num=num+sum;
     return num;
 }
 
@@ -216,6 +216,7 @@ var reforceTerritory = function(){
         //calcular el numero de soldados
 
         player.numSoldier+=calculateNumReforces(match);
+        console.log("player: ",player.nick," soldiers: ",player.numSoldier)
     }
 
     this.isChangeTurn= function(){
@@ -315,7 +316,6 @@ var atackTerritory = function(){
         nickDefender=territoryD.owner;
         numSoldierA=territoryA.numSoldier;
         numSoldierD=territoryD.numSoldier;
-        debugger;
         if(numSoldierA>=4){
             numAttacker=3;
 
@@ -538,7 +538,7 @@ var changeCards = function(){
         this.extraSoldiers = calculateExtraSoldiersCards(args.nick, 
             match.map.graph, args.cardsTraced);  
 
-        player.numSoldier = this.soldiers + this.extraSoldiers;
+        player.numSoldier = this.numSoldier + this.extraSoldiers;
 
 
     }
