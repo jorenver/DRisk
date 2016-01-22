@@ -1,6 +1,7 @@
 var victoryValidatorWorldDomination = function(){
 
 	this.getWinner = function(match){
+		/*
 		var graphPtr = match.map.graph;
 		var listPlayer=match.listPlayer;
 		if(listPlayer.length==2){
@@ -23,6 +24,12 @@ var victoryValidatorWorldDomination = function(){
 			}
 		}
 		return null;
+		*/
+		if(listPlayer.length==1){
+			return listPlayer[0].nick;
+		}
+		return null;
+
 	}
 
 	this.getLosers = function(match){

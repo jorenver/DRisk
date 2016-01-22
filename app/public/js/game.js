@@ -189,6 +189,10 @@ function connectSocketGame(){
 	socket.on("loser", function(){
 		window.location.href = "/loser";
 	});
+	socket.on("allReady", function(){
+		console.log("close pop up");
+		waiting.style.display="none";
+	});
 	socket.on("updateMap", function(args){
 		match.turn = args.nickTurn;
 		stage.doUpdateMap(args, match, graph); //actualiza juego, grafo
@@ -504,6 +508,7 @@ function loadSVGMap(file){
 			mapGroup.position = new paperMapScope.Point(paperMapScope.view.size.width/2, paperMapScope.view.size.height/2);
 			setClick(clickTerritory);
 			//loadTurnItem();
+			socket.emit("ready");
 			changeColorTurn()
 			//paperMapScope.view.on('frame',animationOn);
 		}
