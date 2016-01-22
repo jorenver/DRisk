@@ -104,7 +104,7 @@ var HandleMouseEnter = function(){
 			return;
 		}
 		var continent = event.target;
-		continent.shadowColor =new configurationWorker.paper.Color(1, 0, 0);
+		continent.shadowColor = new configurationWorker.paper.Color(1, 0, 0);
 		continent.shadowBlur = 15;// Set the shadow blur radius to 12:
 		continent.shadowOffset = new configurationWorker.paper.Point(0, 0);// Offset the shadow by { x: 5, y: 5 }
 	}
@@ -231,17 +231,14 @@ var Util = function(){
 		continent.shadowBlur = 15;
 	}
 
-	this.notification = function(msg,callback){
-
-	}
-
 }
 
-var Notification = function(msg,callback){
+var Notification = function(msg){
 	var self = this;
 	this.parentHTML = {};
 	this.buttonAccept = {};
-	this.action = callback;
+	this.action = null;
+	this.args = null;
 
 	this.launch = function(){
 		var div = $("<div>", { class: "notification u-flex-column u-align-center u-justify-space-around" }).html(msg);
@@ -249,21 +246,31 @@ var Notification = function(msg,callback){
 		this.buttonAccept = $("<input>",{ value: 'ok', type : "button"});
 		this.parentHTML = div;
 		this.buttonAccept.on('click',function(){
-			//self.action();
+			if(self.action){
+				self.action(self.args);
+			}
 			self.quit();
 		});
-		//$('#mapWrapper').animate({opacity: 0.4}, 500);
 		divButton.append(this.buttonAccept);
 		div.append(divButton)
 		setTimeout(function(){ 
+			if(self.action){
+				self.action(self.args);
+			}
 			self.quit();
 		}, 3000);
 		$("body").append(div);   
 	}
 
+	this.setCallback = function(callback){
+		this.action = callback;
+	}
+
+	this.setCallbackArg = function(args){
+		this.args = args;
+	}
+
 	this.quit = function(){
 		self.parentHTML.slideUp();
 	}
-
-
 }

@@ -1,0 +1,262 @@
+{
+  "continents": [
+    {
+      "name": "NorthAmerica",
+      "num": "5"
+    },
+    {
+      "name": "SouthAmerica",
+      "num": "2"
+    }
+  ],
+  "Graph": {
+    "Nodes": [
+      {
+        "id": "NorthAmerica0",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica1",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica2",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica3",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica4",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica5",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica6",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica7",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica8",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica9",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica10",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "SouthAmerica0",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica1",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica2",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica3",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica4",
+        "continent": "SouthAmerica"
+      },
+      {
+        "id": "SouthAmerica5",
+        "continent": "SouthAmerica"
+      }
+    ],
+    "Edges": [
+      {
+        "U": "NorthAmerica1",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica1",
+        "V": "NorthAmerica6"
+      },
+      {
+        "U": "NorthAmerica2",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica2",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica2"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica5"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica7"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica8"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica10"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica1"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica2"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica5"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica6"
+      },
+      {
+        "U": "NorthAmerica5",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica5",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica5",
+        "V": "NorthAmerica6"
+      },
+      {
+        "U": "NorthAmerica5",
+        "V": "NorthAmerica10"
+      },
+      {
+        "U": "NorthAmerica6",
+        "V": "NorthAmerica1"
+      },
+      {
+        "U": "NorthAmerica6",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica6",
+        "V": "NorthAmerica5"
+      },
+      {
+        "U": "NorthAmerica6",
+        "V": "NorthAmerica10"
+      },
+      {
+        "U": "NorthAmerica7",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica7",
+        "V": "NorthAmerica8"
+      },
+      {
+        "U": "NorthAmerica8",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica8",
+        "V": "NorthAmerica7"
+      },
+      {
+        "U": "NorthAmerica8",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica8"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica10"
+      },
+      {
+        "U": "NorthAmerica10",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica10",
+        "V": "NorthAmerica5"
+      },
+      {
+        "U": "NorthAmerica10",
+        "V": "NorthAmerica6"
+      },
+      {
+        "U": "NorthAmerica10",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "SouthAmerica0",
+        "V": "SouthAmerica1"
+      },
+      {
+        "U": "SouthAmerica0",
+        "V": "SouthAmerica2"
+      },
+      {
+        "U": "SouthAmerica1",
+        "V": "SouthAmerica0"
+      },
+      {
+        "U": "SouthAmerica1",
+        "V": "SouthAmerica2"
+      },
+      {
+        "U": "SouthAmerica1",
+        "V": "SouthAmerica3"
+      },
+      {
+        "U": "SouthAmerica2",
+        "V": "SouthAmerica0"
+      },
+      {
+        "U": "SouthAmerica2",
+        "V": "SouthAmerica1"
+      },
+      {
+        "U": "SouthAmerica3",
+        "V": "SouthAmerica1"
+      }
+    ]
+  }
+}

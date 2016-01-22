@@ -1,0 +1,454 @@
+{
+  "continents": [
+    {
+      "name": "NorthAmerica",
+      "num": "5"
+    },
+    {
+      "name": "Africa",
+      "num": "3"
+    }
+  ],
+  "Graph": {
+    "Nodes": [
+      {
+        "id": "NorthAmerica0",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica1",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica2",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica3",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica4",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica5",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica6",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica7",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica8",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica9",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica10",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica11",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "NorthAmerica12",
+        "continent": "NorthAmerica"
+      },
+      {
+        "id": "Africa0",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa1",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa2",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa3",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa4",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa5",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa6",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa7",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa8",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa9",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa10",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa11",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa12",
+        "continent": "Africa"
+      },
+      {
+        "id": "Africa13",
+        "continent": "Africa"
+      }
+    ],
+    "Edges": [
+      {
+        "U": "NorthAmerica1",
+        "V": "NorthAmerica2"
+      },
+      {
+        "U": "NorthAmerica1",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica1",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica2",
+        "V": "NorthAmerica1"
+      },
+      {
+        "U": "NorthAmerica2",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica1"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica2"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica5"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica6"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica7"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica11"
+      },
+      {
+        "U": "NorthAmerica3",
+        "V": "NorthAmerica12"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica1"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica11"
+      },
+      {
+        "U": "NorthAmerica4",
+        "V": "NorthAmerica12"
+      },
+      {
+        "U": "NorthAmerica5",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica5",
+        "V": "NorthAmerica6"
+      },
+      {
+        "U": "NorthAmerica6",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica6",
+        "V": "NorthAmerica5"
+      },
+      {
+        "U": "NorthAmerica6",
+        "V": "NorthAmerica7"
+      },
+      {
+        "U": "NorthAmerica7",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica7",
+        "V": "NorthAmerica6"
+      },
+      {
+        "U": "NorthAmerica7",
+        "V": "NorthAmerica12"
+      },
+      {
+        "U": "NorthAmerica8",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica8",
+        "V": "NorthAmerica12"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica8"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica10"
+      },
+      {
+        "U": "NorthAmerica9",
+        "V": "NorthAmerica12"
+      },
+      {
+        "U": "NorthAmerica10",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica10",
+        "V": "NorthAmerica11"
+      },
+      {
+        "U": "NorthAmerica10",
+        "V": "NorthAmerica12"
+      },
+      {
+        "U": "NorthAmerica11",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica11",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica11",
+        "V": "NorthAmerica10"
+      },
+      {
+        "U": "NorthAmerica11",
+        "V": "NorthAmerica12"
+      },
+      {
+        "U": "NorthAmerica12",
+        "V": "NorthAmerica3"
+      },
+      {
+        "U": "NorthAmerica12",
+        "V": "NorthAmerica4"
+      },
+      {
+        "U": "NorthAmerica12",
+        "V": "NorthAmerica7"
+      },
+      {
+        "U": "NorthAmerica12",
+        "V": "NorthAmerica8"
+      },
+      {
+        "U": "NorthAmerica12",
+        "V": "NorthAmerica9"
+      },
+      {
+        "U": "NorthAmerica12",
+        "V": "NorthAmerica10"
+      },
+      {
+        "U": "NorthAmerica12",
+        "V": "NorthAmerica11"
+      },
+      {
+        "U": "Africa0",
+        "V": "Africa1"
+      },
+      {
+        "U": "Africa0",
+        "V": "Africa2"
+      },
+      {
+        "U": "Africa0",
+        "V": "Africa5"
+      },
+      {
+        "U": "Africa1",
+        "V": "Africa0"
+      },
+      {
+        "U": "Africa1",
+        "V": "Africa3"
+      },
+      {
+        "U": "Africa1",
+        "V": "Africa5"
+      },
+      {
+        "U": "Africa1",
+        "V": "Africa6"
+      },
+      {
+        "U": "Africa2",
+        "V": "Africa0"
+      },
+      {
+        "U": "Africa2",
+        "V": "Africa5"
+      },
+      {
+        "U": "Africa3",
+        "V": "Africa1"
+      },
+      {
+        "U": "Africa3",
+        "V": "Africa4"
+      },
+      {
+        "U": "Africa3",
+        "V": "Africa5"
+      },
+      {
+        "U": "Africa3",
+        "V": "Africa6"
+      },
+      {
+        "U": "Africa3",
+        "V": "Africa9"
+      },
+      {
+        "U": "Africa4",
+        "V": "Africa3"
+      },
+      {
+        "U": "Africa4",
+        "V": "Africa5"
+      },
+      {
+        "U": "Africa4",
+        "V": "Africa9"
+      },
+      {
+        "U": "Africa5",
+        "V": "Africa0"
+      },
+      {
+        "U": "Africa5",
+        "V": "Africa1"
+      },
+      {
+        "U": "Africa5",
+        "V": "Africa2"
+      },
+      {
+        "U": "Africa5",
+        "V": "Africa3"
+      },
+      {
+        "U": "Africa5",
+        "V": "Africa4"
+      },
+      {
+        "U": "Africa6",
+        "V": "Africa1"
+      },
+      {
+        "U": "Africa6",
+        "V": "Africa3"
+      },
+      {
+        "U": "Africa6",
+        "V": "Africa7"
+      },
+      {
+        "U": "Africa6",
+        "V": "Africa8"
+      },
+      {
+        "U": "Africa6",
+        "V": "Africa9"
+      },
+      {
+        "U": "Africa7",
+        "V": "Africa6"
+      },
+      {
+        "U": "Africa7",
+        "V": "Africa8"
+      },
+      {
+        "U": "Africa8",
+        "V": "Africa6"
+      },
+      {
+        "U": "Africa8",
+        "V": "Africa7"
+      },
+      {
+        "U": "Africa8",
+        "V": "Africa9"
+      },
+      {
+        "U": "Africa8",
+        "V": "Africa10"
+      },
+      {
+        "U": "Africa9",
+        "V": "Africa3"
+      },
+      {
+        "U": "Africa9",
+        "V": "Africa4"
+      },
+      {
+        "U": "Africa9",
+        "V": "Africa6"
+      },
+      {
+        "U": "Africa9",
+        "V": "Africa8"
+      },
+      {
+        "U": "Africa10",
+        "V": "Africa8"
+      }
+    ]
+  }
+}
