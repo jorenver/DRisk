@@ -1,4 +1,6 @@
-{"Graph":{
+{"continents":[{"name":"NorthAmerica","num":5},{"name":"SouthAmerica","num":2},{"name":"Africa","num":3},{"name":"Europe","num":5},
+{"name":"Asia","num":7},{"name":"Oceania","num":2}],
+"Graph":{
 	"Nodes":[{"id":"Alaska","continent":"NorthAmerica"},
 			{"id":"NorthWestTerritory","continent":"NorthAmerica"},
 			{"id":"Alberta","continent":"NorthAmerica"},

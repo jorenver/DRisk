@@ -13,7 +13,8 @@ var soldierItem;
 var turnItem;
 var paperMapScope;
 var dicesPaths=[];
-
+var gb;
+var continents;
 
 //objects to draw in other scopes
 
@@ -159,10 +160,11 @@ function procesarNumSolidier(event){
 	var numSoldier = respond.numSoldier; 
 	var user = respond.nick;
 	var auxPlayer=searchPlayer(match.listPlayer,match.turn);
-    auxPlayer.numSoldier += numSoldier;  
+    auxPlayer.numSoldier = numSoldier;  
 	console.log("YYYYYYYYYYY Soldados por Jugador" ,match.listPlayer);
-	if(isMyTurn())
+	if(isMyTurn()){
 		updateNumSoldiers(auxPlayer);
+	}
     setClick(clickTerritory);
 }
 
@@ -195,6 +197,7 @@ function connectSocketGame(){
 
 		redraw(args, stage.drawAction);
 		updateViewStage();
+		updateViewCards();
 		updateNumSoldiers(player);
 		if(args.stage != stage.stageName){ //si cambia el estado
 			stage = stage.nextStage();
@@ -432,6 +435,8 @@ function loadMatch(event){
 	
 	var strMap = match.map.graph;//cargar el grafo
 	graph = new graphlib.json.read(strMap);
+	continents=match.map.continents;
+	console.log("Contientes: ",continents);
 	updateViewStage();
 	initLibPaper();
 }
@@ -462,7 +467,8 @@ function initialize(event){
 	moveAction.addEventListener("click",buttonMove,false);
 	reciveCardsAction.addEventListener("click",buttonRecive,false);
 	//updateViewStage();
-
+	gb= new graphicsBattle();
+	gb.initializeScope();
 }
 
 function initLibPaper(){
@@ -694,29 +700,34 @@ function updateViewStage(){
 	//$('.actionButton').attr('disabled', true);
 	
 	if(stage.stageName=="Select"){
-		viewStage.innerHTML="Select Territory";
+		//viewStage.innerHTML="Select Territory";
 		selectAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
 	}
 	if(stage.stageName=="Reforce"){
-		viewStage.innerHTML="Reforce Territory";
+		//viewStage.innerHTML="Reforce Territory";
 		reforceAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
 	}
 	if(stage.stageName=="Atack"){
-		viewStage.innerHTML="Attack Territory";
+		//viewStage.innerHTML="Attack Territory";
 		attackAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
 	}
 	if(stage.stageName=="Move"){
-		viewStage.innerHTML="Move Soldier";
+		//viewStage.innerHTML="Move Soldier";
 		moveAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
 	}
 	if(stage.stageName=="changeCards"){
-		viewStage.innerHTML="Change Cards";
+		//viewStage.innerHTML="Change Cards";
 		changeAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
 	}
 	if(stage.stageName=="receiveCard"){
-		viewStage.innerHTML="Receive Card";
+		//viewStage.innerHTML="Receive Card";
 		reciveCardsAction.style.background=searchPlayer(match.listPlayer,match.turn).color.code;
 	}
+}
+
+function updateViewCards(){
+	viewNumCards.innerHTML=player.cards.length;
+
 }
 
 

@@ -137,7 +137,8 @@ exports.setMap = function(request,response){
 	var Map={
 		name: mapChosen,
 		graph: loadGraph(dirName + mapChosen + "Graph.json"),//world map
-		svg:null
+		svg:null,
+		continents:loadContinets(dirName + mapChosen + "Graph.json")
 	}
 	var match = Matches[request.session.idMatch];
 	if(match!=null){
@@ -230,7 +231,8 @@ exports.getMatch = function(idMatch, nick){
 	var newMap = {
 		name: match.map.name,
 		graph: strgraph,
-		svg: null
+		svg: null,
+		continents:match.map.continents
 	}
 
 	var newMatch = {
@@ -260,6 +262,12 @@ function loadGraph(filename){
 		graph.setEdge(edges[i].U, edges[i].V);
 	}
 	return graph;
+}
+function loadContinets(filename){
+	//file: json file of graph 
+	var data = require(filename).continents;
+	return data;
+
 }
 
 function loadSVG(filename){
