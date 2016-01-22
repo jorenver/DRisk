@@ -528,7 +528,7 @@ function updateTerritoryAttack(territoryPath,color){
 	
 	var soldier = soldierItem.clone();
 	soldier.position = territoryPath.position;
-	//soldier.scale(1);
+	soldier.scale(0.5);
 	//paper.project.activeLayer.addChild(soldier);
 	paperMapScope.project.activeLayer.addChild(soldier);
 	//updateNumSoldier(territoryPath);
@@ -550,7 +550,7 @@ function updateTerritory(territoryPath,color){
 	territoryPath.fillColor = color;
 	var soldier = soldierItem.clone();
 	soldier.position = territoryPath.position;
-	//soldier.scale(1);
+	soldier.scale(0.5);
 	//paper.project.activeLayer.addChild(soldier);
 	paperMapScope.project.activeLayer.addChild(soldier);
 	updateNumSoldier(territoryPath);
