@@ -273,42 +273,33 @@ var graphicsBattle= function(){
     this.paperScopeBattle;
 
     this.initializeScope = function(){
-        console.log("1");
         var canvas = document.getElementById('content_battle_canvas');
           
         var paperScopeBattle = new paper.PaperScope();
         paperScopeBattle.setup(canvas);
         this.paperScopeBattle = paperScopeBattle;
-        console.log("2");
-
-
     }
 
     this.drawBattle = function(args){
-        console.log("3");
         var paperScopeBattle = this.paperScopeBattle;
         var nodeTerritory1 = graph.node(args.idTerritory1);
         var nodeTerritory2 = graph.node(args.idTerritory2);
-        console.log("4");
 
         var text = new paperScopeBattle.PointText(new paperScopeBattle.Point(200, 30));
         text.fillColor = 'black';
         text.fontSize=30;
         text.content = 'Battle ';
         paperScopeBattle.project.activeLayer.addChild(text);
-        console.log("5");
 
         var textAttaker = new paperScopeBattle.PointText(new paperScopeBattle.Point(70, 50));
         textAttaker.fillColor = 'black';
         textAttaker.content = nodeTerritory1.owner;
         paperScopeBattle.project.activeLayer.addChild(textAttaker);
-        console.log("6");
 
         var textAttakerTerritory = new paperScopeBattle.PointText(new paperScopeBattle.Point(70, 70));
         textAttakerTerritory.fillColor = 'black';
         textAttakerTerritory.content ="Territory: "+ args.idTerritory1;
         paperScopeBattle.project.activeLayer.addChild(textAttakerTerritory);
-        console.log("7");
 
         var territoryPath1 = searchTerritory(mapGroup.children,args.idTerritory1);
         var territory1 = territoryPath1.clone();
@@ -317,19 +308,19 @@ var graphicsBattle= function(){
         territory1.position.x = 90;
         territory1.position.y = 150;
         paperScopeBattle.project.activeLayer.addChild(territory1);
-        console.log("8");
+        var soldier = soldierItem.clone();
+        soldier.position = territoryPath1.position;
+        paperScopeBattle.project.activeLayer.addChild(soldier);
 
         var textDefender = new paperScopeBattle.PointText(new paperScopeBattle.Point(310, 50));
         textDefender.fillColor = 'black';
         textDefender.content = nodeTerritory2.owner;
         paperScopeBattle.project.activeLayer.addChild(textDefender);
-        console.log("9");
 
         var textDefenderTerritory = new paperScopeBattle.PointText(new paperScopeBattle.Point(310, 70));
         textDefenderTerritory.fillColor = 'black';
         textDefenderTerritory.content = "Territory: "+args.idTerritory2;
         paperScopeBattle.project.activeLayer.addChild(textDefenderTerritory);
-        console.log("10");
         
         var territoryPath2 = searchTerritory(mapGroup.children,args.idTerritory2);
         //var lastPlayer2 = searchPlayer(match.listPlayer,nodeTerritory2.owner);
@@ -340,6 +331,9 @@ var graphicsBattle= function(){
         territory2.position.x = 330;
         territory2.position.y = 150;
         paperScopeBattle.project.activeLayer.addChild(territory2);
+        var soldier = soldierItem.clone();
+        soldier.position = territoryPath2.position;
+        paperScopeBattle.project.activeLayer.addChild(soldier);
         
         for (var i = 0; i < args.dice1.length; i++) {
             dice=dicesPaths[args.dice1[i]-1].clone();
